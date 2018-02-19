@@ -23,11 +23,13 @@
     <th class="title_column">제목</th>
     <th class="solved_by_column"><strong>정답자</strong></th>
   </tr>
+{{#each problems}}
 <tr>
-  <td class="id_column">1</td>
-  <td><a href="problem=1" title="Published on Friday, 5th October 2001, 06:00 pm">Multiples of 3 and 5</a></td>
-  <td><div style="text-align:center;">730022</div></td>
+  <td class="id_column">{{ NUMBER }}</td>
+  <td><a href="/problem/{{ NUMBER }}">{{ TITLE }}</a></td>
+  <td><div style="text-align:center;">{{ ANSWER_CNT }}</div></td>
 </tr>
+{{/each}}
 </tbody>
 </table>
 <br>

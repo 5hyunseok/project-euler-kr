@@ -20,33 +20,52 @@ router.get('/archives', function(req, res, next) {
 
 router.get('/archives/page/:number', function(req, res, next) {
   var pageNum = req.params.number;
-  var totalNum = 610;
-  var totalPageNum = Math.ceil(totalNum / 50);
   var isNum = /^\d+$/.test(pageNum);
 
   // check valid page number
-  if (pageNum > totalPageNum || pageNum < 1 || !isNum) {
+  if (pageNum < 1 || !isNum) {
     res.status(500);
     res.render('error', { message: '유효하지 않은 페이지입니다.' });
   }
 
-  var pages = [];
-  for(var i = 1; i <= totalPageNum; i++){
-    var page = { num: i };
-    if (pageNum == i) {
-      page.current = true;
-    } else {
-      page.current = false;
-    }
-    pages.push(page);
-  }
-  res.render('archives', {
-    title: defaultTitle,
-    archives_id: 'current',
-    total_num: totalNum,
-    total_page_num: totalPageNum,
-    pages: pages
-  });
+  var minNum = (pageNum - 1) * 50 + 1;
+  var maxNum = (pageNum) * 50;
+  db.serialize(function() {
+    db.get('select max(number) as max from problems', function(err, result) {
+      var totalNum = result.max;
+      console.log(result);
+      var totalPageNum = Math.ceil(totalNum / 50);
+
+      if (pageNum > totalPageNum) {
+        res.status(500);
+        res.render('error', { message: '유효하지 않은 페이지입니다.' });
+      }
+
+      var pages = [];
+      for(var i = 1; i <= totalPageNum; i++){
+        var page = { num: i };
+        if (pageNum == i) {
+          page.current = true;
+        } else {
+          page.current = false;
+        }
+        pages.push(page);
+      }
+      var problems = [];
+      db.each('select number, title, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function (err, row) {
+        problems.push(row);
+      }, function (err, num) {
+        res.render('archives', {
+          title: defaultTitle,
+          archives_id: 'current',
+          total_num: totalNum,
+          total_page_num: totalPageNum,
+          pages: pages,
+          problems: problems
+        });
+      });
+    })
+  })
 });
 
 router.get('/problem/:number', function(req, res, next) {
