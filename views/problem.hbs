@@ -1,0 +1,44 @@
+<div id="problems_table_page">
+<div id="cache_info">Cache update: 26 minutes</div>
+<h2>문제 아카이브</h2>
+
+<p>
+  문제 아카이브에는 1번부터 {{ total_num }}번까지의 문제가 있습니다. 혹시 가장 최근 업데이트된 10개의 문제를 풀고싶은가요? 그럴 땐 <a href="/reecent">최근 문제</a> 메뉴를 이용하세요.<br>
+  각 문제의 제목을 클릭하면 문제를 볼 수 있고 정답을 제출할 수 있습니다.
+</p>
+<div class="pagination">
+  {{#each pages}}
+    <a href="{{num}}" class="{{#if current}}current{{/if}}">{{num}}</a>
+  {{/each}}
+  <!--<span>&nbsp;&nbsp;&nbsp;Go to Problem: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='problem='+this.value;"></span>-->
+</div>
+
+<div style="clear:both;"></div>
+<br>
+
+<table id="problems_table" class="grid">
+<tbody>
+  <tr>
+    <th class="id_column"><strong><span class="sortby">ID</span></strong></th>
+    <th class="title_column">제목</th>
+    <th class="solved_by_column"><strong>정답자</strong></th>
+  </tr>
+<tr>
+  <td class="id_column">1</td>
+  <td><a href="problem=1" title="Published on Friday, 5th October 2001, 06:00 pm">Multiples of 3 and 5</a></td>
+  <td><div style="text-align:center;">730022</div></td>
+</tr>
+</tbody>
+</table>
+<br>
+<div class="pagination">
+  {{#each pages}}
+    <a href="{{num}}" class="{{#if current}}current{{/if}}">{{num}}</a>
+  {{/each}}
+  <!--<span>&nbsp;&nbsp;&nbsp;Go to Problem: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='problem='+this.value;"></span>-->
+</div>
+<div style="clear:both;"></div>
+
+</script>
+
+</div>
