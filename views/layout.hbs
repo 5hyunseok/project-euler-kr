@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8">
+    <meta name="author" content="Colin Hughes">
+    <meta name="description" content="A website dedicated to the fascinating world of mathematics and programming">
+    <meta name="keywords" content="programming,mathematics,problems,puzzles">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <title>{{title}} - 프로젝트 오일러</title>
   </head>
+
   <body>
-    {{{body}}}
+    <div id="container">
+      <div id="header" class="noprint">
+        <div id="nav" class="noprint">
+          <ul>
+            <li id="current"><a href="about" title="About" accesskey="h">소개</a></li>
+            <li><a href="archives" title="Archives" accesskey="1">문제</a></li>
+            <li><a href="recent" title="Recent" accesskey="2">최근 문제</a></li>
+            <li><a href="news" title="News" accesskey="3">뉴스</a></li>
+            <li><a href="register" title="Register" accesskey="4">회원 가입</a></li>
+            <li><a href="sign_in" title="Sign In" accesskey="5">로그인</a></li>
+          </ul>
+        </div>
+        <div id="logo" class="noprint">
+           <div>Project Euler<span>.net</span></div>
+        </div>
+      </div>
+      <div id="info_panel">
+        <a href="search"><img src="images/icon_search.png" alt="Search Problems" title="Search Problems"></a>
+        <a href="rss2_euler.xml"><img src="images/icon_rss.png" alt="RSS Feed" title="RSS Feed"></a>
+      </div>
+
+      <div id="content">
+        {{{body}}}
+      </div>
+
+      <div id="footer" class="noprint">
+      프로젝트 오일러: <a href="copyright">Copyright Information</a> | <a href="privacy">Privacy Policy</a>
+      <!--/Creative Commons License--><!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+         <Work rdf:about="">
+            <license rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/" />
+         <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+         </Work>
+         <License rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+      </div>
+    </div>
   </body>
 </html>
