@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../db.js');
 
 var defaultTitle = '프로젝트 오일러 - 한글';
 
@@ -45,6 +46,16 @@ router.get('/archives/page/:number', function(req, res, next) {
     total_num: totalNum,
     total_page_num: totalPageNum,
     pages: pages
+  });
+});
+
+router.get('/problem/:number', function(req, res, next) {
+  var num = req.params.number;
+  db.serialize(function() {
+    db.get('select * from problems where number=' + num, function(err, row) {
+      if (row === undefined) res.render('error', { message: '유효하지 않은 문제입니다.'});
+      res.render('problem', { title: defaultTitle, problem: row });
+    });
   });
 });
 
