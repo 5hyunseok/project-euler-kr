@@ -39,7 +39,7 @@ router.get('/archives/page/:number', function(req, res, next) {
     }
     pages.push(page);
   }
-  res.render('problem', {
+  res.render('archives', {
     title: defaultTitle,
     archives_id: 'current',
     total_num: totalNum,
