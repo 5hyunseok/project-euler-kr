@@ -24,7 +24,7 @@ module.exports = (function () {
     heroku: {
       host: process.env.DBHOST,
       port: 3306,
-      user: root,
+      user: 'root',
       password: process.env.DBPW,
       database: 'euler'
     }
