@@ -4,13 +4,63 @@ var db = require('../db.js');
 
 var defaultTitle = '프로젝트 오일러 - 한글';
 
+var passport = require('passport');
+
+var mysql_dbc = require('../common/db_con')();
+var connection = mysql_dbc.init();
+mysql_dbc.test_open(connection);
+
+
+// router.get('/mysql/test', function (req, res) {
+//   var stmt = 'select *from ....';
+//   connection.query(stmt, function (err, result) {
+//     .....
+//   })
+// });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('about', { title: defaultTitle });
+  console.log(req.user);
+  res.render('about', { title: defaultTitle, user: req.user });
+});
+
+router.get('/register', function(req, res, next) {
+  res.render('register', {
+    title: defaultTitle,
+    flash: req.flash('registerMessage')
+  });
+});
+
+router.post('/register', passport.authenticate('local-signup', {
+  successRedirect : '/',
+  failureRedirect : '/register',
+  failureFlash : true
+}));
+
+router.get('/login', function(req, res, next) {
+  res.render('login', {
+    title: defaultTitle,
+    flash: req.flash('loginMessage')
+  });
+});
+
+router.post('/login', passport.authenticate('local-login', {
+  successRedirect : '/',
+  failureRedirect : '/login',
+  failureFlash : true
+}));
+
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  res.redirect('/');
 });
 
 router.get('/about', function(req, res, next) {
-  res.render('about', { title: defaultTitle, about_id: 'current' });
+  res.render('about', {
+    title: defaultTitle,
+    about_id: 'current',
+    user: req.user
+  });
 });
 
 router.get('/archives', function(req, res, next) {
@@ -61,7 +111,8 @@ router.get('/archives/page/:number', function(req, res, next) {
           total_num: totalNum,
           total_page_num: totalPageNum,
           pages: pages,
-          problems: problems
+          problems: problems,
+          user: req.user
         });
       });
     })
@@ -73,7 +124,11 @@ router.get('/problem/:number', function(req, res, next) {
   db.serialize(function() {
     db.get('select * from problems where number=' + num, function(err, row) {
       if (row === undefined) res.render('error', { message: '유효하지 않은 문제입니다.'});
-      res.render('problem', { title: defaultTitle, problem: row });
+      res.render('problem', {
+        title: defaultTitle,
+        problem: row,
+        user: req.user
+      });
     });
   });
 });
