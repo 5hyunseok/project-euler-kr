@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var sessionSecret = require('./secret').session_secr;
+var sessionSecret = require('./secret').session_secr || process.env.DBPW;
 app.use(session({
   secret: sessionSecret,
   resave: true,
