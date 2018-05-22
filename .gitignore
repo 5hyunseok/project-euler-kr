@@ -1,5 +1,5 @@
 node_modules/
 .DS_Store/
 **/.DS_Store
-./secret.js
-./common/db_info.js
+secret.js
+common/db_info.js
