@@ -9,9 +9,7 @@
         <div style="text-align:right;">사용할 아이디:</div>
       </td>
       <td>
-        <input style="display:none" type="text" name="username" placeholder="아이디를 입력해주세요">
-        <input style="display:none" type="password" name="fakepasswordremembered">
-        <input style="width:150px;" maxlength="32" type="text" id="temp_username" name="temp_username" autocomplete="off" value="">
+        <input style="width:150px;" maxlength="32" type="text" name="username" autocomplete="off">
       </td>
     </tr>
   <tr>
@@ -33,13 +31,13 @@
   <tr>
     <td colspan="2">
       <div style="text-align:center;font-size:80%;">
-        captcha
+        <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div>
       </div>
     </td>
   </tr>
   <tr>
     <td><input type="hidden" name="reg">&nbsp;</td>
-    <td style="text-align:left;"><input type="submit" value="가입"></td>
+    <td style="text-align:left;"><button id="submitButton" type="submit" value="가입">가입</button></td>
   </tr>
   </tbody>
 </table>
@@ -52,5 +50,13 @@
 <p>
   <span class="warning">경고:</span>
   비밀번호를 잊어버리지 마세요. <br>
-  본인인증에 사용될 수 있는 어떠한 개인정보도 수집하지 않기 때문에 비밀버호를 잊어버린 경우 비밀번호 복구가 불가능합니다. <br>
+  본인인증에 사용될 수 있는 어떠한 개인정보도 수집하지 않기 때문에 비밀번호를 잊어버린 경우 비밀번호 복구가 불가능합니다. <br>
 </p>
+
+
+<script>
+document.getElementById("submitButton").disabled = true;
+function enableBtn(){
+  document.getElementById("submitButton").disabled = false;
+}
+</script>
