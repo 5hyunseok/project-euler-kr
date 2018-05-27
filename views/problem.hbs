@@ -1,5 +1,5 @@
 <!-- <div style="text-align:center;" class="print"><img src="images/print_page_logo.png" alt="projecteuler.kr" style="border:none;"></div> -->
-<h2>{{ problem.TITLE }}</h2>
+<h2>{{ problem.TITLE_KR }}</h2>
 <div id="problem_info">
   <h3>문제 {{ problem.NUMBER }}
     <!-- <span style="float:right;" class="info noprint">
@@ -9,5 +9,11 @@
   </h3>
 </div>
 
-<div class="problem_content" role="problem">{{{ problem.PROBLEM }}}</div>
+<div class="problem_content" role="problem">
+  {{#if problem.PROBLEM_KR}}
+    {{{ problem.PROBLEM_KR }}}
+  {{else}}
+    {{{ problem.PROBLEM }}}
+  {{/if}}
+</div>
 <br><br>

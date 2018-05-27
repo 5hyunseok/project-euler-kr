@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../db.js');
+var db = require('../common/problem/db.js');
 
 var defaultTitle = '프로젝트 오일러 - 한글';
 
@@ -78,13 +78,15 @@ router.get('/archives/page/:number', function(req, res, next) {
     res.render('error', { message: '유효하지 않은 페이지입니다.' });
   }
 
-  var minNum = (pageNum - 1) * 50 + 1;
-  var maxNum = (pageNum) * 50;
+  const numPerPage = 50;
+
+  var minNum = (pageNum - 1) * numPerPage + 1;
+  var maxNum = (pageNum) * numPerPage;
   db.serialize(function() {
     db.get('select max(number) as max from problems', function(err, result) {
       var totalNum = result.max;
       console.log(result);
-      var totalPageNum = Math.ceil(totalNum / 50);
+      var totalPageNum = Math.ceil(totalNum / numPerPage);
 
       if (pageNum > totalPageNum) {
         res.status(500);
