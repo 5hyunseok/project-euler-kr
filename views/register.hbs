@@ -1,4 +1,4 @@
-{{ flash }}
+<span class="warning">{{ flash }}</span>
 
 <h2>회원가입</h2>
 <form name="form" method="post" action="/register" style="width:320px;" class="form_box">
@@ -17,7 +17,7 @@
       <div style="text-align:right;">사용할 비밀번호:</div>
     </td>
     <td>
-      <input style="width:150px;" type="password" name="password" autocomplete="off">
+      <input id="pw" style="width:150px;" type="password" name="password" autocomplete="off">
     </td>
   </tr>
   <tr>
@@ -36,7 +36,7 @@
     </td>
   </tr>
   <tr>
-    <td><input type="hidden" name="reg">&nbsp;</td>
+    <td><input id="pwValidation" type="hidden" name="pwValidation">&nbsp;</td>
     <td style="text-align:left;"><button id="submitButton" type="submit" value="가입">가입</button></td>
   </tr>
   </tbody>
@@ -56,7 +56,17 @@
 
 <script>
 document.getElementById("submitButton").disabled = true;
+document.getElementById("pwValidation").value = false;
+
 function enableBtn(){
   document.getElementById("submitButton").disabled = false;
+}
+var pwInput = document.getElementById("pw");
+pwInput.onkeyup = function() {
+  if (pwInput.value.length < 8 || pwInput.value.length > 32) {
+    document.getElementById("pwValidation").value = false;
+  } else {
+    document.getElementById("pwValidation").value = true;
+  }
 }
 </script>

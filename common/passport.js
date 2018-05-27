@@ -6,6 +6,15 @@ var bcrypt = require('bcrypt-nodejs');
 var mysql_dbc = require('./db_con')();
 var connection = mysql_dbc.init();
 
+var isAlphaOrNum = function(string) {
+  return /^[a-zA-Z0-9]+$/.test(string);
+}
+
+// is not alphabet or num, or is longer than 32
+var usernameValidationMsg = "아이디는 32자 이하 알파벳, 숫자, 점, 대시 또는 밑줄만 가능합니다.";
+var recaptchaMsg = "리캡챠 인증 에러";
+var passwordValidationMsg = "패스워드는 8자 이상 32자 이하여야 합니다."
+
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -40,31 +49,42 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) {
-      connection.query("SELECT * FROM user WHERE usr_id = ?",[username], function(err, rows) {
-        if (err)
-          return done(err);
-        if (rows.length) {
-          return done(null, false, req.flash('registerMessage', '이미 사용중인 아이디입니다.'));
-        } else {
-          if (req.body.password != req.body.cpassword) {
-            return done(null, false, req.flash('registerMessage', '비밀번호가 일치하지 않습니다.'))
-          } else {
-            // if there is no user with that username
-            // create the user
-            var newUserMysql = {
-                username: username,
-                password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
-            };
-
-            var insertQuery = "INSERT INTO user ( usr_id, password ) values (?,?)";
-
-            connection.query(insertQuery, [newUserMysql.username, newUserMysql.password], function(err, rows) {
-                newUserMysql.id = rows.insertId;
-                return done(null, newUserMysql);
-            });
+      if (req.body.pwValidation) {
+        return done(null, false, req.flash('registerMessage', passwordValidationMsg));
+      }
+      if (req.body['g-recaptcha-response'] === undefined ||
+          req.body['g-recaptcha-response'] === '') {
+            return done(null, false, req.flash('registerMessage', recaptchaMsg));
           }
-        }
-      });
+      if (!isAlphaOrNum(req.body.username) || (req.body.username.length > 32)) {
+        return done(null, false, req.flash('registerMessage', usernameValidationMsg));
+      } else {
+        connection.query("SELECT * FROM user WHERE usr_id = ?",[username], function(err, rows) {
+          if (err)
+            return done(err);
+          if (rows.length) {
+            return done(null, false, req.flash('registerMessage', '이미 사용중인 아이디입니다.'));
+          } else {
+            if (req.body.password != req.body.cpassword) {
+              return done(null, false, req.flash('registerMessage', '비밀번호가 일치하지 않습니다.'))
+            } else {
+              // if there is no user with that username
+              // create the user
+              var newUserMysql = {
+                  username: username,
+                  password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
+              };
+
+              var insertQuery = "INSERT INTO user ( usr_id, password ) values (?,?)";
+
+              connection.query(insertQuery, [newUserMysql.username, newUserMysql.password], function(err, rows) {
+                  newUserMysql.id = rows.insertId;
+                  return done(null, newUserMysql);
+              });
+            }
+          }
+        });
+      }
     })
   );
 
