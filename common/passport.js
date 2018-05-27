@@ -49,7 +49,8 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) {
-      if (req.body.pwValidation) {
+      console.log(req.body.pwValidation);
+      if (!req.body.pwValidation) {
         return done(null, false, req.flash('registerMessage', passwordValidationMsg));
       }
       if (req.body['g-recaptcha-response'] === undefined ||
