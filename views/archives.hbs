@@ -26,7 +26,12 @@
 {{#each problems}}
 <tr>
   <td class="id_column">{{ NUMBER }}</td>
-  <td><a href="/problem/{{ NUMBER }}">{{ TITLE }}</a></td>
+  <td>
+    <a href="/problem/{{ NUMBER }}">
+      {{#if TITLE_KR }}{{ TITLE_KR }}
+      {{ else }}{{ TITLE }}
+      {{/if}}
+    </a></td>
   <td><div style="text-align:center;">{{ ANSWER_CNT }}</div></td>
 </tr>
 {{/each}}

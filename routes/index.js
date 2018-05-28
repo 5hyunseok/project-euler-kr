@@ -104,7 +104,7 @@ router.get('/archives/page/:number', function(req, res, next) {
         pages.push(page);
       }
       var problems = [];
-      db.each('select number, title, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function (err, row) {
+      db.each('select number, title, title_kr, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function (err, row) {
         problems.push(row);
       }, function (err, num) {
         res.render('archives', {
