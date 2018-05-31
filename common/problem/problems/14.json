@@ -1,0 +1,8 @@
+{
+  "id": 14,
+  "number": 14,
+  "title": "Longest Collatz sequence",
+  "problem": "\n<p>The following iterative sequence is defined for the set of positive integers:</p>\n<p style=\"margin-left:50px;\"><var>n</var> &#x2192; <var>n</var>/2 (<var>n</var> is even)<br><var>n</var> &#x2192; 3<var>n</var> + 1 (<var>n</var> is odd)</p>\n<p>Using the rule above and starting with 13, we generate the following sequence:</p>\n<div style=\"text-align:center;\">13 &#x2192; 40 &#x2192; 20 &#x2192; 10 &#x2192; 5 &#x2192; 16 &#x2192; 8 &#x2192; 4 &#x2192; 2 &#x2192; 1</div>\n<p>It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.</p>\n<p>Which starting number, under one million, produces the longest chain?</p>\n<p class=\"note\"><b>NOTE:</b> Once the chain starts the terms are allowed to go above one million.</p>\n\n",
+  "title_kr": "가장 긴 콜라츠 수열",
+  "problem_kr": "\n<p>양의 정수에 대하여 다음과 같은 반복적인 수열이 정의된다고 하자.</p>\n<p style=\"margin-left:50px;\"><var>n</var> &#x2192; <var>n</var>/2 (<var>n</var>이 짝수)<br><var>n</var> &#x2192; 3<var>n</var> + 1 (<var>n</var>이 홀수)</p>\n<p>ㅇ"
+}

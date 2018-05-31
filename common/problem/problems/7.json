@@ -1,0 +1,8 @@
+{
+  "id": 7,
+  "number": 7,
+  "title": "10001st prime",
+  "problem": "\n<p>By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.</p>\n<p>What is the 10001st prime number?</p>\n\n",
+  "title_kr": "10001번째 소수",
+  "problem_kr": "\n<p>가장 작은 소수부터 6개를 나열해보자: 2, 3, 5, 7, 11, 13. 그러면 6번째 소수가 13임을 알 수 있다.</p>\n<p>10001번째 소수는 무엇인가?</p>\n\n"
+}
