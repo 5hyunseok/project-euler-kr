@@ -10,7 +10,6 @@ var mysql_dbc = require('../common/db_con')();
 var connection = mysql_dbc.init();
 mysql_dbc.test_open(connection);
 
-
 // router.get('/mysql/test', function (req, res) {
 //   var stmt = 'select *from ....';
 //   connection.query(stmt, function (err, result) {
@@ -65,7 +64,6 @@ router.get('/about', function(req, res, next) {
 
 router.get('/archives', function(req, res, next) {
   res.redirect('/archives/page/1');
-  // res.render('problem', { title: defaultTitle, archives_id: 'current' });
 });
 
 router.get('/archives/page/:number', function(req, res, next) {
@@ -85,7 +83,6 @@ router.get('/archives/page/:number', function(req, res, next) {
   db.serialize(function() {
     db.get('select max(number) as max from problems', function(err, result) {
       var totalNum = result.max;
-      console.log(result);
       var totalPageNum = Math.ceil(totalNum / numPerPage);
 
       if (pageNum > totalPageNum) {
@@ -126,10 +123,17 @@ router.get('/problem/:number', function(req, res, next) {
   db.serialize(function() {
     db.get('select * from problems where number=' + num, function(err, row) {
       if (row === undefined) res.render('error', { message: '유효하지 않은 문제입니다.'});
-      res.render('problem', {
-        title: defaultTitle,
-        problem: row,
-        user: req.user
+      connection.query("SELECT * FROM answer WHERE number = ?", [num], function(err, ans){
+        if (err) console.log(err);
+        var existAnswer = false;
+        if (ans[0].answer != null) existAnswer = true;
+        console.log(existAnswer);
+        res.render('problem', {
+          title: defaultTitle,
+          problem: row,
+          answer: existAnswer,
+          user: req.user
+        });
       });
     });
   });
