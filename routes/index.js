@@ -118,6 +118,20 @@ router.get('/archives/page/:number', function(req, res, next) {
   })
 });
 
+router.get('/recent', function(req, res, next) {
+  var recent = [];
+  db.each('select * from problems order by number desc limit 10', function(err, row) {
+    recent.push(row);
+  }, function(err) {
+    res.render('archives', {
+      title: defaultTitle,
+      recent: true,
+      problems: recent,
+      user: req.user
+    });
+  })
+})
+
 router.get('/problem/:number', function(req, res, next) {
   var num = req.params.number;
   db.serialize(function() {

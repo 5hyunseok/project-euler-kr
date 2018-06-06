@@ -2,10 +2,16 @@
 <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
 <h2>문제 아카이브</h2>
 
+{{#if recent}}
 <p>
-  문제 아카이브에는 1번부터 {{ total_num }}번까지의 문제가 있습니다. 혹시 가장 최근 업데이트된 10개의 문제를 풀고싶은가요? 그럴 땐 <a href="/reecent">최근 문제</a> 메뉴를 이용하세요.<br>
+  가장 최근 업로드 된 10개의 문제입니다.
+</p>
+{{else}}
+<p>
+  문제 아카이브에는 1번부터 {{ total_num }}번까지의 문제가 있습니다. 혹시 가장 최근 업데이트된 10개의 문제를 풀고싶은가요? 그럴 땐 <a href="/recent">최근 문제</a> 메뉴를 이용하세요.<br>
   각 문제의 제목을 클릭하면 문제를 볼 수 있고 정답을 제출할 수 있습니다.
 </p>
+{{/if}}
 <div class="pagination">
   {{#each pages}}
     <a href="{{num}}" class="{{#if current}}current{{/if}}">{{num}}</a>
