@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var sessionSecret = process.env.SECR;
+// var sessionSecret = require('./secret.js').session_secr;
 app.use(session({
   secret: sessionSecret,
   resave: true,
@@ -55,7 +56,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', { user: req.user });
 });
 
 module.exports = app;
