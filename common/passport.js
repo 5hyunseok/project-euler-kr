@@ -15,6 +15,24 @@ var usernameValidationMsg = "아이디는 32자 이하 알파벳, 숫자, 점, �
 var recaptchaMsg = "리캡챠 인증 에러";
 var passwordValidationMsg = "패스워드는 8자 이상 32자 이하여야 합니다."
 
+var formatDate = function(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = '' + d.getFullYear(),
+      hour = '' + d.getHours(),
+      min = '' + d.getMinutes(),
+      sec = '' + d.getSeconds();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  if (hour.length < 2) hour = '0' + hour;
+  if (min.length < 2) min = '0' + min;
+  if (sec.length < 2) sec = '0' + sec;
+
+  return [year, month, day].join('-') + ' ' + [hour, min, sec].join(':');
+}
+
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -76,9 +94,10 @@ module.exports = function(passport) {
                   password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
               };
 
-              var insertQuery = "INSERT INTO user ( usr_id, password ) values (?,?)";
 
-              connection.query(insertQuery, [newUserMysql.username, newUserMysql.password], function(err, rows) {
+              var insertQuery = "INSERT INTO user ( usr_id, password, joined_at ) values (?,?,?)";
+
+              connection.query(insertQuery, [newUserMysql.username, newUserMysql.password, formatDate(new Date())], function(err, rows) {
                   newUserMysql.id = rows.insertId;
                   return done(null, newUserMysql);
               });
