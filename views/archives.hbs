@@ -1,6 +1,7 @@
 <div id="problems_table_page">
 <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
 <h2>문제 아카이브</h2>
+{{ solved }}
 
 {{#if recent}}
 <p>
@@ -28,6 +29,7 @@
     <th class="id_column"><strong><span class="sortby">ID</span></strong></th>
     <th class="title_column">제목</th>
     <th class="solved_by_column"><strong>정답자</strong></th>
+    {{#if user}}<th class="solved"></th>{{/if}}
   </tr>
 {{#each problems}}
 <tr>
@@ -39,6 +41,7 @@
       {{/if}}
     </a></td>
   <td><div style="text-align:center;">{{ ANSWER_CNT }}</div></td>
+  {{#if ../user}}<td>{{#if solved}}<img src="/images/solved.png">{{/if}}</td>{{/if}}
 </tr>
 {{/each}}
 </tbody>

@@ -1,8 +1,10 @@
 var express = require('express');
+var request = require('request');
 var router = express.Router();
 var db = require('../common/problem/db.js');
 
 var defaultTitle = '프로젝트 오일러 - 한글';
+var secretKey = "6LdFrFYUAAAAAKIIqPtphfgx4GeLCIHzmIMxxpdo";
 
 var passport = require('passport');
 
@@ -19,7 +21,6 @@ mysql_dbc.test_open(connection);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.user);
   res.render('about', { title: defaultTitle, user: req.user });
 });
 
@@ -44,10 +45,26 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect : '/',
+  successRedirect : '/get-solved-problems',
   failureRedirect : '/login',
   failureFlash : true
 }));
+
+router.get('/get-solved-problems', function(req, res, next) {
+  connection.query("SELECT no FROM submit WHERE usr_id = ? and solve_flag", [req.user.usr_id], function(err, sols){
+    if (err) console.log(err);
+    var solArr = [];
+    sols.forEach((sol) => {
+      solArr.push(sol.no);
+    })
+    req.session.solved = solArr;
+    req.session.save((err) => {
+      var backURL = req.header('Referer') || '/';
+      if (backURL.indexOf('login') > -1) res.redirect('/')
+      else res.redirect(backURL);
+    })
+  });
+})
 
 router.get('/logout', function(req, res, next) {
   req.logout();
@@ -67,6 +84,9 @@ router.get('/archives', function(req, res, next) {
 });
 
 router.get('/archives/page/:number', function(req, res, next) {
+  console.log('test');
+  console.log(req.session.solved);
+  console.log('test');
   var pageNum = req.params.number;
   var isNum = /^\d+$/.test(pageNum);
 
@@ -101,7 +121,14 @@ router.get('/archives/page/:number', function(req, res, next) {
         pages.push(page);
       }
       var problems = [];
+      var solved = [];
+      if (req.user) solved = req.session.solved;
       db.each('select number, title, title_kr, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function (err, row) {
+        if (solved.indexOf(row.NUMBER) > -1) {
+          row.solved = true;
+        } else {
+          row.solved = false;
+        }
         problems.push(row);
       }, function (err, num) {
         res.render('archives', {
@@ -112,6 +139,7 @@ router.get('/archives/page/:number', function(req, res, next) {
           pages: pages,
           problems: problems,
           user: req.user
+          // solved: req.session.solved
         });
       });
     })
@@ -129,7 +157,7 @@ router.get('/recent', function(req, res, next) {
       problems: recent,
       user: req.user
     });
-  })
+  });
 })
 
 router.get('/problem/:number', function(req, res, next) {
@@ -141,16 +169,40 @@ router.get('/problem/:number', function(req, res, next) {
         if (err) console.log(err);
         var existAnswer = false;
         if (ans[0].answer != null) existAnswer = true;
-        console.log(existAnswer);
         res.render('problem', {
           title: defaultTitle,
           problem: row,
           answer: existAnswer,
-          user: req.user
+          user: req.user,
+          flash: req.flash('registerMessage')
         });
       });
     });
   });
 });
+
+router.post('/submit', function(req, res, next) {
+  // console.log('submit!');
+  // console.log(req.body);
+  // console.log(res);
+  req.flash('registerMessage', '리캡챠');
+  var backURL=req.header('Referer') || '/';
+  res.redirect(backURL);
+
+  // if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+  //
+  // }
+  //
+  // var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  // request(verificationUrl,function(error,response,body) {
+  //   body = JSON.parse(body);
+  //   if(body.success !== undefined && !body.success) {
+  //     console.log('success');
+  //     res.redirect('/');
+  //   }
+  //   console.log('fail');
+  //   // warning
+  // });
+})
 
 module.exports = router;
