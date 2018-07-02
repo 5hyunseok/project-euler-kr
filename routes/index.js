@@ -185,6 +185,9 @@ router.get('/recent', function(req, res, next) {
 
 router.get('/problem/:number', function(req, res, next) {
   var num = req.params.number;
+  var solved = [];
+  if (req.user) solved = req.session.solved;
+
   db.serialize(function() {
     db.get('select * from problems where number=' + num, function(err, row) {
       if (row === undefined) res.render('error', {
@@ -193,11 +196,19 @@ router.get('/problem/:number', function(req, res, next) {
       connection.query("SELECT * FROM answer WHERE number = ?", [num], function(err, ans) {
         if (err) console.log(err);
         var existAnswer = false;
+        var isSolved = false;
+        var answer = -1;
         if (ans[0].answer != null) existAnswer = true;
+        if (solved.indexOf(parseInt(num)) > -1) {
+          isSolved = true;
+          answer = ans[0].answer;
+        }
         res.render('problem', {
           title: defaultTitle,
           problem: row,
-          answer: existAnswer,
+          existAnswer: existAnswer,
+          isSolved: isSolved,
+          answer: answer,
           user: req.user,
           flash: req.flash('registerMessage')
         });
