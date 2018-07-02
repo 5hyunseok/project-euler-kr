@@ -6,22 +6,39 @@ var db = require('../common/problem/db.js');
 var defaultTitle = '프로젝트 오일러 - 한글';
 var secretKey = "6LdFrFYUAAAAAKIIqPtphfgx4GeLCIHzmIMxxpdo";
 
+String.prototype.isNumber = function() {
+  return /^\d+$/.test(this);
+}
+
+var formatDate = function(date) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = '' + d.getFullYear(),
+    hour = '' + d.getHours(),
+    min = '' + d.getMinutes(),
+    sec = '' + d.getSeconds();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  if (hour.length < 2) hour = '0' + hour;
+  if (min.length < 2) min = '0' + min;
+  if (sec.length < 2) sec = '0' + sec;
+
+  return [year, month, day].join('-') + ' ' + [hour, min, sec].join(':');
+}
+
 var passport = require('passport');
 
 var mysql_dbc = require('../common/db_con')();
 var connection = mysql_dbc.init();
-mysql_dbc.test_open(connection);
+// mysql_dbc.test_open(connection);
 
-// router.get('/mysql/test', function (req, res) {
-//   var stmt = 'select *from ....';
-//   connection.query(stmt, function (err, result) {
-//     .....
-//   })
-// });
-
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('about', { title: defaultTitle, user: req.user });
+  res.render('about', {
+    title: defaultTitle,
+    user: req.user
+  });
 });
 
 router.get('/register', function(req, res, next) {
@@ -32,9 +49,9 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', passport.authenticate('local-signup', {
-  successRedirect : '/',
-  failureRedirect : '/register',
-  failureFlash : true
+  successRedirect: '/',
+  failureRedirect: '/register',
+  failureFlash: true
 }));
 
 router.get('/login', function(req, res, next) {
@@ -45,13 +62,13 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', passport.authenticate('local-login', {
-  successRedirect : '/get-solved-problems',
-  failureRedirect : '/login',
-  failureFlash : true
+  successRedirect: '/get-solved-problems',
+  failureRedirect: '/login',
+  failureFlash: true
 }));
 
 router.get('/get-solved-problems', function(req, res, next) {
-  connection.query("SELECT no FROM submit WHERE usr_id = ? and solve_flag", [req.user.usr_id], function(err, sols){
+  connection.query("SELECT no FROM submit WHERE usr_id = ? and solve_flag", [req.user.usr_id], function(err, sols) {
     if (err) console.log(err);
     var solArr = [];
     sols.forEach((sol) => {
@@ -93,7 +110,9 @@ router.get('/archives/page/:number', function(req, res, next) {
   // check valid page number
   if (pageNum < 1 || !isNum) {
     res.status(500);
-    res.render('error', { message: '유효하지 않은 페이지입니다.' });
+    res.render('error', {
+      message: '유효하지 않은 페이지입니다.'
+    });
   }
 
   const numPerPage = 50;
@@ -107,12 +126,16 @@ router.get('/archives/page/:number', function(req, res, next) {
 
       if (pageNum > totalPageNum) {
         res.status(500);
-        res.render('error', { message: '유효하지 않은 페이지입니다.' });
+        res.render('error', {
+          message: '유효하지 않은 페이지입니다.'
+        });
       }
 
       var pages = [];
-      for(var i = 1; i <= totalPageNum; i++){
-        var page = { num: i };
+      for (var i = 1; i <= totalPageNum; i++) {
+        var page = {
+          num: i
+        };
         if (pageNum == i) {
           page.current = true;
         } else {
@@ -123,14 +146,14 @@ router.get('/archives/page/:number', function(req, res, next) {
       var problems = [];
       var solved = [];
       if (req.user) solved = req.session.solved;
-      db.each('select number, title, title_kr, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function (err, row) {
+      db.each('select number, title, title_kr, answer_cnt from problems where number >= ' + minNum + ' and number <= ' + maxNum + ' order by number', function(err, row) {
         if (solved.indexOf(row.NUMBER) > -1) {
           row.solved = true;
         } else {
           row.solved = false;
         }
         problems.push(row);
-      }, function (err, num) {
+      }, function(err, num) {
         res.render('archives', {
           title: defaultTitle,
           archives_id: 'current',
@@ -164,8 +187,10 @@ router.get('/problem/:number', function(req, res, next) {
   var num = req.params.number;
   db.serialize(function() {
     db.get('select * from problems where number=' + num, function(err, row) {
-      if (row === undefined) res.render('error', { message: '유효하지 않은 문제입니다.'});
-      connection.query("SELECT * FROM answer WHERE number = ?", [num], function(err, ans){
+      if (row === undefined) res.render('error', {
+        message: '유효하지 않은 문제입니다.'
+      });
+      connection.query("SELECT * FROM answer WHERE number = ?", [num], function(err, ans) {
         if (err) console.log(err);
         var existAnswer = false;
         if (ans[0].answer != null) existAnswer = true;
@@ -182,12 +207,49 @@ router.get('/problem/:number', function(req, res, next) {
 });
 
 router.post('/submit', function(req, res, next) {
-  // console.log('submit!');
-  // console.log(req.body);
-  // console.log(res);
-  req.flash('registerMessage', '리캡챠');
-  var backURL=req.header('Referer') || '/';
-  res.redirect(backURL);
+  var backURL = req.header('Referer') || '/';
+  console.log(req.body);
+
+  var recaptchaCheck = true;
+  // req.body: no, guess, g-recaptcha-response
+
+
+
+  if (!recaptchaCheck) {
+    //todo check recaptcha
+  } else if (!req.body.guess.isNumber()) {
+    //todo check not a NUMBER
+    req.flash('registerMessage', '답은 숫자만 입력하세요');
+    res.redirect(backURL);
+  } else {
+    connection.query("SELECT * FROM answer WHERE number = ?", [req.body.no], function(err, ans) {
+      if (err) console.log(err);
+      var existAnswer = ans[0].answer != null;
+      var insertQuery = "INSERT INTO submit ( usr_id, no, answer, submitted_at, solve_flag, pending_flag ) values (?,?,?,?,?,?)";
+      var insertUsrid = req.user.usr_id;
+      var insertNo = req.body.no;
+      var insertAnswer = req.body.guess;
+      var insertSubmittedAt = formatDate(new Date());
+      var insertSolveFlag = 0;
+      var insertPendingFlag = 0;
+      if (existAnswer) {
+        if (req.body.guess == ans[0].answer) {
+          // correct answer
+          insertSolveFlag = 1;
+          req.flash('registerMessage', '정답입니다!');
+        } else {
+          // wrong!
+          req.flash('registerMessage', '틀렸습니다!');
+        }
+      } else {
+        insertPendingFlag = 1;
+      }
+      connection.query(insertQuery, [insertUsrid, insertNo, insertAnswer, insertSubmittedAt, insertSolveFlag, insertPendingFlag], function(err, rows) {
+        if (err) console.log(err);
+        res.redirect('/get-solved-problems');
+      });
+    });
+  }
 
   // if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
   //

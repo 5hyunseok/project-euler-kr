@@ -23,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var sessionSecret = process.env.SECR;
-// var sessionSecret = require('./secret.js').session_secr;
+// var sessionSecret = process.env.SECR;
+var sessionSecret = require('./secret.js').session_secr;
 app.use(session({
   secret: sessionSecret,
   resave: true,

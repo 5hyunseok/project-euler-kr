@@ -28,7 +28,7 @@
 
 {{#if user}}
 <div style="text-align:center;" class="noprint">
-  <form name="form" method="post" action="problem=2">
+  <form name="form" method="post" action="/submit">
     <table width="400" cellpadding="10" align="center">
       <tbody>
         <tr>
@@ -37,10 +37,11 @@
               <tbody>
                 <tr>
                   <td>
+                    <input type="text" name="no" maxlength="30" value="{{problem.NUMBER}}" hidden>
                     <div style="text-align:right;">정답:</div>
                   </td>
                   <td style="text-align:left;">
-                    <div style="text-align:left;"><input size="20" type="text" name="guess_2" id="guess" maxlength="30"></div>
+                    <div style="text-align:left;"><input size="20" type="text" name="guess" id="guess" maxlength="30"></div>
                   </td>
                 </tr>
                 <tr>
