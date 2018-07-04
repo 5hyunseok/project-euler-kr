@@ -66,7 +66,6 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) {
-      console.log(req.body.pwValidation);
       if (!req.body.pwValidation) {
         return done(null, false, req.flash('registerMessage', passwordValidationMsg));
       }
@@ -134,6 +133,8 @@ module.exports = function(passport) {
           return done(null, false, req.flash('loginMessage', '잘못된 비밀번호입니다.')); // create the loginMessage and save it to session as flashdata
 
         // all is well, return successful user
+        if (req.body.remember_me) req.session.userName = username;
+        else delete req.session.userName;
         return done(null, rows[0]);
       });
     })

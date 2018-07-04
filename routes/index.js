@@ -55,9 +55,14 @@ router.post('/register', passport.authenticate('local-signup', {
 }));
 
 router.get('/login', function(req, res, next) {
+  var rememberedUserName = req.session.userName || '';
+  var rememberMe = (req.session.userName !== undefined) ? 'checked' : '';
+  
   res.render('login', {
     title: defaultTitle,
-    flash: req.flash('loginMessage')
+    flash: req.flash('loginMessage'),
+    rememberedUserName: rememberedUserName,
+    rememberMe: rememberMe
   });
 });
 

@@ -3,7 +3,7 @@
 <table class="no_border" style="width:300px;">
 	<tbody><tr>
 		<td><div style="text-align:right;">아이디:</div></td>
-      <td><input style="width:150px;" type="text" name="username" id="username" value=""></td>
+      <td><input style="width:150px;" type="text" name="username" id="username" value="{{rememberedUserName}}"></td>
 	</tr>
    <tr>
 		<td><div style="text-align:right;">비밀번호:</div></td>
@@ -17,7 +17,7 @@
     </td>
   </tr>
    <tr>
-		<td colspan="2"><div style="text-align:center;"><label for="remember_me">Remember Me:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" value="1" style="vertical-align:middle;"></div></td>
+		<td colspan="2"><div style="text-align:center;"><label for="remember_me">Remember Me:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;" {{rememberMe}}></div></td>
 	</tr>
    <tr>
 		<td>&nbsp;</td>
