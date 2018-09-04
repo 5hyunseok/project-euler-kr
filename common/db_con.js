@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var config = require('./db_info').heroku; // local, prod, dev, heroku
+var config = require('./db_info').local; // local, prod, dev, heroku
 
 module.exports = function () {
   return {
