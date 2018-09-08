@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <top-bar></top-bar>
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div id="content">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -19,4 +20,7 @@ export default {
 
 <style>
 @import '../public/stylesheets/style.css';
+#content {
+  margin-top: 50px;
+}
 </style>
