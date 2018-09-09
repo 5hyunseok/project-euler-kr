@@ -4,6 +4,8 @@ import About from '@/components/About';
 import Archives from '@/components/Archives';
 import News from '@/components/News';
 import Recent from '@/components/RecentArchive';
+import Login from '@/components/Login';
+import Register from '@/components/Register';
 
 Vue.use(Router);
 
@@ -35,6 +37,16 @@ export default new Router({
       path: '/recent',
       name: 'recent',
       component: Recent,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
     },
   ],
 });

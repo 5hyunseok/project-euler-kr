@@ -1,0 +1,52 @@
+<template>
+<div>
+  <h2>로그인</h2>
+  <form action="/login" name="sign_in_form" method="post" style="width:320px;" class="form_box">
+    <table class="no_border" style="width:300px;">
+      <tbody>
+        <tr>
+          <td><div style="text-align:right;">아이디:</div></td>
+          <td><input style="width:150px;" type="text" name="username" id="username" :value="rememberedUserName"></td>
+        </tr>
+        <tr>
+          <td><div style="text-align:right;">비밀번호:</div></td>
+          <td><input style="width:150px;" type="password" name="password" id="password" value=""></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div style="text-align:center;font-size:80%;">
+              <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><div style="text-align:center;"><label for="remember_me">Remember Me:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;"></div></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><input type="submit" name="sign_in" value="로그인"></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+<p>
+  계정이 없다면 먼저 <a href="register" title="Register">가입</a>하세요.<br>
+</p>
+</div>
+</template>
+
+<script>
+
+export default {
+  name: 'Login',
+  data() {
+    return {
+      rememberedUserName: '',
+    };
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>
