@@ -33,11 +33,13 @@ export default {
           number: 1,
           titleKr: '샘플 문제 타이틀1',
           correctCount: 10,
+          postCount: 150,
         },
         {
           number: 2,
           titleKr: '샘플 문제 타이틀2',
           correctCount: 15,
+          postCount: 250,
         },
       ],
     };

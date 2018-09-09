@@ -23,11 +23,13 @@ export default {
           number: 1,
           titleKr: '최근 문제 타이틀1',
           correctCount: 4,
+          postCount: 500,
         },
         {
           number: 2,
           titleKr: '최근 문제 타이틀2',
           correctCount: 1,
+          postCount: 350,
         },
       ],
     };
