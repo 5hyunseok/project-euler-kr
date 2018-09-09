@@ -1,6 +1,7 @@
 <template>
   <div id="problems_table_page">
     pageNumber: {{ pageNumber }}
+    totalPageNumber: {{ totalPageNumber }}
   <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
   <h2>문제 아카이브</h2>
     <p>
@@ -28,6 +29,7 @@ export default {
   },
   data() {
     return {
+      totalPageNumber: 13,
       problems: [
         {
           number: 1,

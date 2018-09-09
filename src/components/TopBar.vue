@@ -4,12 +4,13 @@
       <div id="nav" class="noprint">
         <ul>
           <li><router-link :to="{ name: 'about', params: {} }">소개</router-link></li>
-          <li><a href="/archives/1" title="Archives" accesskey="1">문제</a></li>
-          <li><a href="/recent" title="Recent" accesskey="2">최근 문제</a></li>
-          <li><a href="/news" title="News" accesskey="3">뉴스</a></li>
-          <li><a href="/register" title="Register" accesskey="4">회원 가입</a></li>
-          <li><a href="/login" title="Login" accesskey="5">로그인</a></li>
-          <li><a href="/logout" title="Logout" accesskey="6">로그아웃</a></li>
+          <li><router-link :to="{ name: 'archives', params: { pageNumber: 1 } }">문제</router-link></li>
+
+          <li><router-link :to="{ name: 'recent' }">최근 문제</router-link></li>
+          <li><router-link :to="{ name: 'news' }">뉴스</router-link></li>
+          <li><router-link :to="{ name: 'register' }">회원 가입</router-link></li>
+          <li><router-link :to="{ name: 'login' }">로그인</router-link></li>
+          <li><a href="#logout">로그아웃</a></li>
         </ul>
       </div>
       <div id="logo" class="noprint">
