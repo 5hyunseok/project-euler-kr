@@ -4,7 +4,7 @@
       <div id="nav" class="noprint">
         <ul>
           <li><router-link :to="{ name: 'about', params: {} }">소개</router-link></li>
-          <li><a href="/archives" title="Archives" accesskey="1">문제</a></li>
+          <li><a href="/archives/1" title="Archives" accesskey="1">문제</a></li>
           <li><a href="/recent" title="Recent" accesskey="2">최근 문제</a></li>
           <li><a href="/news" title="News" accesskey="3">뉴스</a></li>
           <li><a href="/register" title="Register" accesskey="4">회원 가입</a></li>
