@@ -16,3 +16,6 @@ secret.js
 *.ntvs*
 *.njsproj
 *.sln
+
+# Server configure
+/server-src/config.js
