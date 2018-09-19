@@ -18,7 +18,13 @@ const router = express.Router();
  * @apiSuccess {Boolean} success=true
  * @apiError (Error Duplicated id) {Boolean} error=true
  * @apiError (Error Duplicated id) {Number} status=409
- * @apiError (Error Duplicated id) {String} message="IDExists"
+ * @apiError (Error Duplicated id) {String} message="IdExists"
+ * @apiError (Error Id Format Error) {Boolean} error=true
+ * @apiError (Error Id Format Error) {Number} status=403
+ * @apiError (Error Id Format Error) {String} message="IdFormatError"
+ * @apiError (Error Password Format Error) {Boolean} error=true
+ * @apiError (Error Password Format Error) {Number} status=403
+ * @apiError (Error Password Format Error) {String} message="PasswordFormatError"
  */
 router.post('/', asyncWrapper(controller.postIndex));
 

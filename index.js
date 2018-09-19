@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const http = require('http');
 const config = require('./config');
+const tokenChecker = require('./server-src/middleware/token-checker');
 const models = require('./server-src/models');
 const routers = require('./server-src/routers');
 const errorBuilder = require('./server-src/modules/error-builder');
@@ -12,6 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+app.use('/', tokenChecker);
 app.use('/', routers);
 // 404 handler
 app.use((req, res, next) => {
