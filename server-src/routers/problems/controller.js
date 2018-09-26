@@ -49,6 +49,15 @@ exports.getOne = async (req, res) => {
   let solve = false;
   let pending = false;
 
+  const problem = await models.problem.findById(id, {
+    attributes: models.projection.problem.one,
+  });
+  const answer = await models.answer.findById(id);
+
+  if (!problem) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+
   if (req.hasToken) {
     const solveChecking = await models.submit.findOne({
       where: { solve_flag: 1, user_id: req.decoded.id, problem_id: id },
@@ -59,17 +68,12 @@ exports.getOne = async (req, res) => {
     }
 
     const pendingChecking = await models.submit.findOne({
-      where: { pending_flag: 1, user_id: req.decoded.id, problem_id: id},
+      where: { pending_flag: 1, user_id: req.decoded.id, problem_id: id },
     });
     if (pendingChecking) {
       pending = true;
     }
   }
-
-  const problem = await models.problem.findById(id, {
-    attributes: models.projection.problem.one,
-  });
-  const answer = await models.answer.findById(id);
 
   res.json({
     login: req.hasToken,
