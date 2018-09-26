@@ -39,6 +39,7 @@ router.get('/page-length', asyncWrapper(controller.getCount));
  * @apiParam {Number} id problem id
  * @apiSuccess (Success 200 로그인) {Boolean} login=true
  * @apiSuccess (Success 200 로그인) {Boolean} hasAnswer 문제에 답이 있는지
+ * @apiSuccess (Success 200 로그인) {Boolean} hasKorean 번역 되있는지
  * @apiSuccess (Success 200 로그인) {Boolean} pending 제출 후 대기 상태인지
  * @apiSuccess (Success 200 로그인) {Boolean} solve 푼 문제인지 여부
  * @apiSuccess (Success 200 로그인) {String} answer 푼 문제면 답 들어가 있음
@@ -52,6 +53,7 @@ router.get('/page-length', asyncWrapper(controller.getCount));
  * @apiSuccess (Success 200 로그인) {Number} problem.solver 정답자 수
  * @apiSuccess (Success 200 비로그인) {Boolean} login=false
  * @apiSuccess (Success 200 비로그인) {Boolean} hasAnswer 문제에 답이 있는지
+ * @apiSuccess (Success 200 비로그인) {Boolean} hasKorean 번역 되있는지
  * @apiSuccess (Success 200 비로그인) {Boolean} pending=false
  * @apiSuccess (Success 200 비로그인) {Boolean} solve=false
  * @apiSuccess (Success 200 비로그인) {String} answer="" 빈문자열

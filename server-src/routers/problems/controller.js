@@ -71,5 +71,13 @@ exports.getOne = async (req, res) => {
   });
   const answer = await models.answer.findById(id);
 
-  res.json({ login: req.hasToken, problem, pending, solve, answer: submitAnswer, hasAnswer: !!answer });
+  res.json({
+    login: req.hasToken,
+    problem,
+    pending,
+    solve,
+    answer: submitAnswer,
+    hasAnswer: !!answer,
+    hasKorean: !(problem.title_kr === ''),
+  });
 };
