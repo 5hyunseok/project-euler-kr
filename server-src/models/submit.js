@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     solve_flag: {
       type: DataTypes.TINYINT,
     },
+    pending_flag: {
+      type: DataTypes.TINYINT,
+    },
   }, {
     underscored: true,
   });

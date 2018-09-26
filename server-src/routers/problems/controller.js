@@ -45,22 +45,31 @@ exports.getList = async (req, res) => {
 exports.getOne = async (req, res) => {
   const id = req.params.id;
 
-  let answer = '';
+  let submitAnswer = '';
   let solve = false;
+  let pending = false;
 
   if (req.hasToken) {
     const solveChecking = await models.submit.findOne({
       where: { solve_flag: 1, user_id: req.decoded.id, problem_id: id },
     });
-    if (solveChecking.length > 0) {
-      answer = solveChecking.answer;
+    if (solveChecking) {
+      submitAnswer = solveChecking.answer;
       solve = true;
+    }
+
+    const pendingChecking = await models.submit.findOne({
+      where: { pending_flag: 1, user_id: req.decoded.id, problem_id: id},
+    });
+    if (pendingChecking) {
+      pending = true;
     }
   }
 
   const problem = await models.problem.findById(id, {
     attributes: models.projection.problem.one,
   });
+  const answer = await models.answer.findById(id);
 
-  res.json({ login: req.hasToken, problem, solve, answer });
+  res.json({ login: req.hasToken, problem, pending, solve, answer: submitAnswer, hasAnswer: !!answer });
 };
