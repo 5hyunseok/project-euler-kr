@@ -13,6 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+app.use(express.static('dist'));
 app.use('/', tokenChecker);
 app.use('/', routers);
 // 404 handler

@@ -16,8 +16,10 @@ module.exports = (req, res, next) => {
     if (err) {
       if (err.name === 'TokenExpiredError') {
         next(errorBuilder('Expired', 401, true));
+        return;
       }
       next(errorBuilder('TokenError', 401, true));
+      return;
     }
     req.decoded = decoded; // eslint-disable-line
     req.authVar = authVar; // eslint-disable-line
