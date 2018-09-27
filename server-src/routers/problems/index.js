@@ -71,5 +71,36 @@ router.get('/page-length', asyncWrapper(controller.getCount));
  */
 router.get('/:id', asyncWrapper(controller.getOne));
 
+/**
+ * @api {post} /problems/:id/submit Submit an Answer
+ * @apiGroup problems
+ * @apiParam {Number} id problem id
+ * @apiParam {string} answer
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "answer": "23"
+ *    }
+ * @apiSuccess (Success 200 로그인) {Boolean} pending 팬딩됫냐
+ * @apiSuccess (Success 200 로그인) {Boolean} isCorrect 답이 맞았냐
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Already Solved) {Boolean} error=true
+ * @apiError (Error Already Solved) {Number} status=412
+ * @apiError (Error Already Solved) {String} message="Solved"
+ * @apiError (Error Pending) {Boolean} error=true
+ * @apiError (Error Pending) {Number} status=412
+ * @apiError (Error Pending) {String} message="Pending"
+ * @apiError (Error Within 30 seconds) {Boolean} error=true
+ * @apiError (Error Within 30 seconds) {Number} status=412
+ * @apiError (Error Within 30 seconds) {String} message="Within30Seconds"
+ * @apiError (Error Within 30 seconds) {Boolean} error=true
+ * @apiError (Error Within 30 seconds) {Number} status=412
+ * @apiError (Error Within 30 seconds) {String} message="Within30Seconds"
+ */
+router.post('/:id/submit', asyncWrapper(controller.submit));
 
 module.exports = router;
