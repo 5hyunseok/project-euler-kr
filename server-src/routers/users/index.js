@@ -6,7 +6,7 @@ const asyncWrapper = require('../../middleware/async-wrapper');
 const router = express.Router();
 
 /**
- * @api {post} /users/ Create a user
+ * @api {post} /api/users/ Create a user
  * @apiGroup users
  * @apiParam {string} uid user unique id
  * @apiParam {string} password
@@ -29,7 +29,7 @@ const router = express.Router();
 router.post('/', asyncWrapper(controller.postIndex));
 
 /**
- * @api {post} /users/login Login
+ * @api {post} /api/users/login Login
  * @apiGroup users
  * @apiParam {string} uid
  * @apiParam {string} password

@@ -6,7 +6,7 @@ const asyncWrapper = require('../../middleware/async-wrapper');
 const router = express.Router();
 
 /**
- * @api {get} /problems/?page={number} Get Problem List
+ * @api {get} /api/problems/?page={number} Get Problem List
  * @apiGroup problems
  * @apiSuccess (Success 200 로그인) {Boolean} login=true
  * @apiSuccess (Success 200 로그인) {Object[]} problems
@@ -27,14 +27,14 @@ const router = express.Router();
 router.get('/', asyncWrapper(controller.getList));
 
 /**
- * @api {get} /problems/page-length Get Total Number of page
+ * @api {get} /api/problems/page-length Get Total Number of page
  * @apiGroup problems
  * @apiSuccess {Number} numberOfPages page 개수
  */
 router.get('/page-length', asyncWrapper(controller.getCount));
 
 /**
- * @api {get} /problems/:id Get a Problem
+ * @api {get} /api/problems/:id Get a Problem
  * @apiGroup problems
  * @apiParam {Number} id problem id
  * @apiSuccess (Success 200 로그인) {Boolean} login=true
@@ -72,7 +72,7 @@ router.get('/page-length', asyncWrapper(controller.getCount));
 router.get('/:id', asyncWrapper(controller.getOne));
 
 /**
- * @api {post} /problems/:id/submit Submit an Answer
+ * @api {post} /api/problems/:id/submit Submit an Answer
  * @apiGroup problems
  * @apiParam {Number} id problem id
  * @apiParam {string} answer

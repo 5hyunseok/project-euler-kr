@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const http = require('http');
+const path = require('path');
 const config = require('./config');
 const tokenChecker = require('./server-src/middleware/token-checker');
 const models = require('./server-src/models');
@@ -14,8 +15,11 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use(express.static('dist'));
-app.use('/', tokenChecker);
-app.use('/', routers);
+app.use('/api', tokenChecker);
+app.use('/api', routers);
+app.use('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 // 404 handler
 app.use((req, res, next) => {
   next(errorBuilder('Not Found', 404, true));

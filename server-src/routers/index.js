@@ -12,7 +12,7 @@ module.exports = router;
 
 
 /**
- * @api {get/post} /모든API token Check
+ * @api {get/post} /api/모든API token Check
  * @apiGroup ALL API
  * @apiError (Error Login Expired) {Boolean} error=true
  * @apiError (Error Login Expired) {Number} status=401
