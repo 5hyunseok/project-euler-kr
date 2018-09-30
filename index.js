@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const http = require('http');
 const path = require('path');
+const cors = require('cors');
 const config = require('./config');
 const tokenChecker = require('./server-src/middleware/token-checker');
 const models = require('./server-src/models');
@@ -13,6 +14,7 @@ const errorHandler = require('./server-src/middleware/error-handler');
 const app = express();
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(cors());
 
 app.use(express.static('dist'));
 app.use('/api', tokenChecker);

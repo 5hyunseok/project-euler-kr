@@ -7,16 +7,16 @@
         <th class="solved_by_column"><strong>정답자</strong></th>
         <th class="final_column"></th>
       </tr>
-      <tr v-for="problem in problems" :key="problem.number">
-        <td class="id_column">{{ problem.number }}</td>
+      <tr v-for="problem in problems" :key="problem.id">
+        <td class="id_column">{{ problem.id }}</td>
         <td>
-          <a href="/problem/">{{ problem.titleKr }}</a>
+          <a href="/problem/">{{ problem.title_kr ? problem.title_kr : problem.title }}</a>
         </td>
         <td>
-          <div style="text-align:center;">{{ problem.correctCount }}</div>
+          <div style="text-align:center;">{{ problem.solver }}</div>
         </td>
         <td>
-          <table style="width:100%;" class="no_border">
+          <table style="width:100%;" class="no_border" v-if="login">
             <tbody>
               <tr>
                 <td style="width:20px;">
@@ -45,7 +45,7 @@ import forum from '@/assets/forum.png';
 
 export default {
   name: 'ArchiveTable',
-  props: ['problems'],
+  props: ['problems', 'login'],
   data() {
     return {
       solved,
