@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const http = require('http');
-const config = require('./config');
+// const config = require('./config');
 const models = require('./server-src/models');
 const routers = require('./server-src/routers');
 const errorBuilder = require('./server-src/modules/error-builder');
@@ -20,5 +20,5 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 models.sequelize.sync()
-  .then(http.createServer(app).listen(config.dev.port))
-  .then(() => console.log(`Express is running on port ${config.dev.port}`));
+  .then(http.createServer(app).listen(3000))
+  .then(() => console.log('Express is running on port 3000'));
