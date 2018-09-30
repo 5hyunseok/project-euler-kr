@@ -24,9 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
   });
 
-  // problem.associate = (models) => {
-  //   // models.user.hasMany(models.real_time_qna, { foreignKey: 'user_id' });
-  // };
+  problem.associate = (models) => {
+    models.problem.hasMany(models.submit);
+    models.problem.hasOne(models.answer, { onDelete: 'cascade', foreignKey: 'problem_id' });
+  };
 
   return problem;
 };

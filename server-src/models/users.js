@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   user.associate = (models) => {
-    // models.user.hasMany(models.real_time_qna, { foreignKey: 'user_id' });
+    models.user.hasMany(models.submit);
   };
 
   return user;

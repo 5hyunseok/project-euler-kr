@@ -1,0 +1,19 @@
+module.exports = (sequelize, DataTypes) => {
+  const answer = sequelize.define('answer', {
+    problem_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    answer: {
+      type: DataTypes.BIGINT(30),
+    },
+  }, {
+    underscored: true,
+  });
+
+  answer.associate = (models) => {
+    models.answer.belongsTo(models.problem, { onDelete: 'cascade', foreignKey: 'problem_id' });
+  };
+
+  return answer;
+};
