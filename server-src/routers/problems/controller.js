@@ -13,7 +13,7 @@ exports.getCount = async (req, res) => {
 };
 
 exports.getList = async (req, res) => {
-  let pageIndex = 0;
+  let pageIndex = 1;
   if (req.query.page) {
     pageIndex = parseInt(req.query.page, 10);
   }
@@ -21,7 +21,7 @@ exports.getList = async (req, res) => {
   let problems;
   if (req.hasToken) {
     problems = await models.problem.findAll({
-      offset: pageIndex * config.problemPageSize,
+      offset: (pageIndex - 1) * config.problemPageSize,
       limit: config.problemPageSize,
       attributes: models.projection.problem.list,
       include: [{
@@ -34,7 +34,7 @@ exports.getList = async (req, res) => {
     });
   } else {
     problems = await models.problem.findAll({
-      offset: pageIndex * config.problemPageSize,
+      offset: (pageIndex - 1) * config.problemPageSize,
       limit: config.problemPageSize,
       attributes: models.projection.problem.list,
       order: ['id'],
