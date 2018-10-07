@@ -34,6 +34,27 @@ router.get('/', asyncWrapper(controller.getList));
 router.get('/page-length', asyncWrapper(controller.getCount));
 
 /**
+ * @api {get} /api/problems/recent Get The Most Recent 10 Problems List
+ * @apiGroup problems
+ * @apiSuccess (Success 200 로그인) {Boolean} login=true
+ * @apiSuccess (Success 200 로그인) {Object[]} problems
+ * @apiSuccess (Success 200 로그인) {Number} problems.id
+ * @apiSuccess (Success 200 로그인) {String} problems.title
+ * @apiSuccess (Success 200 로그인) {String} problems.title_kr
+ * @apiSuccess (Success 200 로그인) {Number} problems.difficulty 난이도
+ * @apiSuccess (Success 200 로그인) {Number} problems.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
+ * @apiSuccess (Success 200 비로그인) {Boolean} login=false
+ * @apiSuccess (Success 200 비로그인) {Object[]} problems
+ * @apiSuccess (Success 200 비로그인) {Number} problems.id
+ * @apiSuccess (Success 200 비로그인) {String} problems.title
+ * @apiSuccess (Success 200 비로그인) {String} problems.title_kr
+ * @apiSuccess (Success 200 비로그인) {Number} problems.difficulty 난이도
+ * @apiSuccess (Success 200 비로그인) {Number} problems.solver 정답자 수
+ */
+router.get('/recent', asyncWrapper(controller.recent));
+
+/**
  * @api {get} /api/problems/:id Get a Problem
  * @apiGroup problems
  * @apiParam {Number} id problem id

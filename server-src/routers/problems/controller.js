@@ -157,3 +157,28 @@ exports.submit = async (req, res) => {
 
   res.json({ pending, isCorrect });
 };
+
+exports.recent = async (req, res) => {
+  let problems;
+  if (req.hasToken) {
+    problems = await models.problem.findAll({
+      limit: 10,
+      attributes: models.projection.problem.list,
+      include: [{
+        model: models.submit,
+        attributes: ['solve_flag'],
+        where: { solve_flag: 1, user_id: req.decoded.id },
+        required: false,
+      }],
+      order: [['id', 'DESC']],
+    });
+  } else {
+    problems = await models.problem.findAll({
+      limit: 10,
+      attributes: models.projection.problem.list,
+      order: [['id', 'DESC']],
+    });
+  }
+
+  res.json({ login: req.hasToken, problems });
+};
