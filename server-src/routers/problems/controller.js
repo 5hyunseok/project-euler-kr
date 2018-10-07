@@ -109,12 +109,6 @@ exports.submit = async (req, res) => {
   if (solveChecking) {
     throw errorBuilder('Solved', 412, true);
   }
-  const pendingChecking = await models.submit.findOne({
-    where: { pending_flag: 1, user_id: req.decoded.id, problem_id: id },
-  });
-  if (pendingChecking) {
-    throw errorBuilder('Pending', 412, true);
-  }
 
   const within30Seconds = await models.submit.findAll({
     where: {

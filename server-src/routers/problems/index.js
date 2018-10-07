@@ -112,9 +112,6 @@ router.get('/:id', asyncWrapper(controller.getOne));
  * @apiError (Error Already Solved) {Boolean} error=true
  * @apiError (Error Already Solved) {Number} status=412
  * @apiError (Error Already Solved) {String} message="Solved"
- * @apiError (Error Pending) {Boolean} error=true
- * @apiError (Error Pending) {Number} status=412
- * @apiError (Error Pending) {String} message="Pending"
  * @apiError (Error Within 30 seconds) {Boolean} error=true
  * @apiError (Error Within 30 seconds) {Number} status=412
  * @apiError (Error Within 30 seconds) {String} message="Within30Seconds"
