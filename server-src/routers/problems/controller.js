@@ -113,18 +113,19 @@ exports.submit = async (req, res) => {
     throw errorBuilder('Solved', 412, true);
   }
 
-  const within30Seconds = await models.submit.findAll({
-    where: {
-      created_at: {
-        [Op.gt]: moment().subtract(30, 'seconds').toDate(),
-      },
-      user_id: req.decoded.id,
-      problem_id: id,
-    },
-  });
-  if (within30Seconds.length > 0) {
-    throw errorBuilder('Within30Seconds', 412, true);
-  }
+  //TODO::
+  // const within30Seconds = await models.submit.findAll({
+  //   where: {
+  //     created_at: {
+  //       [Op.gt]: moment().subtract(30, 'seconds').toDate(),
+  //     },
+  //     user_id: req.decoded.id,
+  //     problem_id: id,
+  //   },
+  // });
+  // if (within30Seconds.length > 0) {
+  //   throw errorBuilder('Within30Seconds', 412, true);
+  // }
 
   if (!/^[0-9]{1,30}$/.test(submitAnswer)) {
     res.json({ pending: false, isCorrect: false });
