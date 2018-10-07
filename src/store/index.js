@@ -8,6 +8,11 @@ export default new Vuex.Store({
     token: '',
     username: '',
   },
+  getters: {
+    getToken(state) {
+      return state.token;
+    },
+  },
   mutations: {
     setToken(state, t) {
       state.token = t;

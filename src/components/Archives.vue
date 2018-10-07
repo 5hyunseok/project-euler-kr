@@ -50,14 +50,24 @@ export default {
       ],
     };
   },
+  computed: {
+    token () {
+      return this.$store.getters.getToken;
+    }
+  },
   created() {
     const baseURI = 'http://localhost:3000/api';
     this.$http.get(`${baseURI}/problems/page-length`)
       .then((result) => {
         this.totalPageNumber = result.data.numberOfPages;
       });
-    this.$http.get(`${baseURI}/problems/?page=${this.pageNumber}`)
+    this.$http.get(`${baseURI}/problems/?page=${this.pageNumber}`, {
+      headers: {
+        'x-access-token': this.token,
+      },
+    })
       .then((result) => {
+        console.log(result.data);
         this.problems = result.data.problems;
         this.login = result.data.login;
       });
