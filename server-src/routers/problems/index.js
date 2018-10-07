@@ -63,7 +63,8 @@ router.get('/recent', asyncWrapper(controller.recent));
  * @apiSuccess (Success 200 로그인) {Boolean} hasKorean 번역 되있는지
  * @apiSuccess (Success 200 로그인) {Boolean} pending 제출 후 대기 상태인지
  * @apiSuccess (Success 200 로그인) {Boolean} solve 푼 문제인지 여부
- * @apiSuccess (Success 200 로그인) {String} answer 푼 문제면 답 들어가 있음
+ * @apiSuccess (Success 200 로그인) {String} submitAnswer (팬딩 됬거나 맞았을 때) 제출한 답
+ * @apiSuccess (Success 200 로그인) {Date} submitDate (팬딩 됬거나 맞았을 때) 제출 시간
  * @apiSuccess (Success 200 로그인) {Object} problem
  * @apiSuccess (Success 200 로그인) {Number} problem.id
  * @apiSuccess (Success 200 로그인) {String} problem.title
@@ -77,7 +78,8 @@ router.get('/recent', asyncWrapper(controller.recent));
  * @apiSuccess (Success 200 비로그인) {Boolean} hasKorean 번역 되있는지
  * @apiSuccess (Success 200 비로그인) {Boolean} pending=false
  * @apiSuccess (Success 200 비로그인) {Boolean} solve=false
- * @apiSuccess (Success 200 비로그인) {String} answer="" 빈문자열
+ * @apiSuccess (Success 200 비로그인) {String} submitAnswer="" 빈문자열
+ * @apiSuccess (Success 200 비로그인) {Date} submitDate=null
  * @apiSuccess (Success 200 비로그인) {Object} problem
  * @apiSuccess (Success 200 비로그인) {Number} problem.id
  * @apiSuccess (Success 200 비로그인) {String} problem.title

@@ -47,9 +47,10 @@ exports.getList = async (req, res) => {
 exports.getOne = async (req, res) => {
   const id = req.params.id;
 
-  let submitAnswer = '';
   let solve = false;
   let pending = false;
+  let solveChecking;
+  let pendingChecking;
 
   const problem = await models.problem.findById(id, {
     attributes: models.projection.problem.one,
@@ -61,16 +62,17 @@ exports.getOne = async (req, res) => {
   }
 
   if (req.hasToken) {
-    const solveChecking = await models.submit.findOne({
+    solveChecking = await models.submit.findOne({
       where: { solve_flag: 1, user_id: req.decoded.id, problem_id: id },
+      order: [['id', 'DESC']],
     });
     if (solveChecking) {
-      submitAnswer = solveChecking.answer;
       solve = true;
     }
 
-    const pendingChecking = await models.submit.findOne({
+    pendingChecking = await models.submit.findOne({
       where: { pending_flag: 1, user_id: req.decoded.id, problem_id: id },
+      order: [['id', 'DESC']],
     });
     if (pendingChecking) {
       pending = true;
@@ -82,7 +84,8 @@ exports.getOne = async (req, res) => {
     problem,
     pending,
     solve,
-    answer: submitAnswer,
+    submitAnswer: solve ? solveChecking.answer : (pending ? pendingChecking.answer : ''),
+    submitDate: solve ? solveChecking.created_at : (pending ? pendingChecking.created_at : null),
     hasAnswer: !!answer,
     hasKorean: !(problem.title_kr === ''),
   });
