@@ -95,8 +95,7 @@ export default {
           uid: this.currentNewUsername,
           password: this.currentNewPassword,
         })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             this.$http.post(`${baseURI}/users/login`, {
               uid: this.currentNewUsername,
               password: this.currentNewPassword,

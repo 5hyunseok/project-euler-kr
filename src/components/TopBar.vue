@@ -37,14 +37,14 @@ export default {
     };
   },
   computed: mapState([
-      'token',
-      'username',
-    ]),
+    'token',
+    'username',
+  ]),
   methods: {
     logout() {
       this.$store.commit('resetToken');
       this.$router.push({ name: 'about' });
-    }
+    },
   },
 };
 </script>

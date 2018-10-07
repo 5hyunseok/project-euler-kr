@@ -51,9 +51,9 @@ export default {
     };
   },
   computed: {
-    token () {
+    token() {
       return this.$store.getters.getToken;
-    }
+    },
   },
   created() {
     const baseURI = 'http://localhost:3000/api';
@@ -67,7 +67,6 @@ export default {
       },
     })
       .then((result) => {
-        console.log(result.data);
         this.problems = result.data.problems;
         this.login = result.data.login;
       });

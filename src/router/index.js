@@ -7,6 +7,7 @@ import Recent from '@/components/RecentArchive';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
 import Notfound from '@/components/Notfound';
+import Problem from '@/components/Problem';
 
 Vue.use(Router);
 
@@ -27,6 +28,12 @@ export default new Router({
       path: '/archives/:pageNumber',
       name: 'archives',
       component: Archives,
+      props: true,
+    },
+    {
+      path: '/problem/:problemNumber',
+      name: 'problem',
+      component: Problem,
       props: true,
     },
     {
