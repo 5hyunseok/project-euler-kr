@@ -22,10 +22,6 @@ app.use('/api', routers);
 app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-// 404 handler
-app.use((req, res, next) => {
-  next(errorBuilder('Not Found', 404, true));
-});
 app.use(errorHandler);
 
 models.sequelize.sync()
