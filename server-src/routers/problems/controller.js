@@ -182,3 +182,7 @@ exports.recent = async (req, res) => {
 
   res.json({ login: req.hasToken, problems });
 };
+
+exports.translate = async (req, res) => {
+
+};

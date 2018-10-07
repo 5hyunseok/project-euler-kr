@@ -124,4 +124,6 @@ router.get('/:id', asyncWrapper(controller.getOne));
  */
 router.post('/:id/submit', asyncWrapper(controller.submit));
 
+router.post('/:id/translate', asyncWrapper(controller.translate));
+
 module.exports = router;
