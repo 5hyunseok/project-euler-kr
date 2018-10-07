@@ -2,11 +2,13 @@
 const express = require('express');
 const users = require('./users');
 const problems = require('./problems');
+const news = require('./news');
 
 const router = express.Router();
 
 router.use('/users', users);
 router.use('/problems', problems);
+router.use('/news', news);
 
 module.exports = router;
 
