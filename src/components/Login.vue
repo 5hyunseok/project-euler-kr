@@ -1,16 +1,17 @@
 <template>
 <div>
+  <span class="warning">{{ msg }}</span>
   <h2>로그인</h2>
-  <form action="/login" name="sign_in_form" method="post" style="width:320px;" class="form_box">
+  <div name="sign_in_form" style="width:320px;" class="form_box">
     <table class="no_border" style="width:300px;">
       <tbody>
         <tr>
           <td><div style="text-align:right;">아이디:</div></td>
-          <td><input style="width:150px;" type="text" name="username" id="username" :value="rememberedUserName"></td>
+          <td><input style="width:150px;" type="text" name="username" id="username" v-model="currentUsername"></td>
         </tr>
         <tr>
           <td><div style="text-align:right;">비밀번호:</div></td>
-          <td><input style="width:150px;" type="password" name="password" id="password" value=""></td>
+          <td><input style="width:150px;" type="password" name="password" id="password" v-model="currentPassword"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -20,15 +21,15 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2"><div style="text-align:center;"><label for="remember_me">Remember Me:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;"></div></td>
+          <td colspan="2"><div style="text-align:center;"><label for="remember_me">로그인 유지:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;"></div></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><input type="submit" name="sign_in" value="로그인"></td>
+          <td><button name="sign_in" v-on:click="login" value="로그인">로그인</button></td>
         </tr>
       </tbody>
     </table>
-  </form>
+  </div>
 <p>
   계정이 없다면 먼저 <a href="register" title="Register">가입</a>하세요.<br>
 </p>
@@ -41,8 +42,32 @@ export default {
   name: 'Login',
   data() {
     return {
+      currentUsername: '',
+      currentPassword: '',
       rememberedUserName: '',
+      msg: '',
     };
+  },
+  methods: {
+    login() {
+      const baseURI = 'http://localhost:3000/api';
+      this.$http.post(`${baseURI}/users/login`, {
+        uid: this.currentUsername,
+        password: this.currentPassword,
+      })
+        .then((loginResponse) => {
+          this.$store.commit('setToken', loginResponse.data.token);
+          this.$store.commit('setUsername', this.currentUsername);
+          this.$router.push({ path: 'about' });
+        })
+        .catch((error) => {
+          if (error.response.status === 403) {
+            this.msg = '아이디나 비밀번호가 틀립니다.';
+            return;
+          }
+          this.msg = 'unexpected error';
+        });
+    },
   },
 };
 </script>

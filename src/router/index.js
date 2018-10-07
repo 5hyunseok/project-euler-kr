@@ -6,6 +6,7 @@ import News from '@/components/News';
 import Recent from '@/components/RecentArchive';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
+import Notfound from '@/components/Notfound';
 
 Vue.use(Router);
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+    {
+      path: '*',
+      name: 'not-fount',
+      component: Notfound,
     },
   ],
 });
