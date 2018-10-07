@@ -17,7 +17,7 @@
         </td>
         <td>
           <table style="width:100%;" class="no_border" v-if="login">
-            <tbody>
+            <tbody v-if="problem.submits.length > 0">
               <tr>
                 <td style="width:20px;">
                   <div style="text-align:center;"><img :src=solved alt="Solved" title="Solved"><br></div>

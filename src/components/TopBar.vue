@@ -43,7 +43,7 @@ export default {
   methods: {
     logout() {
       this.$store.commit('resetToken');
-      this.$router.push({ path: 'about' });
+      this.$router.push({ name: 'about' });
     }
   },
 };
