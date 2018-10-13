@@ -1,12 +1,21 @@
 // router index
 const express = require('express');
+const errorBuilder = require('../modules/error-builder');
 const users = require('./users');
 const problems = require('./problems');
+const news = require('./news');
+
 
 const router = express.Router();
 
 router.use('/users', users);
 router.use('/problems', problems);
+router.use('/news', news);
+
+// 404 handler
+router.use((req, res, next) => {
+  next(errorBuilder('Not Found', 404, true));
+});
 
 module.exports = router;
 

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = (models) => {
     models.user.hasMany(models.submit);
+    models.user.hasMany(models.translateSubmit);
   };
 
   return user;
