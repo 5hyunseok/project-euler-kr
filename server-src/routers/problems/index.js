@@ -27,11 +27,12 @@ const router = express.Router();
 router.get('/', asyncWrapper(controller.getList));
 
 /**
- * @api {get} /api/problems/page-length Get Total Number of page
+ * @api {get} /api/problems/length Get Total Number of page & problem
  * @apiGroup problems
  * @apiSuccess {Number} numberOfPages page 개수
+ * @apiSuccess {Number} numberOfProblem 총 문제 개수
  */
-router.get('/page-length', asyncWrapper(controller.getCount));
+router.get('/length', asyncWrapper(controller.getCount));
 
 /**
  * @api {get} /api/problems/recent Get The Most Recent 10 Problems List

@@ -9,7 +9,7 @@ exports.getCount = async (req, res) => {
   const numberOfProblem = await models.problem.count();
   const numberOfPages = Math.ceil(numberOfProblem / config.problemPageSize);
 
-  res.json({ numberOfPages });
+  res.json({ numberOfPages, numberOfProblem });
 };
 
 exports.getList = async (req, res) => {
