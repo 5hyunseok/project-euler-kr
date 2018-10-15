@@ -9,6 +9,7 @@ import Register from '@/components/Register';
 import Notfound from '@/components/Notfound';
 import Problem from '@/components/Problem';
 import Mypage from '@/components/Mypage';
+import NewPost from '@/components/NewPost';
 
 Vue.use(Router);
 
@@ -61,6 +62,12 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: Mypage,
+    },
+    {
+      path: '/new-post/:problemNumber',
+      name: 'new-post',
+      component: NewPost,
+      props: true,
     },
     {
       path: '*',

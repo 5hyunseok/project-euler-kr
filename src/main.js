@@ -2,12 +2,21 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import axios from 'axios';
 import Vue from 'vue';
+import VueMathjax from 'vue-mathjax';
+import VueCodemirror from 'vue-codemirror';
+import VueHighlightJS from 'vue-highlightjs';
+import '@/codemirror.css';
 import App from './App';
 import router from './router';
 import store from './store';
 
+
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
+
+Vue.use(VueMathjax);
+Vue.use(VueHighlightJS);
+Vue.use(VueCodemirror);
 
 /* eslint-disable no-new */
 new Vue({
