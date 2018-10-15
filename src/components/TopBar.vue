@@ -7,6 +7,7 @@
           <li><router-link :to="{ name: 'archives', params: { pageNumber: 1 } }">문제</router-link></li>
 
           <li><router-link :to="{ name: 'recent' }">최근 문제</router-link></li>
+          <li v-if="token"><router-link :to="{ name: 'mypage' }">내 계정</router-link></li>
           <li><router-link :to="{ name: 'news' }">뉴스</router-link></li>
           <li v-if="!token"><router-link :to="{ name: 'register' }">회원 가입</router-link></li>
           <li v-if="!token"><router-link :to="{ name: 'login' }">로그인</router-link></li>
