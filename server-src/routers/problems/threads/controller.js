@@ -23,21 +23,26 @@ exports.getList = async (req, res) => {
     include: [{
       model: models.user,
       attributes: models.projection.user.thread,
+    }, {
+      model: models.threadStar,
+      where: { user_id: req.decoded.id },
+      attributes: ['user_id'],
+      required: false,
     }],
     order: ['created_at'],
   });
-  console.log(id);
   res.json({ threads });
 };
 
 exports.post = async (req, res) => {
   const id = req.preParams.problemId;
 
-  const { content, code } = req.body;
+  const { content, code, language } = req.body;
 
   await models.thread.create({
     content,
     code,
+    language,
     problem_id: id,
     user_id: req.decoded.id,
   });
@@ -55,10 +60,11 @@ exports.update = async (req, res) => {
   if (thread.user_id !== req.decoded.id) {
     throw errorBuilder('Forbidden', 403, true);
   }
-  const { content, code } = req.body;
+  const { content, code, language } = req.body;
 
   thread.content = content;
   thread.code = code;
+  thread.language = language;
   await thread.save();
 
   res.json({ success: true });

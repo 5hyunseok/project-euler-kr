@@ -26,7 +26,9 @@ router.get('/length', asyncWrapper(controller.getCount));
  * @apiSuccess (Success 200 로그인) {Number} threads.id
  * @apiSuccess (Success 200 로그인) {String} threads.content 내용
  * @apiSuccess (Success 200 로그인) {String} threads.code 코드
+ * @apiSuccess (Success 200 로그인) {String} threads.language 코드 언어
  * @apiSuccess (Success 200 로그인) {Number} threads.star 추천수
+ * @apiSuccess (Success 200 로그인) {Object[]} threads.threadStars 이 배열의 길이가 1이상이면 내가 추천함
  * @apiSuccess (Success 200 로그인) {Date} threads.created_at 글쓴 날짜
  * @apiSuccess (Success 200 로그인) {Date} threads.updated_at 글 업데이트 날짜
  * @apiSuccess (Success 200 로그인) {Object} threads.user 글쓴이 정보
@@ -46,10 +48,12 @@ router.get('/', asyncWrapper(controller.getList));
  * @apiGroup threads
  * @apiParam {String} content 내용
  * @apiParam {string} code 코드
+ * @apiParam {string} language 코드 언어
  * @apiParamExample {json} Request-Example:
  *    {
  *      "content": "이거 아래처럼 풀었음 ㅋㅋ ",
- *      "code": "#include < main() { void>}"
+ *      "code": "#include < main() { void>}",
+ *      "language": "c++"
  *    }
  * @apiSuccess (Success 200 로그인) {Boolean} success=true
  * @apiError (Error Not Login) {Boolean} error=true
@@ -66,10 +70,12 @@ router.post('/', asyncWrapper(controller.post));
  * @apiGroup threads
  * @apiParam {String} content 내용
  * @apiParam {string} code 코드
+ * @apiParam {string} language 코드 언어
  * @apiParamExample {json} Request-Example:
  *    {
  *      "content": "이거 아래처럼 풀었음 ㅋㅋ ",
- *      "code": "#include < main() { void>}"
+ *      "code": "#include < main() { void>}",
+ *      "language": "c++"
  *    }
  * @apiSuccess (Success 200 로그인) {Boolean} success=true
  * @apiError (Error Auth Error2) {Boolean} error=true
