@@ -154,6 +154,11 @@ exports.submit = async (req, res) => {
   });
 
   res.json({ pending, isCorrect });
+
+  if(isCorrect) {
+    problem.solver += 1;
+    problem.save();
+  }
 };
 
 exports.recent = async (req, res) => {
