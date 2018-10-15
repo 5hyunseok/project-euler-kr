@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     token() {
-      return this.$store.getters.getToken;
+      return this.$store.getters['users/getToken'];
     },
   },
   created() {
@@ -69,6 +69,12 @@ export default {
       .then((result) => {
         this.problems = result.data.problems;
         this.login = result.data.login;
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          this.$store.commit('users/resetToken');
+          this.$router.push({ name: 'about' });
+        }
       });
   },
 };

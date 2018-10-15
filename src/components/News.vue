@@ -8,10 +8,10 @@
     </ul>
     <h2>최신 소식</h2>
     <div class="news" v-for="n in recentNews" :key="n.id">
-      <h4>{{ n.updateDate }}: {{ n.titleKr }}</h4>
-      <div>{{ n.contentsKr }}</div>
+      <h4>{{ dateFormat(n.updated_at) }}: {{ n.title }}</h4>
+      <div>{{ n.content }}</div>
     </div>
-    <div style="text-align:center"><button>지난 소식 불러오기</button></div>
+    <div style="text-align:center"><button v-on:click="moreNews">지난 소식 불러오기</button></div>
   </div>
 </template>
 
@@ -43,6 +43,35 @@ export default {
       ],
     };
   },
+  created() {
+    const baseURI = 'http://localhost:3000/api';
+    this.$http.get(`${baseURI}/news`)
+      .then((result) => {
+        this.recentNews = result.data.news;
+      });
+  },
+  methods: {
+    dateFormat(d) {
+      return d.split("T")[0];
+    },
+    moreNews() {
+      const baseURI = 'http://localhost:3000/api';
+      this.$http.get(`${baseURI}/news/more`)
+        .then((result) => {
+          let hasDuplication = false;
+          this.recentNews.forEach((r) => {
+            result.data.news.forEach((m) => {
+              if(r.id === m.id) {
+                hasDuplication = true;
+              }
+            });
+          });
+          if(!hasDuplication) {
+            this.recentNews = this.recentNews.concat(result.data.news);
+          }
+        });
+    },
+  }
 };
 </script>
 

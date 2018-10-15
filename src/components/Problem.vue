@@ -1,6 +1,10 @@
 <template>
 <div id="problem_page">
-    login: {{ login }}
+    login: {{ login }}<br>
+    hasAnswer: {{ hasAnswer }}
+  <span class="warning" v-if="!hasAnswer">아직 정답이 없는 문제입니다.<br></span>
+  <span class="warning" v-if="!hasKorean">아직 번역이 없는 문제입니다. 번역하러가기<br></span>
+  <span class="warning">{{ msg }}</span>
   <h2>
     {{ hasKorean ? problem.title_kr : problem.title }}
   </h2>
@@ -15,6 +19,7 @@
   <div class="problem_content" role="problem">
     <span v-html="hasKorean ? problem.problem_kr : problem.problem"></span>
   </div>
+  <br>
   <div style="text-align:center;" class="noprint" v-if="solve">
     <span class="warning">정답입니다! - {{answer}}</span>
   </div>
@@ -32,7 +37,7 @@
                       <div style="text-align:right;">정답:</div>
                     </td>
                     <td style="text-align:left;">
-                      <div style="text-align:left;"><input size="20" type="text" name="guess" id="guess" maxlength="30"></div>
+                      <div style="text-align:left;"><input size="20" type="text" name="guess" id="guess" maxlength="30" v-model="currentAnswer"></div>
                     </td>
                   </tr>
                   <tr>
@@ -48,7 +53,7 @@
                   </tr>
                   <tr>
                     <td>&nbsp;</td>
-                    <td style="text-align:left;"><input type="submit" value="제출"></td>
+                    <td style="text-align:left;"><button v-on:click="submit">제출</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -56,6 +61,7 @@
           </tr>
         </tbody>
       </table>
+      {{ token }}
     <!-- </form> -->
   </div>
 </div>
@@ -67,17 +73,20 @@ export default {
   props: ['problemNumber'],
   data() {
     return {
+      currentAnswer: '',
       login: false,
       problem: {},
       hasAnswer: false,
       hasKorean: false,
       pending: false,
       solve: false,
+      answer: '',
+      msg: '',
     };
   },
   computed: {
     token() {
-      return this.$store.getters.getToken;
+      return this.$store.getters['users/getToken'];
     },
     loginButNotSolved() {
       return this.login && !this.solve;
@@ -94,6 +103,10 @@ export default {
         this.login = result.data.login;
         this.hasKorean = result.data.hasKorean;
         this.problem = result.data.problem;
+        this.hasAnswer = result.data.hasAnswer;
+        this.solve = result.data.solve;
+        this.answer = result.data.submitAnswer;
+        console.log(result.data);
       });
     // this.$http.get(`${baseURI}/problems/?page=${this.pageNumber}`, {
     //   headers: {
@@ -105,6 +118,38 @@ export default {
     //     this.problems = result.data.problems;
     //     this.login = result.data.login;
     //   });
+  },
+  methods: {
+    submit() {
+      if (!this.isOnlyNumber(this.currentAnswer)) {
+        this.msg = '정답은 숫자만 입력하세요';
+        return;
+      }
+      const baseURI = 'http://localhost:3000/api';
+      console.log(this.token);
+      this.$http.post(`${baseURI}/problems/${this.problemNumber}/submit`, {
+        answer: this.currentAnswer,
+        }, {
+        headers: {
+          'x-access-token': this.token,
+        },
+      })
+        .then((result) => {
+          this.solve = result.data.isCorrect;
+          if(this.solve) {
+            this.answer = this.currentAnswer;
+          } else {
+            this.msg = "틀렸습니다!";
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+      
+    },
+    isOnlyNumber(string) {
+      return /^[0-9]+$/.test(string);
+    },
   },
 };
 </script>

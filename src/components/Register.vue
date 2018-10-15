@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td><input id="pwValidation" type="hidden" name="pwValidation">&nbsp;</td>
-        <td style="text-align:left;"><button v-on:click="register" id="submitButton" value="가입">가입</button></td>
+        <td style="text-align:left;"><button v-on:click="register" @keyup.enter="register" id="submitButton" value="가입">가입</button></td>
       </tr>
       </tbody>
     </table>
@@ -101,8 +101,9 @@ export default {
               password: this.currentNewPassword,
             })
               .then((loginResponse) => {
-                this.$store.commit('setToken', loginResponse.data.token);
-                this.$store.commit('setUsername', this.currentNewUsername);
+                this.$store.commit('users/setToken', loginResponse.data.token);
+                this.$store.commit('users/setUsername', this.currentNewUsername);
+                this.$router.push({ path: 'about' });
               });
           })
           .catch((error) => {

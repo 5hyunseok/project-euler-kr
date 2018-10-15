@@ -11,7 +11,7 @@
         </tr>
         <tr>
           <td><div style="text-align:right;">비밀번호:</div></td>
-          <td><input style="width:150px;" type="password" name="password" id="password" v-model="currentPassword"></td>
+          <td><input style="width:150px;" type="password" name="password" id="password" v-model="currentPassword" @keyup.enter="login"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -25,7 +25,7 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><button name="sign_in" v-on:click="login" value="로그인">로그인</button></td>
+          <td><button name="sign_in" v-on:click="login"value="로그인">로그인</button></td>
         </tr>
       </tbody>
     </table>
@@ -56,8 +56,11 @@ export default {
         password: this.currentPassword,
       })
         .then((loginResponse) => {
-          this.$store.commit('setToken', loginResponse.data.token);
-          this.$store.commit('setUsername', this.currentUsername);
+          console.log(this.currentUsername);
+          console.log(loginResponse.data.token);
+          this.$store.commit('users/setToken', loginResponse.data.token);
+          this.$store.commit('users/setUsername', this.currentUsername);
+          console.log(this.$store.getters['users/getUsername'])
           this.$router.push({ path: 'about' });
         })
         .catch((error) => {

@@ -36,13 +36,17 @@ export default {
       testToken: '',
     };
   },
-  computed: mapState([
-    'token',
-    'username',
-  ]),
+  computed: {
+    token() {
+      return this.$store.getters['users/getToken'];
+    },
+    username() {
+      return this.$store.getters['users/getUsername'];
+    },
+  },
   methods: {
     logout() {
-      this.$store.commit('resetToken');
+      this.$store.commit('users/resetToken');
       this.$router.push({ name: 'about' });
     },
   },
