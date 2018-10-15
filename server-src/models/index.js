@@ -32,6 +32,9 @@ db.projection = {
     list: ['id', 'title', 'title_kr', 'difficulty', 'solver'],
     one: ['id', 'title', 'problem', 'title_kr', 'problem_kr', 'difficulty', 'solver'],
   },
+  user: {
+    thread: ['id', 'uid'],
+  },
 };
 
 module.exports = db;

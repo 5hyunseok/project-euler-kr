@@ -21,6 +21,5 @@ secret.js
 /server-src/config.js
 
 # problem img
-!dist/project/
-!dist/images/
+!dist/problem/
 !dist/save.git

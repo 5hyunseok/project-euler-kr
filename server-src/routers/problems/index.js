@@ -2,6 +2,7 @@
 const express = require('express');
 const controller = require('./controller');
 const asyncWrapper = require('../../middleware/async-wrapper');
+const threads = require('./threads');
 
 const router = express.Router();
 
@@ -144,5 +145,11 @@ router.post('/:id/submit', asyncWrapper(controller.submit));
  * @apiError (Error Not Found) {String} message="NotFound"
  */
 router.post('/:id/translate', asyncWrapper(controller.translate));
+
+router.use('/:id/threads', (req, res, next) => {
+  req.preParams = {};
+  req.preParams.problemId = req.params.id;
+  next();
+}, threads);
 
 module.exports = router;
