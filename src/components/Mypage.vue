@@ -44,7 +44,7 @@ export default {
       return this.$store.getters['users/getUsername'];
     },
     percentage() {
-      return (this.countOfCorrection / this.totalNumber).toFixed(3);
+      return this.totalNumber === 0 ? 0 : (this.countOfCorrection / this.totalNumber).toFixed(3);
     }
   },
   created() {

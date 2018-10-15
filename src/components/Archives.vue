@@ -12,7 +12,7 @@
 
     <div class="pagination">
       <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="'/archives/' + n">{{ n }}</a>
-      <span>&nbsp;&nbsp;&nbsp;문제 바로가기: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='problem='+this.value;"></span>
+      <span>&nbsp;&nbsp;&nbsp;문제 바로가기: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='../problem/'+this.value;"></span>
     </div>
     <div style="clear:both;"></div>
     <br>
