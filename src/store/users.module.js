@@ -3,6 +3,7 @@ export default {
   state: {
     token: localStorage.token,
     username: localStorage.username,
+    msg: '',
   },
   getters: {
     getToken(state) {
@@ -11,11 +12,18 @@ export default {
     getUsername(state) {
       return state.username;
     },
+    getMsg(state) {
+      return state.msg;
+    },
   },
   mutations: {
     setToken(state, t) {
       localStorage.token = t;
       state.token = localStorage.token;
+      state.msg = '로그인 성공!';
+      setTimeout(() => {
+        state.msg = '';
+      }, 3000);
     },
     setUsername(state, u) {
       localStorage.username = u;

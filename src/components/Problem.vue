@@ -78,8 +78,8 @@ export default {
       currentAnswer: '',
       login: false,
       problem: {},
-      hasAnswer: false,
-      hasKorean: false,
+      hasAnswer: true,
+      hasKorean: true,
       pending: false,
       solve: false,
       answer: '',
@@ -129,23 +129,22 @@ export default {
       console.log(this.token);
       this.$http.post(`${baseURI}/problems/${this.problemNumber}/submit`, {
         answer: this.currentAnswer,
-        }, {
+      }, {
         headers: {
           'x-access-token': this.token,
         },
       })
         .then((result) => {
           this.solve = result.data.isCorrect;
-          if(this.solve) {
+          if (this.solve) {
             this.answer = this.currentAnswer;
           } else {
-            this.msg = "틀렸습니다!";
+            this.msg = '틀렸습니다!';
           }
         })
         .catch((error) => {
           console.log(error.response);
         });
-      
     },
     isOnlyNumber(string) {
       return /^[0-9]+$/.test(string);
