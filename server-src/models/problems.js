@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     models.problem.hasMany(models.submit);
     models.problem.hasMany(models.translateSubmit);
     models.problem.hasOne(models.answer, { onDelete: 'cascade', foreignKey: 'problem_id' });
+    models.problem.hasMany(models.thread);
   };
 
   return problem;

@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   user.associate = (models) => {
     models.user.hasMany(models.submit);
     models.user.hasMany(models.translateSubmit);
+    models.user.hasMany(models.thread);
+    models.user.hasMany(models.thread_star);
+    models.user.hasMany(models.thread_report);
   };
 
   return user;
