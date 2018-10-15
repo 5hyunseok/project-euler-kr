@@ -10,6 +10,7 @@
 
 <script>
 import ArchiveTable from '@/components/ArchiveTable';
+import { baseURI } from './constants';
 
 export default {
   name: 'RecentArchives',
@@ -33,6 +34,32 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    token() {
+      return this.$store.getters['users/getToken'];
+    },
+  },
+  created() {
+    this.$http.get(`${baseURI}/problems/page-length`)
+      .then((result) => {
+        this.totalPageNumber = result.data.numberOfPages;
+      });
+    this.$http.get(`${baseURI}/problems/recent`, {
+      headers: {
+        'x-access-token': this.token,
+      },
+    })
+      .then((result) => {
+        this.problems = result.data.problems;
+        this.login = result.data.login;
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          this.$store.commit('users/resetToken');
+          this.$router.push({ name: 'about' });
+        }
+      });
   },
 };
 </script>

@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td><input id="pwValidation" type="hidden" name="pwValidation">&nbsp;</td>
-        <td style="text-align:left;"><button v-on:click="register" id="submitButton" value="가입">가입</button></td>
+        <td style="text-align:left;"><button v-on:click="register" @keyup.enter="register" id="submitButton" value="가입">가입</button></td>
       </tr>
       </tbody>
     </table>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { baseURI } from './constants';
 
 export default {
   name: 'Register',
@@ -90,20 +91,19 @@ export default {
         return;
       }
       if (passwordConfirm && passwordCheck && usernameCheck) {
-        const baseURI = 'http://localhost:3000/api';
         this.$http.post(`${baseURI}/users/`, {
           uid: this.currentNewUsername,
           password: this.currentNewPassword,
         })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             this.$http.post(`${baseURI}/users/login`, {
               uid: this.currentNewUsername,
               password: this.currentNewPassword,
             })
               .then((loginResponse) => {
-                this.$store.commit('setToken', loginResponse.data.token);
-                this.$store.commit('setUsername', this.currentNewUsername);
+                this.$store.commit('users/setToken', loginResponse.data.token);
+                this.$store.commit('users/setUsername', this.currentNewUsername);
+                this.$router.push({ path: 'about' });
               });
           })
           .catch((error) => {

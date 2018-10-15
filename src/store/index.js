@@ -1,31 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import users from './users.module';
+
 Vue.use(Vuex);
+
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
-  state: {
-    token: '',
-    username: '',
-  },
-  getters: {
-    getToken(state) {
-      return state.token;
-    },
-  },
-  mutations: {
-    setToken(state, t) {
-      state.token = t;
-    },
-    setUsername(state, u) {
-      state.username = u;
-    },
-    resetToken(state) {
-      state.token = '';
-      state.username = '';
-    },
-  },
-  actions: {
-
+  modules: {
+    users,
   },
 });

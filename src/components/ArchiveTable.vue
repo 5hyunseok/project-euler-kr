@@ -10,14 +10,15 @@
       <tr v-for="problem in problems" :key="problem.id">
         <td class="id_column">{{ problem.id }}</td>
         <td>
-          <a href="/problem/">{{ problem.title_kr ? problem.title_kr : problem.title }}</a>
+          <router-link :to="{ name: 'problem', params: { problemNumber: problem.id } }">{{ problem.title_kr ? problem.title_kr : problem.title }}</router-link>
+          <!-- <a href="/problem/"></a> -->
         </td>
         <td>
           <div style="text-align:center;">{{ problem.solver }}</div>
         </td>
-        <td>
-          <table style="width:100%;" class="no_border" v-if="login">
-            <tbody v-if="problem.submits.length > 0">
+        <td v-if="login">
+          <table style="width:100%;" class="no_border" v-if="problem.submits.length > 0">
+            <tbody>
               <tr>
                 <td style="width:20px;">
                   <div style="text-align:center;"><img :src=solved alt="Solved" title="Solved"><br></div>

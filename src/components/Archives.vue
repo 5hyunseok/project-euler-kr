@@ -23,6 +23,7 @@
 
 <script>
 import ArchiveTable from '@/components/ArchiveTable';
+import { baseURI } from './constants';
 
 export default {
   name: 'Archives',
@@ -51,12 +52,11 @@ export default {
     };
   },
   computed: {
-    token () {
-      return this.$store.getters.getToken;
-    }
+    token() {
+      return this.$store.getters['users/getToken'];
+    },
   },
   created() {
-    const baseURI = 'http://localhost:3000/api';
     this.$http.get(`${baseURI}/problems/page-length`)
       .then((result) => {
         this.totalPageNumber = result.data.numberOfPages;
@@ -67,9 +67,14 @@ export default {
       },
     })
       .then((result) => {
-        console.log(result.data);
         this.problems = result.data.problems;
         this.login = result.data.login;
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          this.$store.commit('users/resetToken');
+          this.$router.push({ name: 'about' });
+        }
       });
   },
 };
