@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { baseURI } from './constants';
+
 export default {
   name: 'Archives',
   props: ['pageNumber'],
@@ -44,7 +46,6 @@ export default {
     };
   },
   created() {
-    const baseURI = 'http://localhost:3000/api';
     this.$http.get(`${baseURI}/news`)
       .then((result) => {
         this.recentNews = result.data.news;
@@ -55,7 +56,6 @@ export default {
       return d.split("T")[0];
     },
     moreNews() {
-      const baseURI = 'http://localhost:3000/api';
       this.$http.get(`${baseURI}/news/more`)
         .then((result) => {
           let hasDuplication = false;

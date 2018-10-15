@@ -23,6 +23,7 @@
 
 <script>
 import ArchiveTable from '@/components/ArchiveTable';
+import { baseURI } from './constants';
 
 export default {
   name: 'Archives',
@@ -56,7 +57,6 @@ export default {
     },
   },
   created() {
-    const baseURI = 'http://localhost:3000/api';
     this.$http.get(`${baseURI}/problems/page-length`)
       .then((result) => {
         this.totalPageNumber = result.data.numberOfPages;

@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { baseURI } from './constants';
 
 export default {
   name: 'Register',
@@ -90,7 +91,6 @@ export default {
         return;
       }
       if (passwordConfirm && passwordCheck && usernameCheck) {
-        const baseURI = 'http://localhost:3000/api';
         this.$http.post(`${baseURI}/users/`, {
           uid: this.currentNewUsername,
           password: this.currentNewPassword,

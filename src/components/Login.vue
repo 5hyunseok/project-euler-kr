@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { baseURI } from './constants';
 
 export default {
   name: 'Login',
@@ -50,7 +51,6 @@ export default {
   },
   methods: {
     login() {
-      const baseURI = 'http://localhost:3000/api';
       this.$http.post(`${baseURI}/users/login`, {
         uid: this.currentUsername,
         password: this.currentPassword,

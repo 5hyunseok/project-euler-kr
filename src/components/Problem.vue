@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { baseURI } from './constants';
+
 export default {
   name: 'Problem',
   props: ['problemNumber'],
@@ -93,7 +95,6 @@ export default {
     },
   },
   created() {
-    const baseURI = 'http://localhost:3000/api';
     this.$http.get(`${baseURI}/problems/${this.problemNumber}`, {
       headers: {
         'x-access-token': this.token,
@@ -125,7 +126,6 @@ export default {
         this.msg = '정답은 숫자만 입력하세요';
         return;
       }
-      const baseURI = 'http://localhost:3000/api';
       console.log(this.token);
       this.$http.post(`${baseURI}/problems/${this.problemNumber}/submit`, {
         answer: this.currentAnswer,
