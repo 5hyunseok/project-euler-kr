@@ -10,6 +10,12 @@ const router = express.Router();
  * @apiGroup threads
  * @apiSuccess {Number} numberOfPages page 개수
  * @apiSuccess {Number} numberOfThread 총 thread 개수
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
  */
 router.get('/length', asyncWrapper(controller.getCount));
 
@@ -34,5 +40,102 @@ router.get('/length', asyncWrapper(controller.getCount));
  * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
  */
 router.get('/', asyncWrapper(controller.getList));
+
+/**
+ * @api {post} /api/problems/:id/threads/ Post a Thread
+ * @apiGroup threads
+ * @apiParam {String} content 내용
+ * @apiParam {string} code 코드
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "content": "이거 아래처럼 풀었음 ㅋㅋ ",
+ *      "code": "#include < main() { void>}"
+ *    }
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
+ */
+router.post('/', asyncWrapper(controller.post));
+
+/**
+ * @api {post} /api/problems/:id/threads/:thread_id Update a Thread
+ * @apiGroup threads
+ * @apiParam {String} content 내용
+ * @apiParam {string} code 코드
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "content": "이거 아래처럼 풀었음 ㅋㅋ ",
+ *      "code": "#include < main() { void>}"
+ *    }
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Auth Error2) {Boolean} error=true
+ * @apiError (Error Auth Error2) {Number} status=403
+ * @apiError (Error Auth Error2) {String} message="Forbidden" 글쓴이가 아닐떄
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
+ */
+router.post('/:tid', asyncWrapper(controller.update));
+
+/**
+ * @api {delete} /api/problems/:id/threads/:thread_id Delete a Thread
+ * @apiGroup threads
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Auth Error2) {Boolean} error=true
+ * @apiError (Error Auth Error2) {Number} status=403
+ * @apiError (Error Auth Error2) {String} message="Forbidden" 글쓴이가 아닐떄
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
+ */
+router.delete('/:tid', asyncWrapper(controller.delete));
+
+/**
+ * @api {post} /api/problems/:id/threads/:thread_id/report Submit a Report for a Thread
+ * @apiGroup threads
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
+ */
+router.post('/:tid/report', asyncWrapper(controller.report));
+
+/**
+ * @api {post} /api/problems/:id/threads/:thread_id/star Submit a star to a Thread
+ * @apiGroup threads
+ * @apiSuccess (Success 200 로그인) {Boolean} isIncrease 추천 하면 true, 추천 취소면 false;
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Auth Error) {Boolean} error=true
+ * @apiError (Error Auth Error) {Number} status=403
+ * @apiError (Error Auth Error) {String} message="NotSolved" 아직 이 문제 못 풀었을때
+ */
+router.post('/:tid/star', asyncWrapper(controller.star));
 
 module.exports = router;

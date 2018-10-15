@@ -2,6 +2,7 @@
 const express = require('express');
 const controller = require('./controller');
 const asyncWrapper = require('../../middleware/async-wrapper');
+const threadAuth = require('../../middleware/thread-auth');
 const threads = require('./threads');
 
 const router = express.Router();
@@ -150,6 +151,6 @@ router.use('/:id/threads', (req, res, next) => {
   req.preParams = {};
   req.preParams.problemId = req.params.id;
   next();
-}, threads);
+}, asyncWrapper(threadAuth), threads);
 
 module.exports = router;

@@ -16,17 +16,6 @@ exports.getList = async (req, res) => {
     pageIndex = parseInt(req.query.page, 10);
   }
 
-  if (!req.hasToken) {
-    throw errorBuilder('NotLogin', 401, true);
-  }
-
-  const s = await models.submit.findOne({
-    where: {  solve_flag: 1, problem_id: id, user_id: req.decoded.id },
-  });
-  if (!s) {
-    throw errorBuilder('NotSolved', 403, true);
-  }
-
   const threads = await models.thread.findAll({
     offset: (pageIndex - 1) * 25,
     limit: 25,
@@ -39,4 +28,113 @@ exports.getList = async (req, res) => {
   });
   console.log(id);
   res.json({ threads });
+};
+
+exports.post = async (req, res) => {
+  const id = req.preParams.problemId;
+
+  const { content, code } = req.body;
+
+  await models.thread.create({
+    content,
+    code,
+    problem_id: id,
+    user_id: req.decoded.id,
+  });
+
+  res.json({ success: true });
+};
+
+exports.update = async (req, res) => {
+  const tid = req.params.tid;
+
+  const thread = await models.thread.findById(tid);
+  if (!thread) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+  if (thread.user_id !== req.decoded.id) {
+    throw errorBuilder('Forbidden', 403, true);
+  }
+  const { content, code } = req.body;
+
+  thread.content = content;
+  thread.code = code;
+  await thread.save();
+
+  res.json({ success: true });
+};
+
+exports.delete = async (req, res) => {
+  const tid = req.params.tid;
+
+  const thread = await models.thread.findById(tid);
+  if (!thread) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+  if (thread.user_id !== req.decoded.id) {
+    throw errorBuilder('Forbidden', 403, true);
+  }
+
+  await thread.destroy();
+
+  res.json({ success: true });
+};
+
+exports.report = async (req, res) => {
+  const tid = req.params.tid;
+
+  const thread = await models.thread.findById(tid);
+  if (!thread) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+
+  const report = await models.threadReport.findOne({
+    where: {
+      thread_id: tid,
+      user_id: req.decoded.id,
+    },
+  });
+
+  if (!report) {
+    await models.threadReport.create({
+      thread_id: tid,
+      user_id: req.decoded.id,
+    });
+  }
+
+  res.json({ success: true });
+};
+
+exports.star = async (req, res) => {
+  const tid = req.params.tid;
+
+  const thread = await models.thread.findById(tid);
+  if (!thread) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+
+  const star = await models.threadStar.findOne({
+    where: {
+      thread_id: tid,
+      user_id: req.decoded.id,
+    },
+  });
+  let isIncrease;
+
+  if (star) {
+    await star.destroy();
+    thread.star -= 1;
+    await thread.save();
+    isIncrease = false;
+  } else {
+    await models.threadStar.create({
+      thread_id: tid,
+      user_id: req.decoded.id,
+    });
+    thread.star += 1;
+    await thread.save();
+    isIncrease = true;
+  }
+
+  res.json({ isIncrease });
 };
