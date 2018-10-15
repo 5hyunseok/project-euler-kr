@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-/dist/
+dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -19,3 +19,7 @@ secret.js
 
 # Server configure
 /server-src/config.js
+
+# problem img
+!dist/project/*
+!dist/save.git
