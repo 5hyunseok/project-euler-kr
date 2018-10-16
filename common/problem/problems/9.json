@@ -1,8 +1,0 @@
-{
-  "id": 9,
-  "number": 9,
-  "title": "Special Pythagorean triplet",
-  "problem": "\n<p>A Pythagorean triplet is a set of three natural numbers, <var>a</var> &lt; <var>b</var> &lt; <var>c</var>, for which,</p>\n<div style=\"text-align:center;\"> <var>a</var><sup>2</sup> + <var>b</var><sup>2</sup> = <var>c</var><sup>2</sup></div>\n<p>For example, 3<sup>2</sup> + 4<sup>2</sup> = 9 + 16 = 25 = 5<sup>2</sup>.</p>\n<p>There exists exactly one Pythagorean triplet for which <var>a</var> + <var>b</var> + <var>c</var> = 1000.<br>Find the product <var>abc</var>.</p>\n\n",
-  "title_kr": "특별한 피타고라스 수",
-  "problem_kr": "\n<p>다음 피타고라스 정리를 만족하면서 <var>a</var> &lt; <var>b</var> &lt; <var>c</var> 관계를 만족하는 세 자연수 <var>a</var>, <var>b</var>, <var>c</var>를 피타고라스 수라고 부른다.</p>\n<div style=\"text-align:center;\"> <var>a</var><sup>2</sup> + <var>b</var><sup>2</sup> = <var>c</var><sup>2</sup></div>\n<p>예를 들어, 3<sup>2</sup> + 4<sup>2</sup> = 9 + 16 = 25 = 5<sup>2</sup> 가 있다.</p>\n<p><var>a</var> + <var>b</var> + <var>c</var> = 1000를 만족하면서 피타고라스 수인 세 자연수가 유일하게 존재한다. 그 수들의 곱 <var>abc</var>의 값을 구하여라.<br>"
-}
