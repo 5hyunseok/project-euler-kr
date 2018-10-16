@@ -87,7 +87,7 @@ exports.getOne = async (req, res) => {
     submitAnswer: solve ? solveChecking.answer : (pending ? pendingChecking.answer : ''),
     submitDate: solve ? solveChecking.created_at : (pending ? pendingChecking.created_at : null),
     hasAnswer: !!answer,
-    hasKorean: !(problem.title_kr === ''),
+    hasKorean: !(problem.title_kr === '' || problem.title_kr === null),
   });
 };
 
