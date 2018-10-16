@@ -1,8 +1,0 @@
-{
-  "id": 6,
-  "number": 6,
-  "title": "Sum square difference",
-  "problem": "\n<p>The sum of the squares of the first ten natural numbers is,</p>\n<div style=\"text-align:center;\">1<sup>2</sup> + 2<sup>2</sup> + ... + 10<sup>2</sup> = 385</div>\n<p>The square of the sum of the first ten natural numbers is,</p>\n<div style=\"text-align:center;\">(1 + 2 + ... + 10)<sup>2</sup> = 55<sup>2</sup> = 3025</div>\n<p>Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 &#x2212; 385 = 2640.</p>\n<p>Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.</p>\n\n",
-  "title_kr": "제곱합과 합제곱의 차",
-  "problem_kr": "\n<p>1부터 10까지 제곱 합은 다음과 같다.</p>\n<div style=\"text-align:center;\">1<sup>2</sup> + 2<sup>2</sup> + ... + 10<sup>2</sup> = 385</div>\n<p>1부터 10까지 합의 제곱은 다음과 같다.</p>\n<div style=\"text-align:center;\">(1 + 2 + ... + 10)<sup>2</sup> = 55<sup>2</sup> = 3025</div>\n<p>따라서 1부터 10까지의 제곱의 합에서 합의 제곱을 뺀 것은 3025 &#x2212; 385 = 2640이다.</p>\n<p>1부터 100까지의 제곱합과 합제곱의 차를 구하여라.</p>\n\n"
-}

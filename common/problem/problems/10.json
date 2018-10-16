@@ -1,8 +1,0 @@
-{
-  "id": 10,
-  "number": 10,
-  "title": "Summation of primes",
-  "problem": "\n<p>The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.</p>\n<p>Find the sum of all the primes below two million.</p>\n\n\n\n",
-  "title_kr": "소수의 합",
-  "problem_kr": "\n<p>10 이하의 소수들의 합은 2 + 3 + 5 + 7 = 17이다.</p>\n<p>2백만 이하의 소수들의 총합을 구하여라.</p>\n\n\n\n"
-}

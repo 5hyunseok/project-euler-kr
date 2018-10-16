@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     code: {
       type: DataTypes.TEXT,
     },
+    language: {
+      type: DataTypes.STRING,
+    },
     star: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
