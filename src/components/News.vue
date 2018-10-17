@@ -35,14 +35,7 @@ export default {
           updateDate: '2018-9-23, 01:00 am',
         },
       ],
-      recentNews: [
-        {
-          id: 1,
-          titleKr: '첫 번째 뉴스',
-          updateDate: '2018-09-23',
-          contentsKr: 'GDPR이 적용되었습니다?!',
-        },
-      ],
+      recentNews: [],
     };
   },
   created() {
