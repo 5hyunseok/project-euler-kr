@@ -19,20 +19,7 @@ export default {
   },
   data() {
     return {
-      problems: [
-        {
-          number: 1,
-          titleKr: '최근 문제 타이틀1',
-          correctCount: 4,
-          postCount: 500,
-        },
-        {
-          number: 2,
-          titleKr: '최근 문제 타이틀2',
-          correctCount: 1,
-          postCount: 350,
-        },
-      ],
+      problems: [],
     };
   },
   computed: {
@@ -41,10 +28,6 @@ export default {
     },
   },
   created() {
-    this.$http.get(`${baseURI}/problems/page-length`)
-      .then((result) => {
-        this.totalPageNumber = result.data.numberOfPages;
-      });
     this.$http.get(`${baseURI}/problems/recent`, {
       headers: {
         'x-access-token': this.token,
