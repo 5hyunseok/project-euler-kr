@@ -2,16 +2,16 @@
   <div id="forum_page">
     <h2>문제 {{ problemNumber }}</h2>
     <div class="pagination">
-      <router-link v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :to="{ name: 'threads', params: { problemNumber: problemNumber, pageNumber: n } }">{{ n }}</router-link>
+      <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
       <!-- <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link> -->
       <!-- <span>&nbsp;&nbsp;&nbsp;문제 바로가기: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='../problem/'+this.value;"></span> -->
     </div>
     <div style="clear:both;"></div>
     <br>
-    <post v-for="thread in threads" :key="thread.id" v-bind:thread=thread v-bind:isPreview=false></post>    
+    <post v-for="thread in threads" :key="thread.id" v-bind:thread=thread v-bind:isPreview=false></post>
     <br>
     <div class="pagination">
-      <router-link v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :to="{ name: 'threads', params: { problemNumber: problemNumber, pageNumber: n } }">{{ n }}</router-link>
+      <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
       <!-- <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link> -->
       <!-- <span>&nbsp;&nbsp;&nbsp;문제 바로가기: <input type="text" id="jump_top" style="width:30px;" onkeypress="if (event.keyCode==13) location.href='../problem/'+this.value;"></span> -->
     </div>
