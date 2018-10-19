@@ -18,6 +18,10 @@ export const formatDate = (date) => {
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
 };
 
+export const dateFormat = (d) => {
+  return `${d.split('T')[0]} ${d.split('T')[1].split('.')[0]}`;
+};
+
 export const languageOptions = [
   { value: '1c' },
   { value: 'abnf' },

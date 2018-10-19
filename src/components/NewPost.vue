@@ -2,9 +2,7 @@
   <div id="forum_page">
     <div style="text-align:center;">
       <div style="font-size:80%;color:#aaa;">포스트를 작성할 때는 항상 예의를 생각합시다 :)</div>
-      <!-- <input type="hidden" name="post_token" value="170c7a2a646fd02221f7235cf576137ba23a0b97"> -->
-      <!-- <input type="hidden" name="post" value=""> -->
-      <textarea name="message" cols="100" rows="20" style="border:1px solid #aaa;padding:5px;" v-model="formula"></textarea><br>
+      <textarea name="message" cols="100" rows="20" style="border:1px solid #aaa;padding:5px;" v-model="thread.content"></textarea><br>
       
       <button v-on:click="toggleHasCode">코드 추가</button>&nbsp;&nbsp;&nbsp;&nbsp;
       <button v-on:click="submit">포스트 올리기</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -12,30 +10,16 @@
       <p style="font-size:80%;"><b>알림:</b> 작성한 포스트에 대해서는 전적으로 수정 및 삭제가 가능하며, 본인에게 모든 권한이 있습니다.</p>   
     </div>
     <div v-if="hasCode">
-      <select v-model="selected">
+      <select v-model="thread.language">
         <option v-for="option in languageOptions" v-bind:key="option.value" v-bind:value="option.value">
           {{ option.value }}
         </option>
       </select>
-      <codemirror v-model="code" :options="cmOptions"></codemirror>
+      <codemirror v-model="thread.code" :options="cmOptions"></codemirror>
     </div>
     <br>
     
-    <table class="forum_table">
-      <tbody>
-        <tr>
-          <td rowspan="2" class="forum_info">[미리보기]<br><div style="font-size:85%;">{{ formattedNow }}</div><span style="font-weight:bold;">5hyunseok</span>&nbsp; <img src="images/spacer.gif" width="21" height="1" alt=""></td>
-          <td><div class="action_buttons">&nbsp;</div></td>
-        </tr>
-        <tr><td>
-          <div class="forum_message">
-            <pre><vue-mathjax :formula="formula"></vue-mathjax></pre><br>
-            <pre v-highlightjs="code" v-if="hasCode"><code :class="selected"></code></pre>
-          </div>
-        </td></tr>
-      </tbody>
-    </table>
-    
+    <post v-bind:thread=thread v-bind:isPreview=true></post>
   </div>
 </template>
 
@@ -45,19 +29,19 @@ import 'codemirror/mode/javascript/javascript.js';
 // theme css
 import 'codemirror/theme/base16-dark.css';
 import { baseURI, formatDate, languageOptions } from './constants';
+import Post from '@/components/Post';
 
 export default {
   name: 'NewPost',
-  props: ['pageNumber'],
+  props: ['problemNumber'],
+  components: {
+    Post,
+  },
   data() {
     return {
       login: false,
-      formula: '',
       hasCode: false,
-      code: '# code here',
       now: '',
-      formattedNow: '',
-      language: 'python',
       cmOptions: {
         // codemirror options
         tabSize: 4,
@@ -67,13 +51,37 @@ export default {
         line: true,
         // more codemirror options, 更多 codemirror 的高级配置...
       },
-      selected: 'python',
+      // selected: 'python',
       languageOptions,
+      thread: {
+        content: '',
+        code: '',
+        created_at: '',
+        language: '',
+        user: {
+          uid: '',
+        },
+      },
     };
   },
   created() {
+    this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/length`, {
+      headers: {
+        'x-access-token': this.token,
+      },
+    })
+      .then((result) => {
+        // nothing to do
+      })
+      .catch((error) => {
+        if (error.response.data.message === 'NotSolved') {
+          this.$store.commit('users/setMsg', '접근 불가');
+        }
+        this.$router.push({ path: '/archives/1' });
+      });
     this.now = Date.now();
-    this.formattedNow = formatDate(this.now);
+    this.thread.created_at = formatDate(this.now);
+    this.thread.user.uid = this.$store.getters['users/getUsername'];
   },
   computed: {
     token() {
@@ -82,8 +90,21 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.formula);
-
+      this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/`, {
+        'content': this.thread.content,
+        'code': this.thread.code,
+        'language': this.thread.language,
+       }, {
+        headers: {
+          'x-access-token': this.$store.getters['users/getToken'],
+        },
+      })
+        .then((result) => {
+          this.$router.push({ path: `/threads/${this.problemNumber}/1` });
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     },
     onCodeChange(editor) {
       this.code = editor.getValue();
@@ -91,6 +112,7 @@ export default {
     },
     toggleHasCode() {
       this.hasCode = !this.hasCode;
+      this.thread.code = '';
     },
   },
 };

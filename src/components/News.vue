@@ -8,7 +8,7 @@
     </ul>
     <h2>최신 소식</h2>
     <div class="news" v-for="n in recentNews" :key="n.id">
-      <h4>{{ dateFormat(n.updated_at) }}: {{ n.title }}</h4>
+      <h4>{{ dateFormat(n.updated_at) }} {{ n.title }}</h4>
       <div>{{ n.content }}</div>
     </div>
     <div style="text-align:center"><button v-on:click="moreNews">지난 소식 불러오기</button></div>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { baseURI } from './constants';
+import { baseURI, dateFormat } from './constants';
 
 export default {
   name: 'Archives',
@@ -45,9 +45,6 @@ export default {
       });
   },
   methods: {
-    dateFormat(d) {
-      return d.split("T")[0];
-    },
     moreNews() {
       this.$http.get(`${baseURI}/news/more`)
         .then((result) => {
@@ -64,6 +61,7 @@ export default {
           }
         });
     },
+    dateFormat,
   }
 };
 </script>

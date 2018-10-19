@@ -10,6 +10,7 @@ import Notfound from '@/components/Notfound';
 import Problem from '@/components/Problem';
 import Mypage from '@/components/Mypage';
 import NewPost from '@/components/NewPost';
+import Threads from '@/components/Threads';
 
 Vue.use(Router);
 
@@ -67,6 +68,16 @@ export default new Router({
       path: '/new-post/:problemNumber',
       name: 'new-post',
       component: NewPost,
+      props: true,
+    },
+    {
+      path: '/threads/:problemNumber',
+      redirect: '/threads/:problemNumber/1',
+    },
+    {
+      path: '/threads/:problemNumber/:pageNumber',
+      name: 'threads',
+      component: Threads,
       props: true,
     },
     {

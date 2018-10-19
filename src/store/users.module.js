@@ -25,6 +25,12 @@ export default {
         state.msg = '';
       }, 3000);
     },
+    setMsg(state, m) {
+      state.msg = m;
+      setTimeout(() => {
+        state.msg = '';
+      }, 3000);
+    },
     setUsername(state, u) {
       localStorage.username = u;
       state.username = localStorage.username;

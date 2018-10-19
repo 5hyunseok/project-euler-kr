@@ -25,7 +25,7 @@
                 </td>
                 <!-- <td style="width:20px;"><a href="overview=001" title="Download overview PDF"><img src="images/icon_pdf.png" alt=""></a></td> -->
                 <td style="width:20px;">
-                  <a href=""><img :src=forum alt=""></a>
+                  <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link>
                 </td>
                 <td>
                   <div style="font-size:80%;text-align:right;color:#999;">{{ problem.postCount }} posts</div>
@@ -52,6 +52,11 @@ export default {
       solved,
       forum,
     };
+  },
+  computed: {
+    threadLink(id) {
+      return `/threads/${id}`;
+    },
   },
 };
 </script>
