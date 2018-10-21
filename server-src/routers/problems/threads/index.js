@@ -1,4 +1,4 @@
-// problems router
+// threads router
 const express = require('express');
 const controller = require('./controller');
 const asyncWrapper = require('../../../middleware/async-wrapper');

@@ -4,6 +4,7 @@ const controller = require('./controller');
 const asyncWrapper = require('../../middleware/async-wrapper');
 const threadAuth = require('../../middleware/thread-auth');
 const threads = require('./threads');
+const translates = require('./translates');
 
 const router = express.Router();
 
@@ -149,10 +150,16 @@ router.post('/:id/submit', asyncWrapper(controller.submit));
  */
 router.post('/:id/translate', asyncWrapper(controller.translate));
 
-router.use('/:id/threads', (req, res, next) => {
+const preParamSetting = (req,res, next) => {
   req.preParams = {};
   req.preParams.problemId = req.params.id;
   next();
-}, asyncWrapper(threadAuth), threads);
+};
+
+router.use('/:id/threads', preParamSetting, asyncWrapper(threadAuth), threads);
+
+router.use('/:id/translates', preParamSetting, translates);
+
+
 
 module.exports = router;
