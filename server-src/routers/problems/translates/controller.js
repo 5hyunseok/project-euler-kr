@@ -25,3 +25,30 @@ exports.translate = async (req, res) => {
 
   res.json({ success: true });
 };
+
+exports.getCount = async (req, res) => {
+  const numberOfTranslate = await models.translateSubmit.count();
+  const numberOfPages = Math.ceil(numberOfTranslate / 25);
+
+  res.json({ numberOfPages, numberOfTranslate });
+};
+
+exports.getList = async (req, res) => {
+  const id = req.preParams.problemId;
+  let pageIndex = 1;
+  if (req.query.page) {
+    pageIndex = parseInt(req.query.page, 10);
+  }
+
+  const translates = await models.translateSubmit.findAll({
+    offset: (pageIndex - 1) * 20,
+    limit: 20,
+    where: { problem_id: id },
+    include: [{
+      model: models.user,
+      attributes: models.projection.user.thread,
+    }],
+    order: ['created_at'],
+  });
+  res.json({ translates });
+};

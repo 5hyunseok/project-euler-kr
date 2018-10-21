@@ -136,6 +136,7 @@ exports.star = async (req, res) => {
     await models.threadStar.create({
       thread_id: tid,
       user_id: req.decoded.id,
+      thread_writer_id: thread.user_id,
     });
     thread.star += 1;
     await thread.save();

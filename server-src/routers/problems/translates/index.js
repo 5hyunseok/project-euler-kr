@@ -7,7 +7,7 @@ const router = express.Router();
 
 /**
  * @api {post} /api/problems/:id/translates Submit Translate
- * @apiGroup translate
+ * @apiGroup translates
  * @apiParam {String} title 번역된 제목
  * @apiParam {string} problem 번역된 문제
  * @apiParamExample {json} Request-Example:
@@ -25,6 +25,29 @@ const router = express.Router();
  * @apiError (Error Not Found) {String} message="NotFound"
  */
 router.post('/', asyncWrapper(controller.translate));
+
+/**
+ * @api {get} /api/problems/:id/translates/length Get Total Number of page & translates
+ * @apiGroup translates
+ * @apiSuccess {Number} numberOfPages page 개수
+ * @apiSuccess {Number} numberOfTranslate 총 translate 개수
+ */
+router.get('/length', asyncWrapper(controller.getCount));
+
+/**
+ * @api {get} /api/problems/:id/translates/?page={number} Get Translates List
+ * @apiGroup translates
+ * @apiSuccess (Success 200) {Object[]} translates
+ * @apiSuccess (Success 200) {Number} translates.id
+ * @apiSuccess (Success 200) {String} translates.title_kr 제목 번역한 것
+ * @apiSuccess (Success 200) {String} translates.problem_kr 문제 번역한 것
+ * @apiSuccess (Success 200) {Date} translates.created_at 글쓴 날짜
+ * @apiSuccess (Success 200) {Date} translates.updated_at 글 업데이트 날짜
+ * @apiSuccess (Success 200) {Object} translates.user 글쓴이 정보
+ * @apiSuccess (Success 200) {Number} translates.user.id 고유 번호
+ * @apiSuccess (Success 200) {String} translates.user.uid 닉
+ */
+router.get('/', asyncWrapper(controller.getList));
 
 
 

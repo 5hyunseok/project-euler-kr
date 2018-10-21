@@ -26,6 +26,7 @@ exports.getList = async (req, res) => {
       attributes: models.projection.problem.list,
       include: [{
         model: models.submit,
+        as: 'submits',
         attributes: ['solve_flag'],
         where: { solve_flag: 1, user_id: req.decoded.id },
         required: false,
@@ -93,7 +94,7 @@ exports.getOne = async (req, res) => {
     pending,
     solve,
     submitAnswer: solve ? solveChecking.answer : (pending ? pendingChecking.answer : ''),
-    submitDate: solve ? solveChecking.created_at : (pending ? pendingChecking.created_at : null),
+    submitDate: solve ? solveChecking.created_at : (pending ? pendingChecking.updated_at : null),
     hasAnswer: !!answer,
     hasKorean: !(problem.title_kr === '' || problem.title_kr === null),
   });
@@ -145,6 +146,7 @@ exports.submit = async (req, res) => {
 
   let isCorrect = false;
   let pending = false;
+  let pending_submit = null;
 
   if (answer) { // 답이 있을 때
     if (answer.answer === submitAnswer) {
@@ -152,14 +154,23 @@ exports.submit = async (req, res) => {
     }
   } else { // 답이 없을 때
     pending = true;
+    pending_submit = await models.submit.findOne({
+      where: { user_id: req.decoded.id, problem_id: id, pending_flag: 1 },
+    });
   }
-  await models.submit.create({
-    answer: submitAnswer,
-    solve_flag: isCorrect ? 1 : 0,
-    pending_flag: pending ? 1 : 0,
-    problem_id: id,
-    user_id: req.decoded.id,
-  });
+
+  if (!pending_submit) {
+    await models.submit.create({
+      answer: submitAnswer,
+      solve_flag: isCorrect ? 1 : 0,
+      pending_flag: pending ? 1 : 0,
+      problem_id: id,
+      user_id: req.decoded.id,
+    });
+  } else {
+    pending_submit.answer = submitAnswer;
+    await pending_submit.save();
+  }
 
   res.json({ pending, isCorrect });
 
@@ -177,6 +188,7 @@ exports.recent = async (req, res) => {
       attributes: models.projection.problem.list,
       include: [{
         model: models.submit,
+        as: 'submits',
         attributes: ['solve_flag'],
         where: { solve_flag: 1, user_id: req.decoded.id },
         required: false,

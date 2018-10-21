@@ -35,6 +35,9 @@ db.projection = {
   user: {
     thread: ['id', 'uid'],
   },
+  submit: {
+    pending: ['answer', ['updated_at', 'submit_date']],
+  },
 };
 
 module.exports = db;

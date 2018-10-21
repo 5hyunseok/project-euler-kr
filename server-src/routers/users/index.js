@@ -68,4 +68,32 @@ router.post('/login', asyncWrapper(controller.login));
  */
 router.put('/password', asyncWrapper(controller.updatePassword));
 
+/**
+ * @api {get} /api/users/my My Page Information
+ * @apiGroup users
+ * @apiSuccess (Success 200 로그인) {Object[]} problemsList
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.id
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title_kr
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.difficulty 난이도
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.pending_submits 이 배열 길이가 1이상이면 팬딩 됨
+ * @apiSuccess (Success 200 로그인) {Object[]} pendingProblemList
+ * @apiSuccess (Success 200 로그인) {Number} pendingProblemList.id
+ * @apiSuccess (Success 200 로그인) {String} pendingProblemList.title
+ * @apiSuccess (Success 200 로그인) {String} pendingProblemList.title_kr
+ * @apiSuccess (Success 200 로그인) {Number} pendingProblemList.difficulty 난이도
+ * @apiSuccess (Success 200 로그인) {Number} pendingProblemList.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Object[]} pendingProblemList.pending_submits 팬딩된 제출 정보
+ * @apiSuccess (Success 200 로그인) {Number} pendingProblemList.pending_submits.answer 제출 답
+ * @apiSuccess (Success 200 로그인) {Date} pendingProblemList.pending_submits.submit_date 제출 시간
+ * @apiSuccess (Success 200 로그인) {Number} threadCount 내가 쓴 포스트 수
+ * @apiSuccess (Success 200 로그인) {Number} threadStarCount 내가 받은 좋아요 수
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ */
+router.get('/my', asyncWrapper(controller.my));
+
 module.exports = router;
