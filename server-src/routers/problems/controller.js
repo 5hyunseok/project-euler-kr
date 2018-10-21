@@ -29,6 +29,9 @@ exports.getList = async (req, res) => {
         attributes: ['solve_flag'],
         where: { solve_flag: 1, user_id: req.decoded.id },
         required: false,
+      }, {
+        model: models.thread,
+        attributes: ['id'],
       }],
       order: ['id'],
     });
@@ -38,6 +41,11 @@ exports.getList = async (req, res) => {
       limit: config.problemPageSize,
       attributes: models.projection.problem.list,
       order: ['id'],
+      include: [{
+        model: models.thread,
+        attributes: ['id'],
+        required: false,
+      }]
     });
   }
 

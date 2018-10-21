@@ -45,5 +45,27 @@ router.post('/', asyncWrapper(controller.postIndex));
  */
 router.post('/login', asyncWrapper(controller.login));
 
+/**
+ * @api {put} /api/users/password Change Password
+ * @apiGroup users
+ * @apiParam {string} curPassword
+ * @apiParam {string} newPassword
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "curPassword": "mypassword123",
+ *      "newPassword": "asdasdasd"
+ *    }
+ * @apiSuccess {Boolean} success=true
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Wrong Information) {Boolean} error=true curPassword가 틀렸을 때
+ * @apiError (Error Wrong Information) {Number} status=403
+ * @apiError (Error Wrong Information) {String} message="NotMatch"
+ * @apiError (Error Password Format Error) {Boolean} error=true newPassword가 비밀번호 형식에 안맞을때
+ * @apiError (Error Password Format Error) {Number} status=403
+ * @apiError (Error Password Format Error) {String} message="PasswordFormatError"
+ */
+router.put('/password', asyncWrapper(controller.updatePassword));
 
 module.exports = router;

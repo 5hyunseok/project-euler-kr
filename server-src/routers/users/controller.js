@@ -44,3 +44,30 @@ exports.login = async (req, res) => {
   res.json({ token });
 };
 
+exports.updatePassword = async (req, res) => {
+  const { curPassword, newPassword } = req.body;
+
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+
+  const curEncrypted = cryptoWrapper.sha256Hex(curPassword);
+  const newEncrypted = cryptoWrapper.sha256Hex(newPassword);
+
+  const user = await models.user.findOne({
+    where: { uid: req.decoded.uid, password: curEncrypted },
+  });
+  if (!user) {
+    throw errorBuilder('NotMatch', 403, true);
+  }
+
+  if (newPassword.length < 8 || newPassword.length > 32) {
+    throw errorBuilder('PasswordFormatError', 403, true);
+  }
+
+  user.password = newEncrypted;
+  await user.save();
+
+  res.json({ success: true });
+};
+

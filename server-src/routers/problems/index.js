@@ -18,6 +18,7 @@ const router = express.Router();
  * @apiSuccess (Success 200 로그인) {Number} problems.difficulty 난이도
  * @apiSuccess (Success 200 로그인) {Number} problems.solver 정답자 수
  * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.threads 이 배열의 길이로 포스트 갯수 확인하셈 (sequelize 쓰는 법 넘나 어려워서 못하갯음)
  * @apiSuccess (Success 200 비로그인) {Boolean} login=false
  * @apiSuccess (Success 200 비로그인) {Object[]} problems
  * @apiSuccess (Success 200 비로그인) {Number} problems.id
@@ -25,6 +26,7 @@ const router = express.Router();
  * @apiSuccess (Success 200 비로그인) {String} problems.title_kr
  * @apiSuccess (Success 200 비로그인) {Number} problems.difficulty 난이도
  * @apiSuccess (Success 200 비로그인) {Number} problems.solver 정답자 수
+ * @apiSuccess (Success 200 비로그인) {Object[]} problems.threads 이 배열의 길이로 포스트 갯수 확인하셈 (sequelize 쓰는 법 넘나 어려워서 못하갯음)
  */
 router.get('/', asyncWrapper(controller.getList));
 
