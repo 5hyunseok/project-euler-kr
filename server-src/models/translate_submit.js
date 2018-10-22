@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const translateSubmit = sequelize.define('translateSubmit', {
     comment: {
       type: DataTypes.TEXT,
+      allowNull: false,
     },
     title_kr: {
       type: DataTypes.TEXT,

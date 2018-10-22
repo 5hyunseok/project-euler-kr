@@ -14,9 +14,10 @@ exports.translate = async (req, res) => {
     throw errorBuilder('NotFound', 404, true);
   }
 
-  const { title, problem } = req.body;
+  const { title, problem, comment } = req.body;
 
   await models.translateSubmit.create({
+    comment,
     title_kr: title,
     problem_kr: problem,
     user_id: req.decoded.id,
@@ -52,3 +53,46 @@ exports.getList = async (req, res) => {
   });
   res.json({ translates });
 };
+
+exports.delete = async (req, res) => {
+  const tid = req.params.tid;
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+
+  const translate = await models.translateSubmit.findById(tid);
+  if (!translate) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+  if (translate.user_id !== req.decoded.id) {
+    throw errorBuilder('Forbidden', 403, true);
+  }
+
+  await translate.destroy();
+
+  res.json({ success: true });
+};
+
+exports.update = async (req, res) => {
+  const tid = req.params.tid;
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+
+  const translate = await models.translateSubmit.findById(tid);
+  if (!translate) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+  if (translate.user_id !== req.decoded.id) {
+    throw errorBuilder('Forbidden', 403, true);
+  }
+  const { title, problem, comment } = req.body;
+
+  translate.title_kr = title;
+  translate.problem_kr = problem;
+  translate.comment = comment;
+  await translate.save();
+
+  res.json({ success: true });
+};
+

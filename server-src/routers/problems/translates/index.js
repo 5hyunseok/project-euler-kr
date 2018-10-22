@@ -8,10 +8,12 @@ const router = express.Router();
 /**
  * @api {post} /api/problems/:id/translates Submit Translate
  * @apiGroup translates
+ * @apiParam {String} comment 글귀
  * @apiParam {String} title 번역된 제목
  * @apiParam {string} problem 번역된 문제
  * @apiParamExample {json} Request-Example:
  *    {
+ *    	"comment": "aasdasd",
  *      "title": "3 또는 5의 배수",
  *      "problem": "<p>10 이하의 자연수 중 3 또는 5의 배수를 나열하면 3, 5, 6, 9다. 그리고 그 배수들의 합은 23이다.</p>
 1000 이하의 자연수 중 3 또는 5의 배수의 총합을 구하여라.</p>"
@@ -39,6 +41,7 @@ router.get('/length', asyncWrapper(controller.getCount));
  * @apiGroup translates
  * @apiSuccess (Success 200) {Object[]} translates
  * @apiSuccess (Success 200) {Number} translates.id
+ * @apiSuccess (Success 200) {String} translates.comment 글귀
  * @apiSuccess (Success 200) {String} translates.title_kr 제목 번역한 것
  * @apiSuccess (Success 200) {String} translates.problem_kr 문제 번역한 것
  * @apiSuccess (Success 200) {Date} translates.created_at 글쓴 날짜
@@ -49,6 +52,46 @@ router.get('/length', asyncWrapper(controller.getCount));
  */
 router.get('/', asyncWrapper(controller.getList));
 
+/**
+ * @api {delete} /api/problems/:id/translates/:translate_id Delete a Translate
+ * @apiGroup translates
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Auth Error2) {Boolean} error=true
+ * @apiError (Error Auth Error2) {Number} status=403
+ * @apiError (Error Auth Error2) {String} message="Forbidden" 글쓴이가 아닐떄
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ */
+router.delete('/:tid', asyncWrapper(controller.delete));
 
+/**
+ * @api {post} /api/problems/:id/translates/:translate_id Update a Translate
+ * @apiGroup translates
+ * @apiParam {String} comment 글귀
+ * @apiParam {String} title 번역된 제목
+ * @apiParam {string} problem 번역된 문제
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *    	"comment": "aasdasd",
+ *      "title": "3 또는 5의 배수",
+ *      "problem": "<p>10 이하의 자연수 중 3 또는 5의 배수를 나열하면 3, 5, 6, 9다. 그리고 그 배수들의 합은 23이다.</p>
+1000 이하의 자연수 중 3 또는 5의 배수의 총합을 구하여라.</p>"
+ *    }
+ * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiError (Error Auth Error2) {Boolean} error=true
+ * @apiError (Error Auth Error2) {Number} status=403
+ * @apiError (Error Auth Error2) {String} message="Forbidden" 글쓴이가 아닐떄
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ */
+router.post('/:tid', asyncWrapper(controller.update));
 
 module.exports = router;
