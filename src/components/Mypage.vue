@@ -174,6 +174,10 @@ export default {
               }
             })
           })
+          .catch((error) => {
+            this.$store.commit('users/setMsg', '접근 불가');
+            this.$router.push({ path: '/archives/1' });
+          })
       });
   },
   methods: {
