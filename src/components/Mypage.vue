@@ -52,28 +52,18 @@ export default {
       .then((result) => {
         this.totalPageNumber = result.data.numberOfPages;
         this.totalNumber = result.data.numberOfProblem;
-        let promises = [];
-        for(let i=1; i<=this.totalPageNumber; i++) {
-          promises.push(
-            this.$http.get(`${baseURI}/problems/?page=${i}`, {
-              headers: {
-                'x-access-token': this.token,
-              },
-            })
-          );
-        }
-        const promisesResolved = promises.map(promise => promise.catch(error => ({ error })));
-        this.$http.all(promisesResolved)
+        
+        this.$http.get(`${baseURI}/users/my`, {
+          headers: {
+            'x-access-token': this.token,
+          },
+        })
           .then((result) => {
-            result = result.map(arr => arr.data.problems);
-            console.log(result);
-            result.forEach(problems => {
-              problems.forEach(problem => {
-                if(problem.submits.length > 0) {
-                  this.countOfCorrection += 1;
-                }
-              })
-            });
+            result.data.problemsList.forEach(problem => {
+              if (problem.submits.length > 0) {
+                this.countOfCorrection += 1;
+              }
+            })
           })
       });
     

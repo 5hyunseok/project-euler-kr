@@ -27,8 +27,13 @@
                 <td style="width:20px;">
                   <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link>
                 </td>
+                <!--<td>
+                  <router-link :to="{ name: 'threads', params: { problemNumber: problem.id, pageNumber: Math.trunc(problem.threads.length / 25) + 1 } }">
+                    <div style="font-size:80%;" class="age_minutes">{{ problem.threads[problem.threads.length - 1] }}<br>2 minutes</div>
+                  </router-link>
+                </td>-->
                 <td>
-                  <div style="font-size:80%;text-align:right;color:#999;">{{ problem.postCount }} posts</div>
+                  <div style="font-size:80%;text-align:right;color:#999;">{{ problem.threads.length }} posts</div>
                 </td>
               </tr>
             </tbody>
