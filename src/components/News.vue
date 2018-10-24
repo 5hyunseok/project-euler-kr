@@ -51,18 +51,18 @@ export default {
           let hasDuplication = false;
           this.recentNews.forEach((r) => {
             result.data.news.forEach((m) => {
-              if(r.id === m.id) {
+              if (r.id === m.id) {
                 hasDuplication = true;
               }
             });
           });
-          if(!hasDuplication) {
+          if (!hasDuplication) {
             this.recentNews = this.recentNews.concat(result.data.news);
           }
         });
     },
     dateFormat,
-  }
+  },
 };
 </script>
 

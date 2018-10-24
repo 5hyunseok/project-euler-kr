@@ -58,7 +58,6 @@ export default {
         .then((loginResponse) => {
           this.$store.commit('users/setToken', loginResponse.data.token);
           this.$store.commit('users/setUsername', this.currentUsername);
-          
           this.$router.push({ path: 'archives/1' });
         })
         .catch((error) => {

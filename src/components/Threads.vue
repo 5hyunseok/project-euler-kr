@@ -22,10 +22,9 @@
 </template>
 
 <script>
-import { baseURI, dateFormat } from './constants';
-import { error } from 'util';
 import thumbsUp from '@/assets/icon_thumb_up.png';
 import Post from '@/components/Post';
+import { baseURI, dateFormat } from './constants';
 
 export default {
   name: 'Problem',
@@ -64,10 +63,9 @@ export default {
             'x-access-token': this.token,
           },
         })
-          .then((result) => {
-            this.threads = result.data.threads;
-            console.log(this.threads);
-          })
+          .then((innerResult) => {
+            this.threads = innerResult.data.threads;
+          });
       })
       .catch((error) => {
         if (error.response.data.message === 'NotSolved') {
@@ -75,7 +73,6 @@ export default {
         }
         this.$router.push({ path: '/archives/1' });
       });
-    
   },
   methods: {
     dateFormat,

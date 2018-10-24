@@ -3,11 +3,10 @@
     <div style="text-align:center;">
       <div style="font-size:80%;color:#aaa;">포스트를 작성할 때는 항상 예의를 생각합시다 :)</div>
       <textarea name="message" cols="100" rows="20" style="border:1px solid #aaa;padding:5px;" v-model="thread.content"></textarea><br>
-      
       <button v-on:click="toggleHasCode">코드 추가</button>&nbsp;&nbsp;&nbsp;&nbsp;
       <button v-on:click="submit">포스트 올리기</button>&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="button" value="취소" onclick="if(confirm('정말 취소하시겠습니까?\n작성중인 포스트 내용은 저장되지 않습니다.')){location.href='/archives/1';}">
-      <p style="font-size:80%;"><b>알림:</b> 작성한 포스트에 대해서는 전적으로 수정 및 삭제가 가능하며, 본인에게 모든 권한이 있습니다.</p>   
+      <p style="font-size:80%;"><b>알림:</b> 작성한 포스트에 대해서는 전적으로 수정 및 삭제가 가능하며, 본인에게 모든 권한이 있습니다.</p>
     </div>
     <div v-if="hasCode">
       <select v-model="thread.language">
@@ -18,18 +17,13 @@
       <codemirror v-model="thread.code" :options="cmOptions"></codemirror>
     </div>
     <br>
-    
     <post v-bind:thread=thread v-bind:isPreview=true></post>
   </div>
 </template>
 
 <script>
-// language js
-import 'codemirror/mode/javascript/javascript.js';
-// theme css
-import 'codemirror/theme/base16-dark.css';
-import { baseURI, formatDate, languageOptions } from './constants';
 import Post from '@/components/Post';
+import { baseURI, formatDate, languageOptions } from './constants';
 
 export default {
   name: 'NewPost',
@@ -70,7 +64,7 @@ export default {
         'x-access-token': this.token,
       },
     })
-      .then((result) => {
+      .then(() => {
         // nothing to do
       })
       .catch((error) => {
@@ -91,19 +85,16 @@ export default {
   methods: {
     submit() {
       this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/`, {
-        'content': this.thread.content,
-        'code': this.thread.code,
-        'language': this.thread.language,
-       }, {
+        content: this.thread.content,
+        code: this.thread.code,
+        language: this.thread.language,
+      }, {
         headers: {
           'x-access-token': this.$store.getters['users/getToken'],
         },
       })
-        .then((result) => {
+        .then(() => {
           this.$router.push({ path: `/threads/${this.problemNumber}/1` });
-        })
-        .catch((error) => {
-          console.log(error.response);
         });
     },
     onCodeChange(editor) {

@@ -13,7 +13,7 @@
             &nbsp; &nbsp;<a href="#">신고</a>
             &nbsp; &nbsp;<a title="Give Kudos" href="#" v-on:click="vote()">
               <img :src="thumbsUp" alt="" v-if="!isVoted">
-              <img :src="thumbsUpVoted" alt="" v-else> 
+              <img :src="thumbsUpVoted" alt="" v-else>
               {{ stars }}
               </a>
           </div>
@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import { formatDate, baseURI } from './constants';
 import thumbsUp from '@/assets/icon_thumb_up.png';
 import thumbsUpVoted from '@/assets/icon_thumb_up_voted.png';
+import { formatDate, baseURI } from './constants';
 
 export default {
   name: 'Post',
@@ -52,7 +52,7 @@ export default {
   },
   created() {
     if (!this.isPreview) {
-      if (this.thread.threadStars.length == 0) {
+      if (this.thread.threadStars.length === 0) {
         this.isVoted = false;
       } else {
         this.isVoted = true;
@@ -71,14 +71,11 @@ export default {
         .then((result) => {
           if (result.data.isIncrease) {
             this.isVoted = true;
-            this.stars++;
+            this.stars += 1;
           } else {
             this.isVoted = false;
-            this.stars--;
+            this.stars -= 1;
           }
-        })
-        .catch((error) => {
-          console.log(error.response);
         });
     },
   },

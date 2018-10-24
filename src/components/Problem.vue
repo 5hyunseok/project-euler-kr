@@ -107,18 +107,7 @@ export default {
         this.hasAnswer = result.data.hasAnswer;
         this.solve = result.data.solve;
         this.answer = result.data.submitAnswer;
-        console.log(result.data);
       });
-    // this.$http.get(`${baseURI}/problems/?page=${this.pageNumber}`, {
-    //   headers: {
-    //     'x-access-token': this.token,
-    //   },
-    // })
-    //   .then((result) => {
-    //     console.log(result.data);
-    //     this.problems = result.data.problems;
-    //     this.login = result.data.login;
-    //   });
   },
   methods: {
     submit() {
@@ -126,7 +115,6 @@ export default {
         this.msg = '정답은 숫자만 입력하세요';
         return;
       }
-      console.log(this.token);
       this.$http.post(`${baseURI}/problems/${this.problemNumber}/submit`, {
         answer: this.currentAnswer,
       }, {
@@ -141,9 +129,6 @@ export default {
           } else {
             this.msg = '틀렸습니다!';
           }
-        })
-        .catch((error) => {
-          console.log(error.response);
         });
     },
     isOnlyNumber(string) {

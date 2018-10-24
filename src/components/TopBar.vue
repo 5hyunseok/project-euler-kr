@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 
 export default {
   name: 'HelloWorld',
@@ -53,7 +52,7 @@ export default {
     },
   },
   watch: {
-    '$route' (to, from) {
+    $route: (to) => {
       this.routeName = to.name;
     },
   },

@@ -49,7 +49,7 @@ export default {
     },
     loginMsg() {
       return this.$store.getters['users/getMsg'];
-    }
+    },
   },
   created() {
     this.$http.get(`${baseURI}/problems/length`)
