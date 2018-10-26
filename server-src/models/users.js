@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = (models) => {
     models.user.hasMany(models.submit);
-    models.user.hasMany(models.translateSubmit);
+    models.user.hasMany(models.post);
+    models.user.hasMany(models.postReply);
     models.user.hasMany(models.thread);
     models.user.hasMany(models.threadStar);
     models.user.hasMany(models.threadReport);
