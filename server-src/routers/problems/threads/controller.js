@@ -3,7 +3,11 @@ const errorBuilder = require('../../../modules/error-builder');
 const models = require('../../../models');
 
 exports.getCount = async (req, res) => {
-  const numberOfThread = await models.thread.count();
+  const id = req.preParams.problemId;
+  
+  const numberOfThread = await models.thread.count({
+    where: { problem_id: id },
+  });
   const numberOfPages = Math.ceil(numberOfThread / 25);
 
   res.json({ numberOfPages, numberOfThread });
