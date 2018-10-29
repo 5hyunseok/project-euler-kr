@@ -1,5 +1,6 @@
 <template>
   <div id="forum_page">
+    <div id="message" class="noprint" v-if="deleteMsg">{{ deleteMsg }}</div>
     <h2>문제 {{ problemNumber }}</h2>
     <div class="pagination">
       <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
@@ -44,38 +45,52 @@ export default {
     token() {
       return this.$store.getters['users/getToken'];
     },
+    deleteSignal() {
+      return this.$store.getters['posts/getDeleteSignal'];
+    },
+    deleteMsg() {
+      return this.$store.getters['posts/getDeleteMsg'];
+    },
   },
   created() {
-    this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/length`, {
-      headers: {
-        'x-access-token': this.token,
-      },
-    })
-      .then((result) => {
-        this.totalPageNumber = result.data.numberOfPages;
-        if (this.totalPageNumber === 0) {
-          this.totalPageNumber += 1;
-        }
-        this.totalThreadNumber = result.data.numberOfThread;
-
-        this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/?page=${this.pageNumber}`, {
-          headers: {
-            'x-access-token': this.token,
-          },
-        })
-          .then((innerResult) => {
-            this.threads = innerResult.data.threads;
-          });
-      })
-      .catch((error) => {
-        if (error.response.data.message === 'NotSolved') {
-          this.$store.commit('users/setMsg', '접근 불가');
-        }
-        this.$router.push({ path: '/archives/1' });
-      });
+    this.init();
   },
   methods: {
     dateFormat,
+    init() {
+      this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/length`, {
+        headers: {
+          'x-access-token': this.token,
+        },
+      })
+        .then((result) => {
+          this.totalPageNumber = result.data.numberOfPages;
+          if (this.totalPageNumber === 0) {
+            this.totalPageNumber += 1;
+          }
+          this.totalThreadNumber = result.data.numberOfThread;
+
+          this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/?page=${this.pageNumber}`, {
+            headers: {
+              'x-access-token': this.token,
+            },
+          })
+            .then((innerResult) => {
+              this.threads = innerResult.data.threads;
+            });
+        })
+        .catch((error) => {
+          if (error.response.data.message === 'NotSolved') {
+            this.$store.commit('users/setMsg', '접근 불가');
+          }
+          this.$router.push({ path: '/archives/1' });
+        });
+    },
+  },
+  watch: {
+    deleteSignal: () => {
+      this.init();
+    }
   },
 };
 </script>

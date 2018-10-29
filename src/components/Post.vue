@@ -10,8 +10,10 @@
         </td>
         <td>
           <div class="action_buttons" v-if="!isPreview">
-            &nbsp; &nbsp;<a href="#">신고</a>
-            &nbsp; &nbsp;<a title="Give Kudos" href="#" v-on:click="vote()">
+            &nbsp; &nbsp;<a v-if="thread.user.uid === username">수정</a>
+            &nbsp; &nbsp;<a v-if="thread.user.uid === username" v-on:click="deletePost()">삭제</a>
+            &nbsp; &nbsp;<a v-if="thread.user.uid !== username">신고</a>
+            &nbsp; &nbsp;<a v-on:click="vote()">
               <img :src="thumbsUp" alt="" v-if="!isVoted">
               <img :src="thumbsUpVoted" alt="" v-else>
               {{ stars }}
@@ -50,6 +52,11 @@ export default {
       stars: 0,
     };
   },
+  computed: {
+    username() {
+      return this.$store.getters['users/getUsername'];
+    },
+  },
   created() {
     if (!this.isPreview) {
       if (this.thread.threadStars.length === 0) {
@@ -78,10 +85,17 @@ export default {
           }
         });
     },
+    deletePost() {
+      console.log('d');
+      this.$store.dispatch('posts/sendDeleteSignal');
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+a {
+  cursor: pointer;
+}
 </style>

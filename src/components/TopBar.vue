@@ -8,6 +8,7 @@
 
           <li v-bind:id="routeName == 'recent' ? 'current' : ''"><router-link :to="{ name: 'recent' }">최근 문제</router-link></li>
           <li v-if="token" v-bind:id="routeName == 'mypage' ? 'current' : ''"><router-link :to="{ name: 'mypage' }">내 계정</router-link></li>
+          <li v-if="token" v-bind:id="routeName == 'translate' ? 'current' : ''"><router-link :to="{ name: 'translate' }">번역하기</router-link></li>
           <li v-bind:id="routeName == 'news' ? 'current' : ''"><router-link :to="{ name: 'news' }">뉴스</router-link></li>
           <li v-if="!token" v-bind:id="routeName == 'register' ? 'current' : ''"><router-link :to="{ name: 'register' }">회원 가입</router-link></li>
           <li v-if="!token" v-bind:id="routeName == 'login' ? 'current' : ''"><router-link :to="{ name: 'login' }">로그인</router-link></li>
