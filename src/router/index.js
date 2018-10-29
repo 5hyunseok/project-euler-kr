@@ -12,6 +12,7 @@ import Mypage from '@/components/Mypage';
 import NewPost from '@/components/NewPost';
 import Threads from '@/components/Threads';
 import Translate from '@/components/Translate';
+import Rank from '@/components/Rank';
 
 Vue.use(Router);
 
@@ -86,6 +87,11 @@ export default new Router({
       name: 'translate',
       component: Translate,
       props: true,
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: Rank,
     },
     {
       path: '*',
