@@ -4,6 +4,7 @@ const errorBuilder = require('../modules/error-builder');
 const users = require('./users');
 const problems = require('./problems');
 const news = require('./news');
+const posts = require('./posts');
 
 
 const router = express.Router();
@@ -11,6 +12,7 @@ const router = express.Router();
 router.use('/users', users);
 router.use('/problems', problems);
 router.use('/news', news);
+router.use('/posts', posts);
 
 // 404 handler
 router.use((req, res, next) => {

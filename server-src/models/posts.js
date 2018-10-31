@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   post.associate = (models) => {
     models.post.belongsTo(models.user);
     models.post.belongsTo(models.problem, { foreignKey: 'problem_id'});
-    models.post.hasMany(models.postReply);
+    models.post.hasMany(models.postReply, { onDelete: 'cascade' });
   };
 
   return post;

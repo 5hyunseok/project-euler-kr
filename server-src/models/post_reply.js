@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
   postReply.associate = (models) => {
     models.postReply.belongsTo(models.user);
-    models.postReply.belongsTo(models.post);
+    models.postReply.belongsTo(models.post, { onDelete: 'cascade' });
   };
 
   return postReply;
