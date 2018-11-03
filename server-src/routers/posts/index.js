@@ -2,6 +2,9 @@
 const express = require('express');
 const controller = require('./controller');
 const asyncWrapper = require('../../middleware/async-wrapper');
+const errorBuilder = require('../../modules/error-builder');
+const models = require('../../models');
+const replies = require('./replies');
 
 const router = express.Router();
 
@@ -128,5 +131,20 @@ router.post('/:id', asyncWrapper(controller.update));
  * @apiError (Error Not Login) {String} message="NotLogin"
  */
 router.delete('/:id', asyncWrapper(controller.delete));
+
+const preParamSetting = async (req,res, next) => {
+  req.preParams = {};
+  req.preParams.postId = req.params.id;
+
+  const post = await models.post.findById(req.params.id);
+
+  if (!post) {
+    next(errorBuilder('NotFound', 404, true));
+    return;
+  }
+  next();
+};
+
+router.use('/:id/replies', preParamSetting, replies);
 
 module.exports = router;
