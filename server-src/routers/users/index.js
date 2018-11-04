@@ -96,4 +96,26 @@ router.put('/password', asyncWrapper(controller.updatePassword));
  */
 router.get('/my', asyncWrapper(controller.my));
 
+/**
+ * @api {get} /api/users/rating-list Rating List
+ * @apiGroup users
+ * @apiSuccess (Success 200) {Object[]} ratingList
+ * @apiSuccess (Success 200) {Number} ratingList.rank 순위
+ * @apiSuccess (Success 200) {Number} ratingList.user_id 유저 번호
+ * @apiSuccess (Success 200) {String} ratingList.uid 유저 아이디
+ * @apiSuccess (Success 200) {Number} ratingList.solve_count 푼 문제 수
+ * @apiSuccess (Success 200) {Number} ratingList.post_count 쓴 글 수
+ * @apiSuccess (Success 200) {Number} ratingList.thread_star_count 별 받은 겟수
+ * @apiSuccess (Success 200) {Number} ratingList.solve_ratio 정답 비율
+ * @apiSuccess (Success 200) {Object} myRating 로그인 안되있음 null 임
+ * @apiSuccess (Success 200) {Number} myRating.rank 순위
+ * @apiSuccess (Success 200) {Number} myRating.user_id 유저 번호
+ * @apiSuccess (Success 200) {String} myRating.uid 유저 아이디
+ * @apiSuccess (Success 200) {Number} myRating.solve_count 푼 문제 수
+ * @apiSuccess (Success 200) {Number} myRating.post_count 쓴 글 수
+ * @apiSuccess (Success 200) {Number} myRating.thread_star_count 별 받은 겟수
+ * @apiSuccess (Success 200) {Number} myRating.solve_ratio 정답 비율
+ */
+router.get('/rating-list', asyncWrapper(controller.ratingList));
+
 module.exports = router;

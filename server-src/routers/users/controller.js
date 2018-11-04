@@ -121,3 +121,34 @@ exports.my = async (req, res) => {
   res.json({ problemsList, pendingProblemList, threadCount, threadStarCount });
 };
 
+exports.ratingList = async (req, res) => {
+  const ratingList = await models.sequelize.query(`select @rank := @rank + 1 as rank, p.* from (
+select u.id as user_id, u.uid, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
+COALESCE(th_star.count, 0) as thread_star_count, round(COALESCE(COALESCE(s.count, 0)/COALESCE(s2.count, 0), 0)*100, 2) as solve_ratio
+from users u
+left join (select user_id, count(*) as count from submits where solve_flag=1 group by user_id) s on u.id = s.user_id
+left join (select user_id, count(*) as count from posts group by user_id) p on u.id = p.user_id
+left join (select user_id, count(*) as count from threads group by user_id) th on u.id = th.user_id
+left join (select thread_writer_id, count(*) as count from thread_star group by thread_writer_id) th_star on u.id = th_star.thread_writer_id
+left join (select user_id, count(distinct problem_id) as count from submits group by user_id) s2 on u.id = s2.user_id
+order by solve_count desc, post_count desc, thread_star_count desc, solve_ratio desc LIMIT 50) p, (select @rank := 0) r
+`, { type: models.sequelize.QueryTypes.SELECT});
+
+  let myRating = null;
+  if (req.hasToken) {
+    myRating = await models.sequelize.query(`select * from (
+select @rank := @rank + 1 as rank, p.* from (
+select u.id as user_id, u.uid, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
+COALESCE(th_star.count, 0) as thread_star_count, round(COALESCE(COALESCE(s.count, 0)/COALESCE(s2.count, 0), 0)*100, 2) as solve_ratio
+from users u
+left join (select user_id, count(*) as count from submits where solve_flag=1 group by user_id) s on u.id = s.user_id
+left join (select user_id, count(*) as count from posts group by user_id) p on u.id = p.user_id
+left join (select user_id, count(*) as count from threads group by user_id) th on u.id = th.user_id
+left join (select thread_writer_id, count(*) as count from thread_star group by thread_writer_id) th_star on u.id = th_star.thread_writer_id
+left join (select user_id, count(distinct problem_id) as count from submits group by user_id) s2 on u.id = s2.user_id
+order by solve_count desc, post_count desc, thread_star_count desc, solve_ratio desc) p, (select @rank := 0) r ) t
+where t.user_id = ${req.decoded.id};`, { type: models.sequelize.QueryTypes.SELECT});
+  }
+
+  res.json({ ratingList, myRating: myRating ? myRating[0] : null });
+};
