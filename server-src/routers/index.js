@@ -4,13 +4,16 @@ const errorBuilder = require('../modules/error-builder');
 const users = require('./users');
 const problems = require('./problems');
 const news = require('./news');
-
+const posts = require('./posts');
+const auth = require('./auth');
 
 const router = express.Router();
 
 router.use('/users', users);
 router.use('/problems', problems);
 router.use('/news', news);
+router.use('/posts', posts);
+router.use('/auth', auth);
 
 // 404 handler
 router.use((req, res, next) => {

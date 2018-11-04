@@ -4,7 +4,6 @@ const controller = require('./controller');
 const asyncWrapper = require('../../middleware/async-wrapper');
 const threadAuth = require('../../middleware/thread-auth');
 const threads = require('./threads');
-const translates = require('./translates');
 
 const router = express.Router();
 
@@ -136,9 +135,5 @@ const preParamSetting = (req,res, next) => {
 };
 
 router.use('/:id/threads', preParamSetting, asyncWrapper(threadAuth), threads);
-
-router.use('/:id/translates', preParamSetting, translates);
-
-
 
 module.exports = router;
