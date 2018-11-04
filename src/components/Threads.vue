@@ -2,6 +2,7 @@
   <div id="forum_page">
     <div id="message" class="noprint" v-if="deleteMsg">{{ deleteMsg }}</div>
     <h2>문제 {{ problemNumber }}</h2>
+    <div style="text-align:right;"><router-link :to="{ name: 'new-thread', params: { problemNumber: problemNumber } }">포스트 쓰기</router-link></div>
     <div class="pagination">
       <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
       <!-- <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link> -->
@@ -49,14 +50,6 @@ export default {
   },
   created() {
     this.init();
-  },
-  watch: {
-    deleteSignal() {
-      console.log('test');
-      console.log(this.$store.getters['users/getToken']);
-      
-      this.$store.commit('posts/deleteSignalOff');
-    },
   },
   methods: {
     dateFormat,

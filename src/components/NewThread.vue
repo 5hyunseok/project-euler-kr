@@ -27,7 +27,7 @@ import { baseURI, formatDate, languageOptions } from './constants';
 
 export default {
   name: 'NewThread',
-  props: ['problemNumber'],
+  props: ['problemNumber', 'threadToModify'],
   components: {
     Thread,
   },
@@ -56,9 +56,11 @@ export default {
           uid: '',
         },
       },
+      threadId: '',
     };
   },
   created() {
+    console.log(this.problemNumber);
     this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/length`, {
       headers: {
         'x-access-token': this.token,
@@ -73,9 +75,13 @@ export default {
         }
         this.$router.push({ path: '/archives/1' });
       });
-    this.now = Date.now();
-    this.thread.created_at = formatDate(this.now);
-    this.thread.user.uid = this.$store.getters['users/getUsername'];
+    if (this.threadToModify) {
+      this.thread = this.threadToModify;
+    } else {
+      this.now = Date.now();
+      this.thread.created_at = formatDate(this.now);
+      this.thread.user.uid = this.$store.getters['users/getUsername'];
+    }
   },
   computed: {
     token() {
@@ -84,18 +90,26 @@ export default {
   },
   methods: {
     submit() {
-      this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/`, {
-        content: this.thread.content,
-        code: this.thread.code,
-        language: this.thread.language,
-      }, {
-        headers: {
-          'x-access-token': this.$store.getters['users/getToken'],
-        },
-      })
-        .then(() => {
-          this.$router.push({ path: `/threads/${this.problemNumber}/1` });
-        });
+      let updateOrNot = true;
+      if (this.threadToModify && confirm('수정하시겠습니까?')) {
+        this.threadId = this.threadToModify.id;
+      } else {
+        updateOrNot = false;
+      }
+      if(!this.threadToModify || updateOrNot) {
+      this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/${this.threadId}`, {
+          content: this.thread.content,
+          code: this.thread.code,
+          language: this.thread.language,
+        }, {
+          headers: {
+            'x-access-token': this.$store.getters['users/getToken'],
+          },
+        })
+          .then(() => {
+            this.$router.push({ path: `/threads/${this.problemNumber}/1` });
+          });
+        }  
     },
     onCodeChange(editor) {
       this.code = editor.getValue();
