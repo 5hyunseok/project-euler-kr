@@ -9,9 +9,10 @@ import Register from '@/components/Register';
 import Notfound from '@/components/Notfound';
 import Problem from '@/components/Problem';
 import Mypage from '@/components/Mypage';
-import NewPost from '@/components/NewPost';
+import NewThread from '@/components/NewThread';
 import Threads from '@/components/Threads';
 import Translate from '@/components/Translate';
+import Rank from '@/components/Rank';
 
 Vue.use(Router);
 
@@ -66,9 +67,9 @@ export default new Router({
       component: Mypage,
     },
     {
-      path: '/new-post/:problemNumber',
-      name: 'new-post',
-      component: NewPost,
+      path: '/new-thread/:problemNumber',
+      name: 'new-thread',
+      component: NewThread,
       props: true,
     },
     {
@@ -86,6 +87,11 @@ export default new Router({
       name: 'translate',
       component: Translate,
       props: true,
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: Rank,
     },
     {
       path: '*',

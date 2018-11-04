@@ -2,6 +2,7 @@
   <div id="forum_page">
     <div id="message" class="noprint" v-if="deleteMsg">{{ deleteMsg }}</div>
     <h2>문제 {{ problemNumber }}</h2>
+    <div style="text-align:right;"><router-link :to="{ name: 'new-thread', params: { problemNumber: problemNumber } }">포스트 쓰기</router-link></div>
     <div class="pagination">
       <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
       <!-- <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link> -->
@@ -9,7 +10,7 @@
     </div>
     <div style="clear:both;"></div>
     <br>
-    <post v-for="thread in threads" :key="thread.id" v-bind:thread=thread v-bind:isPreview=false></post>
+    <thread v-for="thread in threads" :key="thread.id" v-bind:thread=thread v-bind:isPreview=false v-on:deletePost="deletePost(thread.id)"></thread>
     <br>
     <div class="pagination">
       <a v-for="n in totalPageNumber" :key=n :class="n == pageNumber ? 'current' : ''" :href="`/threads/${problemNumber}/${n}`">{{ n }}</a>
@@ -18,20 +19,20 @@
     </div>
     <div style="clear:both;"></div>
     <br>
-    <div style="text-align:right;"><router-link :to="{ name: 'new-post', params: { problemNumber: problemNumber } }">포스트 쓰기</router-link></div>
+    <div style="text-align:right;"><router-link :to="{ name: 'new-thread', params: { problemNumber: problemNumber } }">포스트 쓰기</router-link></div>
   </div>
 </template>
 
 <script>
 import thumbsUp from '@/assets/icon_thumb_up.png';
-import Post from '@/components/Post';
+import Thread from '@/components/Thread';
 import { baseURI, dateFormat } from './constants';
 
 export default {
-  name: 'Problem',
+  name: 'Threads',
   props: ['problemNumber', 'pageNumber'],
   components: {
-    Post,
+    Thread,
   },
   data() {
     return {
@@ -39,17 +40,12 @@ export default {
       totalPageNumber: 0,
       totalThreadNumber: 0,
       threads: [],
+      deleteMsg: '',
     };
   },
   computed: {
     token() {
       return this.$store.getters['users/getToken'];
-    },
-    deleteSignal() {
-      return this.$store.getters['posts/getDeleteSignal'];
-    },
-    deleteMsg() {
-      return this.$store.getters['posts/getDeleteMsg'];
     },
   },
   created() {
@@ -86,11 +82,24 @@ export default {
           this.$router.push({ path: '/archives/1' });
         });
     },
-  },
-  watch: {
-    deleteSignal: () => {
-      this.init();
-    }
+    deletePost(threadId) {
+      this.$http.delete(`${baseURI}/problems/${this.problemNumber}/threads/${threadId}`, {
+          headers: {
+            'x-access-token': this.$store.getters['users/getToken'],
+          },
+        })
+          .then(() => {
+            // this.$router.push({ path: `/threads/${this.problemNumber}/1` });
+            this.init();
+            this.deleteMsg = '성공적으로 삭제되었습니다.';
+            setTimeout(() => {
+              this.deleteMsg = '';
+            }, 3000);
+          })
+          .catch(() => {
+
+          });
+    },
   },
 };
 </script>

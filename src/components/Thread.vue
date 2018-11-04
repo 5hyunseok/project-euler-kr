@@ -10,7 +10,7 @@
         </td>
         <td>
           <div class="action_buttons" v-if="!isPreview">
-            &nbsp; &nbsp;<a v-if="thread.user.uid === username">수정</a>
+            &nbsp; &nbsp;<router-link :to="{ name: 'new-thread', params: { problemNumber: thread.problem_id, threadToModify: thread } }" v-if="thread.user.uid === username">수정</router-link>
             &nbsp; &nbsp;<a v-if="thread.user.uid === username" v-on:click="deletePost()">삭제</a>
             &nbsp; &nbsp;<a v-if="thread.user.uid !== username">신고</a>
             &nbsp; &nbsp;<a v-on:click="vote()">
@@ -86,8 +86,9 @@ export default {
         });
     },
     deletePost() {
-      console.log('d');
-      this.$store.dispatch('posts/sendDeleteSignal');
+      if (confirm('삭제하시겠습니까?')) {
+        this.$emit('deletePost');
+      };
     },
   },
 };

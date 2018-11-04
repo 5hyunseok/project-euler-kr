@@ -4,7 +4,6 @@
     totalPageNumber: {{ totalPageNumber }}<br>
     login: {{ login }}
   <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
-  <div id="message" class="noprint" v-if="loginMsg">{{ loginMsg }}</div>
   <h2>번역 게시판</h2>
     <p>
       번역하는 게시판입니다.
