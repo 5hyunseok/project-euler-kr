@@ -123,7 +123,7 @@ exports.my = async (req, res) => {
 
 exports.ratingList = async (req, res) => {
   const ratingList = await models.sequelize.query(`select @rank := @rank + 1 as rank, p.* from (
-select u.id as user_id, u.uid, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
+select u.id as user_id, u.uid, u.short_message, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
 COALESCE(th_star.count, 0) as thread_star_count, round(COALESCE(COALESCE(s.count, 0)/COALESCE(s2.count, 0), 0)*100, 2) as solve_ratio
 from users u
 left join (select user_id, count(*) as count from submits where solve_flag=1 group by user_id) s on u.id = s.user_id
@@ -138,7 +138,7 @@ order by solve_count desc, post_count desc, thread_star_count desc, solve_ratio 
   if (req.hasToken) {
     myRating = await models.sequelize.query(`select * from (
 select @rank := @rank + 1 as rank, p.* from (
-select u.id as user_id, u.uid, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
+select u.id as user_id, u.uid, u.short_message, COALESCE(s.count, 0) as solve_count, COALESCE(p.count, 0)+COALESCE(th.count, 0) as post_count,
 COALESCE(th_star.count, 0) as thread_star_count, round(COALESCE(COALESCE(s.count, 0)/COALESCE(s2.count, 0), 0)*100, 2) as solve_ratio
 from users u
 left join (select user_id, count(*) as count from submits where solve_flag=1 group by user_id) s on u.id = s.user_id
