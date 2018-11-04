@@ -17,19 +17,19 @@
       <codemirror v-model="thread.code" :options="cmOptions"></codemirror>
     </div>
     <br>
-    <post v-bind:thread=thread v-bind:isPreview=true></post>
+    <thread v-bind:thread=thread v-bind:isPreview=true></thread>
   </div>
 </template>
 
 <script>
-import Post from '@/components/Post';
+import Thread from '@/components/Thread';
 import { baseURI, formatDate, languageOptions } from './constants';
 
 export default {
-  name: 'NewPost',
+  name: 'NewThread',
   props: ['problemNumber'],
   components: {
-    Post,
+    Thread,
   },
   data() {
     return {

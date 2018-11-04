@@ -86,8 +86,8 @@ export default {
         });
     },
     deletePost() {
-      console.log('d');
-      this.$store.dispatch('posts/sendDeleteSignal');
+      confirm('삭제하시겠습니까?');
+      this.$emit('deletePost');
     },
   },
 };
