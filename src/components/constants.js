@@ -1,4 +1,4 @@
-export const baseURI = 'http://localhost:3000/api';
+export const baseURI = '/api';
 
 export const formatDate = (date) => {
   const d = new Date(date);
