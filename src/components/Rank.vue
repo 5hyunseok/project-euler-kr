@@ -53,14 +53,10 @@
 </template>
 
 <script>
-import RankTable from '@/components/RankTable';
 import { baseURI } from './constants';
 
 export default {
   name: 'Rank',
-  components: {
-    RankTable,
-  },
   data() {
     return {
       ratingList: [],
