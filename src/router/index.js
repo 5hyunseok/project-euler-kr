@@ -11,8 +11,10 @@ import Problem from '@/components/Problem';
 import Mypage from '@/components/Mypage';
 import NewThread from '@/components/NewThread';
 import Threads from '@/components/Threads';
-import Translate from '@/components/Translate';
+import Translates from '@/components/Translates';
 import Rank from '@/components/Rank';
+import Post from '@/components/Post';
+import NewPost from '@/components/NewPost';
 
 Vue.use(Router);
 
@@ -83,15 +85,26 @@ export default new Router({
       props: true,
     },
     {
-      path: '/translate/:pageNumber',
+      path: '/translate',
       name: 'translate',
-      component: Translate,
-      props: true,
+      component: Translates,
     },
     {
       path: '/rank',
       name: 'rank',
       component: Rank,
+    },
+    {
+      path: '/post/:postId',
+      name: 'post',
+      component: Post,
+      props: true,
+    },
+    {
+      path: '/new-post',
+      name: 'new-post',
+      component: NewPost,
+      props: true,
     },
     {
       path: '*',

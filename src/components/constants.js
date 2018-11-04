@@ -18,6 +18,16 @@ export const formatDate = (date) => {
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
 };
 
+export const translateCategory = (c) => {
+  if (c === 'TRANS') {
+    return '번역';
+  } else if (c === 'MISS') {
+    return '오역';
+  } else if (c === 'FREE') {
+    return '자유';
+  }
+};
+
 export const dateFormat = d => `${d.split('T')[0]} ${d.split('T')[1].split('.')[0]}`;
 
 export const languageOptions = [

@@ -67,7 +67,6 @@ export default {
   watch: {
     $route: (to) => {
       this.routeName = to.name;
-      console.log(this.routeName);
     },
   },
 };

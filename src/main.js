@@ -5,11 +5,14 @@ import Vue from 'vue';
 import VueMathjax from 'vue-mathjax';
 import VueCodemirror from 'vue-codemirror';
 import VueHighlightJS from 'vue-highlightjs';
+import Element from 'element-ui';
+import lang from 'element-ui/lib/locale/lang/en';
+import locale from 'element-ui/lib/locale';
+import 'element-ui/lib/theme-chalk/index.css';
 import '@/codemirror.css';
 import App from './App';
 import router from './router';
 import store from './store';
-
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
@@ -17,6 +20,9 @@ Vue.prototype.$http = axios;
 Vue.use(VueMathjax);
 Vue.use(VueHighlightJS);
 Vue.use(VueCodemirror);
+Vue.use(Element);
+
+locale.use(lang);
 
 /* eslint-disable no-new */
 new Vue({

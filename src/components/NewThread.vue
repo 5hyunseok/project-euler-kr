@@ -96,8 +96,8 @@ export default {
       } else {
         updateOrNot = false;
       }
-      if(!this.threadToModify || updateOrNot) {
-      this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/${this.threadId}`, {
+      if (!this.threadToModify || updateOrNot) {
+        this.$http.post(`${baseURI}/problems/${this.problemNumber}/threads/${this.threadId}`, {
           content: this.thread.content,
           code: this.thread.code,
           language: this.thread.language,
@@ -109,7 +109,7 @@ export default {
           .then(() => {
             this.$router.push({ path: `/threads/${this.problemNumber}/1` });
           });
-        }  
+      }
     },
     onCodeChange(editor) {
       this.code = editor.getValue();
