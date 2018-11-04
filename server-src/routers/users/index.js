@@ -103,6 +103,7 @@ router.get('/my', asyncWrapper(controller.my));
  * @apiSuccess (Success 200) {Number} ratingList.rank 순위
  * @apiSuccess (Success 200) {Number} ratingList.user_id 유저 번호
  * @apiSuccess (Success 200) {String} ratingList.uid 유저 아이디
+ * @apiSuccess (Success 200) {String} ratingList.short_message 한줄 인사
  * @apiSuccess (Success 200) {Number} ratingList.solve_count 푼 문제 수
  * @apiSuccess (Success 200) {Number} ratingList.post_count 쓴 글 수
  * @apiSuccess (Success 200) {Number} ratingList.thread_star_count 별 받은 겟수
@@ -111,6 +112,7 @@ router.get('/my', asyncWrapper(controller.my));
  * @apiSuccess (Success 200) {Number} myRating.rank 순위
  * @apiSuccess (Success 200) {Number} myRating.user_id 유저 번호
  * @apiSuccess (Success 200) {String} myRating.uid 유저 아이디
+ * @apiSuccess (Success 200) {String} myRating.short_message  한줄 인사
  * @apiSuccess (Success 200) {Number} myRating.solve_count 푼 문제 수
  * @apiSuccess (Success 200) {Number} myRating.post_count 쓴 글 수
  * @apiSuccess (Success 200) {Number} myRating.thread_star_count 별 받은 겟수

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'USER',
     },
+    short_message: {
+      type: DataTypes.STRING(300),
+      defaultValue: 'Project Euler!'
+    }
   }, {
     underscored: true,
     indexes: [{ unique: true, fields: ['uid'] }],
