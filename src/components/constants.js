@@ -26,6 +26,7 @@ export const translateCategory = (c) => {
   } else if (c === 'FREE') {
     return '자유';
   }
+  return '';
 };
 
 export const dateFormat = d => `${d.split('T')[0]} ${d.split('T')[1].split('.')[0]}`;

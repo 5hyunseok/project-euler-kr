@@ -95,7 +95,7 @@ export default {
             title: this.post.title,
             content: this.post.content,
             category: this.post.category,
-            problem_id: this.post.problem_id,
+            problem_id: this.post.category === 'FREE' ? null : this.post.problem_id,
           }, {
             headers: {
               'x-access-token': this.$store.getters['users/getToken'],
