@@ -73,10 +73,11 @@ router.get('/:id', asyncWrapper(controller.getOne));
  *    {
  *      "title": "이거좀 보셈 이상함",
  *      "category": "MISS",
- *      "content": "저거좀 보셈 이상해"
+ *      "content": "저거좀 보셈 이상해",
  *      "problem_id": 3
  *    }
  * @apiSuccess (Success 200 로그인) {Boolean} success=true
+ * @apiSuccess (Success 200 로그인) {Number} postId 새로 만들어진 post 아이디
  * @apiError (Error Not Login) {Boolean} error=true
  * @apiError (Error Not Login) {Number} status=401
  * @apiError (Error Not Login) {String} message="NotLogin"

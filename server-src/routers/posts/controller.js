@@ -64,7 +64,7 @@ exports.getList = async (req, res) => {
       model: models.postReply,
       attributes: ['id'],
     }],
-    order: ['created_at'],
+    order: [['created_at', 'DESC']],
   });
   res.json({ posts });
 };
@@ -99,7 +99,7 @@ exports.post = async (req, res) => {
     throw errorBuilder('CategoryError', 406, true);
   }
 
-  await models.post.create({
+  const post = await models.post.create({
     title,
     category,
     content,
@@ -107,7 +107,7 @@ exports.post = async (req, res) => {
     user_id: req.decoded.id,
   });
 
-  res.json({ success: true });
+  res.json({ success: true, postId: post.id });
 };
 
 exports.update = async (req, res) => {

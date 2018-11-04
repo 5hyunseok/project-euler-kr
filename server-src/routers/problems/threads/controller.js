@@ -4,7 +4,7 @@ const models = require('../../../models');
 
 exports.getCount = async (req, res) => {
   const id = req.preParams.problemId;
-  
+
   const numberOfThread = await models.thread.count({
     where: { problem_id: id },
   });
@@ -33,7 +33,7 @@ exports.getList = async (req, res) => {
       attributes: ['user_id'],
       required: false,
     }],
-    order: ['created_at'],
+    order: [['created_at', 'DESC']],
   });
   res.json({ threads });
 };
