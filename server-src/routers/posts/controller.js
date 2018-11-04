@@ -2,6 +2,8 @@
 const errorBuilder = require('../../modules/error-builder');
 const models = require('../../models');
 
+const postPageSize = 20;
+
 // TODO:: filter
 exports.getCount = async (req, res) => {
   const where = {};
@@ -25,7 +27,7 @@ exports.getCount = async (req, res) => {
   const numberOfPost = await models.post.count({
     where
   });
-  const numberOfPages = Math.ceil(numberOfPost / 20);
+  const numberOfPages = Math.ceil(numberOfPost / postPageSize);
 
   res.json({ numberOfPages, numberOfPost });
 };
@@ -54,8 +56,8 @@ exports.getList = async (req, res) => {
   }
 
   const posts = await models.post.findAll({
-    offset: (pageIndex - 1) * 25,
-    limit: 25,
+    offset: (pageIndex - 1) * postPageSize,
+    limit: postPageSize,
     where,
     include: [{
       model: models.user,

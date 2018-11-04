@@ -2,13 +2,15 @@
 const errorBuilder = require('../../../modules/error-builder');
 const models = require('../../../models');
 
+const threadPageSize = 25;
+
 exports.getCount = async (req, res) => {
   const id = req.preParams.problemId;
 
   const numberOfThread = await models.thread.count({
     where: { problem_id: id },
   });
-  const numberOfPages = Math.ceil(numberOfThread / 25);
+  const numberOfPages = Math.ceil(numberOfThread / threadPageSize);
 
   res.json({ numberOfPages, numberOfThread });
 };
@@ -21,8 +23,8 @@ exports.getList = async (req, res) => {
   }
 
   const threads = await models.thread.findAll({
-    offset: (pageIndex - 1) * 25,
-    limit: 25,
+    offset: (pageIndex - 1) * threadPageSize,
+    limit: threadPageSize,
     where: { problem_id: id },
     include: [{
       model: models.user,
