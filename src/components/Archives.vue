@@ -1,8 +1,5 @@
 <template>
   <div id="problems_table_page">
-    pageNumber: {{ pageNumber }}<br>
-    totalPageNumber: {{ totalPageNumber }}<br>
-    login: {{ login }}
   <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
   <div id="message" class="noprint" v-if="loginMsg">{{ loginMsg }}</div>
   <h2>문제 아카이브</h2>
