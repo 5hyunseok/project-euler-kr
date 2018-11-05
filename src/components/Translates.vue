@@ -1,5 +1,5 @@
 <template>
-  <div id="problems_table_page">
+  <div id="problems_table_page" v-if="loadComplete">
   <h2>번역 게시판</h2>
     <p>
       번역하는 게시판입니다.
@@ -68,6 +68,7 @@ export default {
       totalPostNumber: 0,
       problems: [],
       translates: [],
+      loadComplete: false,
     };
   },
   computed: {
@@ -85,6 +86,7 @@ export default {
         this.totalPostNumber = result.data.numberOfPost;
       });
     this.setPosts(this.pageNumber);
+    this.loadComplete = true;
   },
   methods: {
     dateFormat,

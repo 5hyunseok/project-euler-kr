@@ -1,5 +1,5 @@
 <template>
-  <div id="problems_table_page">
+  <div id="problems_table_page" v-if="loadComplete">
   <!-- <div id="cache_info">Cache update: 26 minutes</div> -->
   <div id="message" class="noprint" v-if="loginMsg">{{ loginMsg }}</div>
   <h2>문제 아카이브</h2>
@@ -38,6 +38,7 @@ export default {
       login: false,
       totalPageNumber: 0,
       problems: [],
+      loadComplete: false,
     };
   },
   computed: {
@@ -61,6 +62,7 @@ export default {
       .then((result) => {
         this.problems = result.data.problems;
         this.login = result.data.login;
+        this.loadComplete = true;
       })
       .catch((error) => {
         if (error.response.status === 401) {
