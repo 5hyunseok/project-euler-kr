@@ -18,7 +18,7 @@
       <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == reply.user.uid" @click="deleteReply(reply.id)"><h5>삭제</h5></el-button>
       <!-- <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == reply.user.uid"><h5>수정</h5></el-button> -->
       <div class="text item">
-        <h5>{{ reply.content }}</h5>
+        {{ reply.content }}
       </div>
       
     </el-card>
