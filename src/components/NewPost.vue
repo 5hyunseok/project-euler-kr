@@ -1,8 +1,8 @@
 <template>
   <div id="forum_page">
+    <span class="warning">{{ msg }}</span>
     <br>
     <el-form label-width="120px">
-      
       <el-form-item label="카테고리">
         <el-select v-model="post.category" :disabled="modify">
           <el-option label="번역" value="TRANS"></el-option>
@@ -33,6 +33,7 @@
 
 <script>
 import { baseURI, dateFormat } from './constants';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'NewPost',
@@ -56,6 +57,7 @@ export default {
   data() {
     return {
       submit: '등록',
+      msg: '',
     };
   },
   computed: {
@@ -103,15 +105,25 @@ export default {
           })
             .then((result) => {
               this.$router.push({ path: `/post/${result.data.postId}` });
-            });
+            })
+            .catch(() => {
+              this.msg = '잘못된 문제번호입니다.';
+            })
       }
     },
     onCancel() {
       if (confirm('취소하시겠습니까?')) {
         this.$router.go(-1);
       }
-    }
+    },
   },
+  watch: {
+    msg() {
+      setTimeout(() => {
+        this.msg = '';
+      }, 3000);
+    }
+  }
 };
 </script>
 
