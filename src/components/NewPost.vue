@@ -4,7 +4,7 @@
     <el-form label-width="120px">
       
       <el-form-item label="카테고리">
-        <el-select v-model="post.category">
+        <el-select v-model="post.category" :disabled="modify">
           <el-option label="번역" value="TRANS"></el-option>
           <el-option label="오역" value="MISS"></el-option>
           <el-option label="자유" value="FREE"></el-option>
