@@ -13,7 +13,7 @@
     
       <el-form-item label="문제번호" v-if="post.category == 'TRANS' || post.category == 'MISS'">
         <el-col :span="5">
-        <el-input v-model="post.problem_id"></el-input>
+        <el-input v-model="post.problem_id" :disabled="modify"></el-input>
         </el-col>
       </el-form-item>
       
