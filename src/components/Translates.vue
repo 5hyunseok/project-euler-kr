@@ -11,7 +11,7 @@
       :data="translates"
       stripe
       border
-      @current-change="postLink"
+      
       style="width: 100%">
       <el-table-column
         prop="category"
@@ -21,6 +21,9 @@
       <el-table-column
         prop="title"
         label="제목">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'post', params: { postId: scope.row.id }}">{{ scope.row.title }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="problem_id"
@@ -80,13 +83,24 @@ export default {
     },
   },
   created() {
-    this.$http.get(`${baseURI}/posts/length?category=TRANS`)
-      .then((result) => {
-        this.totalPageNumber = result.data.numberOfPages;
-        this.totalPostNumber = result.data.numberOfPost;
+    this.$http.get(`${baseURI}/auth/token-validation`, {
+      headers: {
+        'x-access-token': this.token,
+      },
+    })
+      .then(() => {
+        this.$http.get(`${baseURI}/posts/length?category=TRANS`)
+          .then((result) => {
+            this.totalPageNumber = result.data.numberOfPages;
+            this.totalPostNumber = result.data.numberOfPost;
+          });
+        this.setPosts(this.pageNumber);
+        this.loadComplete = true;
+      })
+      .catch((error) => {
+        this.$router.push({ name: 'login' });
       });
-    this.setPosts(this.pageNumber);
-    this.loadComplete = true;
+    
   },
   methods: {
     dateFormat,
