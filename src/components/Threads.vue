@@ -10,6 +10,7 @@
     </div>
     <div style="clear:both;"></div>
     <br>
+    <div id="message" class="noprint" v-if="threads.length == 0">포스트가 없습니다.</div>
     <thread v-for="thread in threads" :key="thread.id" v-bind:thread=thread v-bind:isPreview=false v-on:deletePost="deletePost(thread.id)"></thread>
     <br>
     <div class="pagination">

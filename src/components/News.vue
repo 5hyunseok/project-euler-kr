@@ -1,9 +1,9 @@
 <template>
-  <div id="news_page">
+  <div id="news_page" v-if="loadComplete">
     <h2>최신 소식</h2>
     <div class="news" v-for="n in recentNews" :key="n.id">
       <h4>{{ dateFormat(n.updated_at) }} {{ n.title }}</h4>
-      <div>{{ n.content }}</div>
+      <pre>{{ n.content }}</pre>
     </div>
     <div style="text-align:center"><button v-on:click="moreNews">지난 소식 불러오기</button></div>
   </div>
@@ -18,12 +18,14 @@ export default {
   data() {
     return {
       recentNews: [],
+      loadComplete: false,
     };
   },
   created() {
     this.$http.get(`${baseURI}/news`)
       .then((result) => {
         this.recentNews = result.data.news;
+        this.loadComplete = true;
       });
   },
   methods: {

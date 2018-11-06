@@ -1,5 +1,5 @@
 <template>
-  <div id="problems_table_page">
+  <div id="problems_table_page" v-if="loadComplete">
   <h2>번역 게시판</h2>
     <p>
       번역하는 게시판입니다.
@@ -11,16 +11,22 @@
       :data="translates"
       stripe
       border
-      @current-change="postLink"
+      
       style="width: 100%">
       <el-table-column
         prop="category"
         label="카테고리"
         width="100">
+        <!-- <template slot-scope="scope">
+          <span><el-tag color="#ACACAC" style="color: white">{{ scope.row.category }}</el-tag></span>
+        </template> -->
       </el-table-column>
       <el-table-column
         prop="title"
         label="제목">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'post', params: { postId: scope.row.id }}">{{ scope.row.title }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="problem_id"
@@ -68,6 +74,7 @@ export default {
       totalPostNumber: 0,
       problems: [],
       translates: [],
+      loadComplete: false,
     };
   },
   computed: {
@@ -79,12 +86,24 @@ export default {
     },
   },
   created() {
-    this.$http.get(`${baseURI}/posts/length?category=TRANS`)
-      .then((result) => {
-        this.totalPageNumber = result.data.numberOfPages;
-        this.totalPostNumber = result.data.numberOfPost;
+    this.$http.get(`${baseURI}/auth/token-validation`, {
+      headers: {
+        'x-access-token': this.token,
+      },
+    })
+      .then(() => {
+        this.$http.get(`${baseURI}/posts/length?category=TRANS`)
+          .then((result) => {
+            this.totalPageNumber = result.data.numberOfPages;
+            this.totalPostNumber = result.data.numberOfPost;
+          });
+        this.setPosts(this.pageNumber);
+        this.loadComplete = true;
+      })
+      .catch((error) => {
+        this.$router.push({ name: 'login' });
       });
-    this.setPosts(this.pageNumber);
+    
   },
   methods: {
     dateFormat,
