@@ -17,6 +17,9 @@
         prop="category"
         label="카테고리"
         width="100">
+        <!-- <template slot-scope="scope">
+          <span><el-tag color="#ACACAC" style="color: white">{{ scope.row.category }}</el-tag></span>
+        </template> -->
       </el-table-column>
       <el-table-column
         prop="title"

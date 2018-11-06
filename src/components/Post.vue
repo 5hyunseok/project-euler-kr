@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { baseURI, dateFormat } from './constants';
+import { baseURI, dateFormat, translateCategory } from './constants';
 import Thread from '@/components/Thread';
 
 export default {
@@ -65,11 +65,13 @@ export default {
   },
   methods: {
     dateFormat,
+    translateCategory,
     setPostContent() {
       this.$http.get(`${baseURI}/posts/${this.postId}`)
         .then((result) => {
           this.post = result.data.post;
           this.replies = result.data.post.postReplies;
+          this.post.category = this.translateCategory(this.post.category);
         });
     },
     replySubmit() {
