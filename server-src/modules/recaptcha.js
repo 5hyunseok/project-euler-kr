@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('request-promise-native');
 const config = require('../config');
 
 module.exports = async (recaptchaResponse) => {
@@ -6,13 +6,13 @@ module.exports = async (recaptchaResponse) => {
     throw new Error();
   }
 
-  const reqUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${config.recaptchaKey}&response=${recaptchaResponse}`;
-
-  request(reqUrl, (err, res, body) => {
-    const parsedBody = JSON.parse(body);
-    if (!parsedBody.success && !parsedBody.success) {
-      throw new Error();
-    }
-    return 0;
+  const parsedBody = await request({
+    method: 'POST',
+    uri: `https://www.google.com/recaptcha/api/siteverify?secret=${config.recaptchaKey}&response=${recaptchaResponse}`,
+    json: true,
   });
+
+  if (!parsedBody.success && !parsedBody.success) {
+    throw new Error();
+  }
 };

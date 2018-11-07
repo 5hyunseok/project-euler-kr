@@ -2,6 +2,7 @@
 const errorBuilder = require('../../modules/error-builder');
 const config = require('../../config');
 const models = require('../../models');
+const recaptcha = require('../../modules/recaptcha');
 
 exports.getCount = async (req, res) => {
   const numberOfProblem = await models.problem.count();
@@ -100,7 +101,13 @@ exports.getOne = async (req, res) => {
 
 exports.submit = async (req, res) => {
   const id = req.params.id;
-  let submitAnswer = req.body.answer;
+  const { submitAnswer, recaptchaResponse } = req.body;
+
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
+  }
 
   if (!req.hasToken) {
     throw errorBuilder('NotLogin', 401, true);

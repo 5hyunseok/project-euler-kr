@@ -3,7 +3,7 @@ const errorBuilder = require('../../modules/error-builder');
 const cryptoWrapper = require('../../modules/crypto-wrapper');
 const auth = require('../../modules/auth');
 const models = require('../../models');
-const recaptcha = require('../../modules/recaptcha')
+const recaptcha = require('../../modules/recaptcha');
 
 exports.postIndex = async (req, res) => {
   const { uid, password, recaptchaResponse } = req.body;
@@ -12,7 +12,7 @@ exports.postIndex = async (req, res) => {
   try {
     await recaptcha(recaptchaResponse);
   } catch (err) {
-    throw errorBuilder('recaptchaError', 401, true);
+    throw errorBuilder('recaptchaError', 402, true);
   }
 
   if (!/^[0-9a-zA-Z._-]{1,32}$/.test(uid)) {
@@ -36,8 +36,14 @@ exports.postIndex = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { uid, password } = req.body;
+  const { uid, password, recaptchaResponse } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
+
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
+  }
 
   const user = await models.user.findOne({
     where: { uid, password: encrypted },
