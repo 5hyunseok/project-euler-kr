@@ -30,7 +30,7 @@ db.Sequelize = Sequelize;
 db.projection = {
   problem: {
     list: ['id', 'title', 'title_kr', 'difficulty', 'solver'],
-    one: ['id', 'title', 'problem', 'title_kr', 'problem_kr', 'difficulty', 'solver'],
+    one: ['id', 'title', 'problem', 'title_kr', 'problem_kr', 'difficulty', 'solver', 'mathjax'],
   },
   user: {
     thread: ['id', 'uid'],
