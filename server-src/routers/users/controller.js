@@ -3,9 +3,10 @@ const errorBuilder = require('../../modules/error-builder');
 const cryptoWrapper = require('../../modules/crypto-wrapper');
 const auth = require('../../modules/auth');
 const models = require('../../models');
+const recaptcha = require('../../modules/recaptcha');
 
 exports.postIndex = async (req, res) => {
-  const { uid, password } = req.body;
+  const { uid, password, recaptchaResponse } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
   if (!/^[0-9a-zA-Z._-]{1,32}$/.test(uid)) {
@@ -20,6 +21,12 @@ exports.postIndex = async (req, res) => {
     throw errorBuilder('IdExists', 409, true);
   }
 
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
+  }
+
   await models.user.create({
     uid,
     password: encrypted,
@@ -29,7 +36,7 @@ exports.postIndex = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { uid, password } = req.body;
+  const { uid, password, recaptchaResponse } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
   const user = await models.user.findOne({
@@ -37,6 +44,12 @@ exports.login = async (req, res) => {
   });
   if (!user) {
     throw errorBuilder('NotMatch', 403, true);
+  }
+
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
   }
 
   const token = await auth.sign(user.dataValues);

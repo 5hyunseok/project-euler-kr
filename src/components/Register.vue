@@ -32,7 +32,7 @@
       <tr>
         <td colspan="2">
           <div style="text-align:center;font-size:80%;">
-            <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div>
+            <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
           </div>
         </td>
       </tr>
@@ -59,15 +59,19 @@
 
 <script>
 import { baseURI } from './constants';
+import VueRecaptcha from 'vue-recaptcha';
 
 export default {
   name: 'Register',
+  components: { VueRecaptcha },
   data() {
     return {
       currentNewUsername: '',
       currentNewPassword: '',
       currentNewConfirmPassword: '',
       msg: '',
+      recaptchaClicked: false,
+      response: '',
     };
   },
   methods: {
@@ -75,6 +79,7 @@ export default {
       let usernameCheck = true;
       let passwordConfirm = true;
       let passwordCheck = true;
+      let recaptchaCheck = true;
       if (this.currentNewUsername.length > 32 || !this.isAvailableUsername(this.currentNewUsername)) {
         usernameCheck = false;
         this.msg = '아이디는 32자 이하 알파벳, 숫자, 점, 대시 또는 밑줄만 가능합니다.';
@@ -90,21 +95,28 @@ export default {
         this.msg = '재입력한 비밀번호가 사용할 비밀번호와 다릅니다.';
         return;
       }
-      if (passwordConfirm && passwordCheck && usernameCheck) {
+      if (!this.recaptchaClicked || !this.response) {
+        recaptchaCheck = false;
+        this.msg = '로봇이 아닙니다를 클릭하지 않았거나 만료되었습니다.';
+      }
+      if (passwordConfirm && passwordCheck && usernameCheck && recaptchaCheck) {
         this.$http.post(`${baseURI}/users/`, {
           uid: this.currentNewUsername,
           password: this.currentNewPassword,
+          recaptchaResponse: this.response,
         })
           .then(() => {
-            this.$http.post(`${baseURI}/users/login`, {
-              uid: this.currentNewUsername,
-              password: this.currentNewPassword,
-            })
-              .then((loginResponse) => {
-                this.$store.commit('users/setToken', loginResponse.data.token);
-                this.$store.commit('users/setUsername', this.currentNewUsername);
-                this.$router.push({ path: 'about' });
-              });
+            this.$router.push({ path: 'login' });
+            // this.$http.post(`${baseURI}/users/login`, {
+            //   uid: this.currentNewUsername,
+            //   password: this.currentNewPassword,
+            //   recaptchaResponse: this.response,
+            // })
+            //   .then((loginResponse) => {
+            //     this.$store.commit('users/setToken', loginResponse.data.token);
+            //     this.$store.commit('users/setUsername', this.currentNewUsername);
+            //     this.$router.push({ path: 'about' });
+            //   });
           })
           .catch((error) => {
             if (error.response.status === 409) {
@@ -117,6 +129,14 @@ export default {
     },
     isAvailableUsername(string) {
       return /^[a-zA-Z0-9-_.]+$/.test(string);
+    },
+    onVerify(response) {
+      this.recaptchaClicked = true;
+      this.response = response;
+    },
+    onExpired() {
+      this.recaptchaClicked = false;
+      this.response = '';
     },
   },
 };

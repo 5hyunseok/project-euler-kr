@@ -26,4 +26,7 @@ export default {
 #content {
   margin-top: 50px;
 }
+pre {
+  font-size: medium;
+}
 </style>

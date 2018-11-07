@@ -10,10 +10,12 @@ const router = express.Router();
  * @apiGroup users
  * @apiParam {string} uid user unique id
  * @apiParam {string} password
+ * @apiParam {string} recaptchaResponse
  * @apiParamExample {json} Request-Example:
  *    {
  *      "uid": "idid",
- *      "password": "password"
+ *      "password": "password",
+ *      "recaptchaResponse": "ahuitowe5hyoulwhu34etiot"
  *    }
  * @apiSuccess {Boolean} success=true
  * @apiError (Error Duplicated id) {Boolean} error=true
@@ -25,6 +27,9 @@ const router = express.Router();
  * @apiError (Error Password Format Error) {Boolean} error=true
  * @apiError (Error Password Format Error) {Number} status=403
  * @apiError (Error Password Format Error) {String} message="PasswordFormatError"
+ * @apiError (Recaptcha Error) {Boolean} error=true
+ * @apiError (Recaptcha Error) {Number} status=402
+ * @apiError (Recaptcha Error) {String} message="recaptchaError"
  */
 router.post('/', asyncWrapper(controller.postIndex));
 
@@ -33,15 +38,20 @@ router.post('/', asyncWrapper(controller.postIndex));
  * @apiGroup users
  * @apiParam {string} uid
  * @apiParam {string} password
+ * @apiParam {string} recaptchaResponse
  * @apiParamExample {json} Request-Example:
  *    {
  *      "uid": "idid",
- *      "password": "password"
+ *      "password": "password",
+ *      "recaptchaResponse": "ahuitowe5hyoulwhu34etiot"
  *    }
  * @apiSuccess {String} token Login JWT
  * @apiError (Error Wrong Information) {Boolean} error=true
  * @apiError (Error Wrong Information) {Number} status=403
  * @apiError (Error Wrong Information) {String} message="NotMatch"
+ * @apiError (Recaptcha Error) {Boolean} error=true
+ * @apiError (Recaptcha Error) {Number} status=402
+ * @apiError (Recaptcha Error) {String} message="recaptchaError"
  */
 router.post('/login', asyncWrapper(controller.login));
 
