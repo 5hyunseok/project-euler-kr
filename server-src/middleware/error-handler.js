@@ -15,7 +15,7 @@ module.exports = (err, req, res, next) => { // eslint-disable-line
       path: err.path,
       address: err.address,
       request_url: req.originalUrl,
-      client_ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+      client_ip: req.headers['remote-real-ip']
     });
   }
 
