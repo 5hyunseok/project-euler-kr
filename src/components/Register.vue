@@ -95,7 +95,7 @@ export default {
         this.msg = '재입력한 비밀번호가 사용할 비밀번호와 다릅니다.';
         return;
       }
-      if (this.recaptchaClicked && this.response) {
+      if (!this.recaptchaClicked || !this.response) {
         recaptchaCheck = false;
         this.msg = '로봇이 아닙니다를 클릭하지 않았거나 만료되었습니다.';
       }
@@ -103,6 +103,7 @@ export default {
         this.$http.post(`${baseURI}/users/`, {
           uid: this.currentNewUsername,
           password: this.currentNewPassword,
+          recaptchaResponse: this.response,
         })
           .then(() => {
             this.$http.post(`${baseURI}/users/login`, {
