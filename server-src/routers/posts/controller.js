@@ -46,7 +46,9 @@ exports.getList = async (req, res) => {
   }
   if (req.query.user_id) {
     const user = await models.user.findOne({
-      where: { uid: req.query.user_id },
+      where: {
+        uid: req.query.user_id
+      },
     });
     if (!user) {
       where.user_id = -1;

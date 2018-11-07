@@ -142,7 +142,6 @@ const preParamSetting = async (req,res, next) => {
   req.preParams.postId = req.params.id;
 
   const post = await models.post.findById(req.params.id);
-
   if (!post) {
     next(errorBuilder('NotFound', 404, true));
     return;
