@@ -17,7 +17,6 @@
           <td colspan="2">dd
             <div style="text-align:center;font-size:80%;">
               <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
-              <!-- <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div> -->
             </div>
           </td>
         </tr>
@@ -60,7 +59,7 @@ export default {
         this.$http.post(`${baseURI}/users/login`, {
           uid: this.currentUsername,
           password: this.currentPassword,
-          response: this.response,
+          recaptchaResponse: this.response,
         })
           .then((loginResponse) => {
             this.$store.commit('users/setToken', loginResponse.data.token);
