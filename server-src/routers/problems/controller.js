@@ -101,7 +101,8 @@ exports.getOne = async (req, res) => {
 
 exports.submit = async (req, res) => {
   const id = req.params.id;
-  const { submitAnswer, recaptchaResponse } = req.body;
+  const recaptchaResponse = req.body.recaptchaResponse;
+  const submitAnswer = req.body.answer;
 
   try {
     await recaptcha(recaptchaResponse);

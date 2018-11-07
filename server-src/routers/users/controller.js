@@ -9,12 +9,6 @@ exports.postIndex = async (req, res) => {
   const { uid, password, recaptchaResponse } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
-  try {
-    await recaptcha(recaptchaResponse);
-  } catch (err) {
-    throw errorBuilder('recaptchaError', 402, true);
-  }
-
   if (!/^[0-9a-zA-Z._-]{1,32}$/.test(uid)) {
     throw errorBuilder('IdFormatError', 403, true);
   }
@@ -25,6 +19,12 @@ exports.postIndex = async (req, res) => {
   const users = await models.user.findAll({ where: { uid } });
   if (users.length > 0) {
     throw errorBuilder('IdExists', 409, true);
+  }
+
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
   }
 
   await models.user.create({
@@ -39,17 +39,17 @@ exports.login = async (req, res) => {
   const { uid, password, recaptchaResponse } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
-  try {
-    await recaptcha(recaptchaResponse);
-  } catch (err) {
-    throw errorBuilder('recaptchaError', 402, true);
-  }
-
   const user = await models.user.findOne({
     where: { uid, password: encrypted },
   });
   if (!user) {
     throw errorBuilder('NotMatch', 403, true);
+  }
+
+  try {
+    await recaptcha(recaptchaResponse);
+  } catch (err) {
+    throw errorBuilder('recaptchaError', 402, true);
   }
 
   const token = await auth.sign(user.dataValues);

@@ -106,9 +106,11 @@ router.get('/:id', asyncWrapper(controller.getOne));
  * @apiGroup problems
  * @apiParam {Number} id problem id
  * @apiParam {string} answer
+ * @apiParam {string} recaptchaResponse
  * @apiParamExample {json} Request-Example:
  *    {
- *      "answer": "23"
+ *      "answer": "23",
+ *      "recaptchaResponse": "ahuitowe5hyoulwhu34etiot"
  *    }
  * @apiSuccess (Success 200 로그인) {Boolean} pending 팬딩됫냐
  * @apiSuccess (Success 200 로그인) {Boolean} isCorrect 답이 맞았냐
@@ -126,7 +128,10 @@ router.get('/:id', asyncWrapper(controller.getOne));
  * @apiError (Error Within 30 seconds) {String} message="Within30Seconds"
  * @apiError (Error Within 30 seconds) {Boolean} error=true
  * @apiError (Error Within 30 seconds) {Number} status=412
- * @apiError (Error Within 30 seconds) {String} message="Within30Seconds"
+ * @apiError (Error Within 30 seconds) {String} message="Within30Seconds" 아직 사용안함
+ * @apiError (Recaptcha Error) {Boolean} error=true
+ * @apiError (Recaptcha Error) {Number} status=402
+ * @apiError (Recaptcha Error) {String} message="recaptchaError"
  */
 router.post('/:id/submit', asyncWrapper(controller.submit));
 
