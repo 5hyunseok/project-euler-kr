@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     answer: {
-      type: DataTypes.BIGINT(30),
+      type: DataTypes.STRING,
     },
   }, {
     underscored: true,

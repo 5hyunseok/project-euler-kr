@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const submit = sequelize.define('submit', {
     answer: {
-      type: DataTypes.BIGINT(30),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     solve_flag: {
