@@ -14,7 +14,7 @@
           <td><input style="width:150px;" type="password" name="password" id="password" v-model="currentPassword" @keyup.enter="login"></td>
         </tr>
         <tr>
-          <td colspan="2">dd
+          <td colspan="2">
             <div style="text-align:center;font-size:80%;">
               <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
             </div>
