@@ -14,9 +14,10 @@
           <td><input style="width:150px;" type="password" name="password" id="password" v-model="currentPassword" @keyup.enter="login"></td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td colspan="2">dd
             <div style="text-align:center;font-size:80%;">
-              <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div>
+              <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
+              <!-- <div class="g-recaptcha" data-sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" data-callback="enableBtn"></div> -->
             </div>
           </td>
         </tr>
@@ -38,35 +39,53 @@
 
 <script>
 import { baseURI } from './constants';
+import VueRecaptcha from 'vue-recaptcha';
 
 export default {
   name: 'Login',
+  components: { VueRecaptcha },
   data() {
     return {
       currentUsername: '',
       currentPassword: '',
       rememberedUserName: '',
       msg: '',
+      recaptchaClicked: false,
+      response: '',
     };
   },
   methods: {
     login() {
-      this.$http.post(`${baseURI}/users/login`, {
-        uid: this.currentUsername,
-        password: this.currentPassword,
-      })
-        .then((loginResponse) => {
-          this.$store.commit('users/setToken', loginResponse.data.token);
-          this.$store.commit('users/setUsername', this.currentUsername);
-          this.$router.push({ path: 'archives/1' });
+      if (this.recaptchaClicked && this.response) {
+        this.$http.post(`${baseURI}/users/login`, {
+          uid: this.currentUsername,
+          password: this.currentPassword,
+          response: this.response,
         })
-        .catch((error) => {
-          if (error.response.status === 403) {
-            this.msg = '아이디나 비밀번호가 틀립니다.';
-            return;
-          }
-          this.msg = 'unexpected error';
-        });
+          .then((loginResponse) => {
+            this.$store.commit('users/setToken', loginResponse.data.token);
+            this.$store.commit('users/setUsername', this.currentUsername);
+            this.$router.push({ path: 'archives/1' });
+          })
+          .catch((error) => {
+            if (error.response.status === 403) {
+              this.msg = '아이디나 비밀번호가 틀립니다.';
+              return;
+            }
+            this.msg = 'unexpected error';
+          });
+      } else {
+        this.msg = '로봇이 아닙니다를 클릭하지 않았거나 만료되었습니다.';
+      }
+      
+    },
+    onVerify(response) {
+      this.recaptchaClicked = true;
+      this.response = response;
+    },
+    onExpired() {
+      this.recaptchaClicked = false;
+      this.response = '';
     },
   },
 };
