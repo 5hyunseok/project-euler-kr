@@ -32,6 +32,22 @@ export const translateCategory = (c) => {
 export const dateFormat = d => `${d.split('T')[0]} ${d.split('T')[1].split('.')[0]}`;
 
 export const languageOptions = [
+  { value: 'go' },
+  { value: 'java' },
+  { value: 'javascript' },
+  { value: 'lisp' },
+  { value: 'perl' },
+  { value: 'python' },
+  { value: 'r' },
+  { value: 'ruby' },
+  { value: 'scala' },
+  { value: 'scheme' },
+  { value: 'sql' },
+  { value: 'swift' },
+];
+
+
+export const languageFullOptions = [
   { value: '1c' },
   { value: 'abnf' },
   { value: 'accesslog' },

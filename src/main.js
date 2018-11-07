@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import axios from 'axios';
 import Vue from 'vue';
+import VueRecaptcha from 'vue-recaptcha';
 import VueMathjax from 'vue-mathjax';
 import VueCodemirror from 'vue-codemirror';
 import VueHighlightJS from 'vue-highlightjs';
@@ -21,6 +22,7 @@ Vue.use(VueMathjax);
 Vue.use(VueHighlightJS);
 Vue.use(VueCodemirror);
 Vue.use(Element);
+Vue.use(VueRecaptcha);
 
 locale.use(lang);
 

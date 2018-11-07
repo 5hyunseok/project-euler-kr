@@ -60,7 +60,6 @@ export default {
     };
   },
   created() {
-    console.log(this.problemNumber);
     this.$http.get(`${baseURI}/problems/${this.problemNumber}/threads/length`, {
       headers: {
         'x-access-token': this.token,
@@ -76,6 +75,7 @@ export default {
         this.$router.push({ path: '/archives/1' });
       });
     if (this.threadToModify) {
+      this.hasCode = true;
       this.thread = this.threadToModify;
     } else {
       this.now = Date.now();
