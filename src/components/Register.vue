@@ -106,16 +106,17 @@ export default {
           recaptchaResponse: this.response,
         })
           .then(() => {
-            this.$http.post(`${baseURI}/users/login`, {
-              uid: this.currentNewUsername,
-              password: this.currentNewPassword,
-              recaptchaResponse: this.response,
-            })
-              .then((loginResponse) => {
-                this.$store.commit('users/setToken', loginResponse.data.token);
-                this.$store.commit('users/setUsername', this.currentNewUsername);
-                this.$router.push({ path: 'about' });
-              });
+            this.$router.push({ path: 'login' });
+            // this.$http.post(`${baseURI}/users/login`, {
+            //   uid: this.currentNewUsername,
+            //   password: this.currentNewPassword,
+            //   recaptchaResponse: this.response,
+            // })
+            //   .then((loginResponse) => {
+            //     this.$store.commit('users/setToken', loginResponse.data.token);
+            //     this.$store.commit('users/setUsername', this.currentNewUsername);
+            //     this.$router.push({ path: 'about' });
+            //   });
           })
           .catch((error) => {
             if (error.response.status === 409) {
