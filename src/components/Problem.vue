@@ -1,7 +1,7 @@
 <template>
 <div id="problem_page">
   <span class="warning" v-if="!hasAnswer">아직 정답이 없는 문제입니다.<br></span>
-  <span class="warning" v-if="!hasKorean">아직 번역이 없는 문제입니다. <a href="/translate/1">번역하러가기</a><br></span>
+  <span class="warning" v-if="!hasKorean">아직 번역이 없는 문제입니다. <router-link :to="{ name: 'translate' }">번역하러 가기</router-link><br></span>
   <span class="warning">{{ msg }}</span>
   <h2>
     {{ hasKorean ? problem.title_kr : problem.title }}

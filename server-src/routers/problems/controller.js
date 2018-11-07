@@ -1,6 +1,4 @@
 // - controller
-const moment = require('moment');
-const { Op } = require('sequelize');
 const errorBuilder = require('../../modules/error-builder');
 const config = require('../../config');
 const models = require('../../models');
@@ -135,12 +133,6 @@ exports.submit = async (req, res) => {
   // if (within30Seconds.length > 0) {
   //   throw errorBuilder('Within30Seconds', 412, true);
   // }
-
-  if (!/^[0-9]{1,30}$/.test(submitAnswer)) {
-    res.json({ pending: false, isCorrect: false });
-    return;
-  }
-  submitAnswer = parseInt(submitAnswer, 10);
 
   const answer = await models.answer.findById(id);
 

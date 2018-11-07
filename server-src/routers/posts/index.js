@@ -84,6 +84,9 @@ router.get('/:id', asyncWrapper(controller.getOne));
  * @apiError (Category Error) {Boolean} error=true
  * @apiError (Category Error) {Number} status=406
  * @apiError (Category Error) {String} message="CategoryError" 카테고리가 이상하믄
+ * @apiError (Problem Not Found Error) {Boolean} error=true
+ * @apiError (Problem Not Found Error) {Number} status=404
+ * @apiError (Problem Not Found Error) {String} message="ProblemNotFound" 없는 문제 번호일때
  */
 router.post('/', asyncWrapper(controller.post));
 
@@ -91,13 +94,11 @@ router.post('/', asyncWrapper(controller.post));
  * @api {post} /api/posts/:id Update a Post
  * @apiGroup posts
  * @apiParam {String} title 제목
- * @apiParam {string} category 카테고리 (TRANS, MISS, FREE 존재)
  * @apiParam {string} content 내용
  * @apiParam {number} problem_id 문제 번호 (이거 null 이면 아예 problem_id 넣지 마셈)
  * @apiParamExample {json} Request-Example:
  *    {
  *      "title": "이거좀 보셈 이상함",
- *      "category": "MISS",
  *      "content": "저거좀 보셈 이상해"
  *      "problem_id": 3
  *    }
@@ -114,6 +115,9 @@ router.post('/', asyncWrapper(controller.post));
  * @apiError (Category Error) {Boolean} error=true
  * @apiError (Category Error) {Number} status=406
  * @apiError (Category Error) {String} message="CategoryError" 카테고리가 이상하믄
+ * @apiError (Problem Not Found Error) {Boolean} error=true
+ * @apiError (Problem Not Found Error) {Number} status=404
+ * @apiError (Problem Not Found Error) {String} message="ProblemNotFound" 없는 문제 번호일때
  */
 router.post('/:id', asyncWrapper(controller.update));
 
@@ -138,7 +142,6 @@ const preParamSetting = async (req,res, next) => {
   req.preParams.postId = req.params.id;
 
   const post = await models.post.findById(req.params.id);
-
   if (!post) {
     next(errorBuilder('NotFound', 404, true));
     return;

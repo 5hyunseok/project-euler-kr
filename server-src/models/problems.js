@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    mathjax: {
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
+    }
   }, {
     underscored: true,
     timestamps: false,

@@ -1,5 +1,5 @@
 <template>
-  <div id="progress_page">
+  <div id="progress_page" v-if="loadComplete">
     <div id="message" class="noprint" v-if="changeSuccess">비밀번호가 성공적으로 변경되었습니다.</div>
     <div id="main section">
       <div id="header_section">
@@ -120,6 +120,7 @@ export default {
       currentMsg: '',
       confirmMsg: '',
       changeSuccess: false,
+      loadComplete: false,
     };
   },
   computed: {
@@ -168,6 +169,7 @@ export default {
                 });
               }
             });
+            this.loadComplete = true;
           })
           .catch(() => {
             this.$store.commit('users/setMsg', '접근 불가');

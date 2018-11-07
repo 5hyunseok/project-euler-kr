@@ -1,5 +1,5 @@
 <template>
-  <div id="problems_table_page">
+  <div id="problems_table_page" v-if="loadComplete">
   <h2>랭킹</h2>
     <p>
       상위 50명 순위입니다.
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       ratingList: [],
+      loadComplete: false,
     };
   },
   created() {
@@ -69,6 +70,7 @@ export default {
         this.ratingList.forEach(element => {
           element.solve_ratio = `${element.solve_ratio}%`;
         });
+        this.loadComplete = true;
       });
   },
 };

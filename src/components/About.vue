@@ -18,7 +18,12 @@
     <br><br>
 
     <p style="text-align:center;font-size:125%;font-style:italic;color:#999;">"프로젝트 오일러는 누구나 매력적인 수학의 세계에 매료되어 도전하고 발전하고 자신감을 심어주기 위해 존재합니다."</p>
-  </div>
+    <br><br>
+    <h2>projecteuler.kr에 대해서</h2>
+    <p>본 페이지는 Project Euler(https://projecteuler.net) 에 소개된 문제들을 보다 많은 사람들이 즐길 수 있도록 번역하고, 번역된 문제를 풀고 한글로 이야기하는 커뮤니티입니다.</p>
+    <p> 따라서 모든 문제의 저작권은 원작자에게 있으며, projecteuler.kr 은 원문을 2차 가공하여 배포하고 있음을 알려드립니다.</p>
+    <!-- <p></p> -->
+</div>
 
 </template>
 

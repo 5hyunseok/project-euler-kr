@@ -78,6 +78,7 @@ router.get('/recent', asyncWrapper(controller.recent));
  * @apiSuccess (Success 200 로그인) {String} problem.problem_kr
  * @apiSuccess (Success 200 로그인) {Number} problem.difficulty 난이도
  * @apiSuccess (Success 200 로그인) {Number} problem.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Number} problem.mathjax mathjax인지 아닌지 (0 또는 1)
  * @apiSuccess (Success 200 비로그인) {Boolean} login=false
  * @apiSuccess (Success 200 비로그인) {Boolean} hasAnswer 문제에 답이 있는지
  * @apiSuccess (Success 200 비로그인) {Boolean} hasKorean 번역 되있는지
@@ -93,6 +94,7 @@ router.get('/recent', asyncWrapper(controller.recent));
  * @apiSuccess (Success 200 비로그인) {String} problem.problem_kr
  * @apiSuccess (Success 200 비로그인) {Number} problem.difficulty 난이도
  * @apiSuccess (Success 200 비로그인) {Number} problem.solver 정답자 수
+ * @apiSuccess (Success 200 비로그인) {Number} problem.mathjax mathjax인지 아닌지 (0 또는 1)
  * @apiError (Error Not Found) {Boolean} error=true
  * @apiError (Error Not Found) {Number} status=404
  * @apiError (Error Not Found) {String} message="NotFound"

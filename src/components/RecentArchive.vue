@@ -1,5 +1,5 @@
 <template>
-  <div id="problems_table_page">
+  <div id="problems_table_page" v-if="loadComplete">
     <h2>최신 아카이브</h2>
     <p>가장 최근 업로드 된 10개의 문제입니다.</p>
     <archive-table :problems=problems></archive-table>
@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       problems: [],
+      loadComplete: false,
     };
   },
   computed: {
@@ -36,6 +37,7 @@ export default {
       .then((result) => {
         this.problems = result.data.problems;
         this.login = result.data.login;
+        this.loadComplete = true;
       })
       .catch((error) => {
         if (error.response.status === 401) {
