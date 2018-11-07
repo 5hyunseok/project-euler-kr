@@ -97,6 +97,13 @@ exports.post = async (req, res) => {
 
   const { title, category, content, problem_id } = req.body;
 
+  if (problem_id) {
+    const problem = await models.problem.findById(problem_id);
+    if (!problem) {
+      throw errorBuilder('ProblemNotFound', 404, true);
+    }
+  }
+
   if (category !== 'TRANS' && category !== 'MISS' && category !== 'FREE') {
     throw errorBuilder('CategoryError', 406, true);
   }
@@ -125,13 +132,15 @@ exports.update = async (req, res) => {
   if (post.user_id !== req.decoded.id) {
     throw errorBuilder('Forbidden', 403, true);
   }
-  const { title, category, content, problem_id } = req.body;
+  const { title, content, problem_id } = req.body;
 
-  if (category !== 'TRANS' && category !== 'MISS' && category !== 'FREE') {
-    throw errorBuilder('CategoryError', 406, true);
+  if (problem_id) {
+    const problem = await models.problem.findById(problem_id);
+    if (!problem) {
+      throw errorBuilder('ProblemNotFound', 404, true);
+    }
   }
 
-  post.category = category;
   post.title = title;
   post.content = content;
   post.problem_id = parseInt(problem_id, 10);
