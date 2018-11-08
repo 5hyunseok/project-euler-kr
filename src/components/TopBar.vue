@@ -19,7 +19,7 @@
         </ul>
       </div>
       <div id="logo_modified">
-        <router-link :to="{ name: 'about' }"><img :src=logo></router-link>
+        <router-link :to="{ name: 'home' }"><img :src=logo></router-link>
       </div>
     </div>
     <div id="info_panel" v-if="token">
