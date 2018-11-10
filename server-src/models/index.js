@@ -33,7 +33,7 @@ db.projection = {
     one: ['id', 'title', 'problem', 'title_kr', 'problem_kr', 'difficulty', 'solver', 'mathjax'],
   },
   user: {
-    thread: ['id', 'uid'],
+    thread: ['id', 'uid', 'short_message'],
   },
   submit: {
     pending: ['answer', ['updated_at', 'submit_date']],

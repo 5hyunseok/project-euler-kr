@@ -100,6 +100,10 @@ router.put('/password', asyncWrapper(controller.updatePassword));
  * @apiSuccess (Success 200 로그인) {Date} pendingProblemList.pending_submits.submit_date 제출 시간
  * @apiSuccess (Success 200 로그인) {Number} threadCount 내가 쓴 포스트 수
  * @apiSuccess (Success 200 로그인) {Number} threadStarCount 내가 받은 좋아요 수
+ * @apiSuccess (Success 200 로그인) {Object} user 내 정보
+ * @apiSuccess (Success 200 로그인) {Number} user.id 내 정보
+ * @apiSuccess (Success 200 로그인) {String} user.uid 내 정보
+ * @apiSuccess (Success 200 로그인) {String} user.short_message 내 정보
  * @apiError (Error Not Login) {Boolean} error=true
  * @apiError (Error Not Login) {Number} status=401
  * @apiError (Error Not Login) {String} message="NotLogin"
@@ -129,5 +133,23 @@ router.get('/my', asyncWrapper(controller.my));
  * @apiSuccess (Success 200) {Number} myRating.solve_ratio 정답 비율
  */
 router.get('/rating-list', asyncWrapper(controller.ratingList));
+
+/**
+ * @api {put} /api/users/info Change User Information
+ * @apiGroup users
+ * @apiParam {string} shortMessage
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "shortMessage": "하이!~~!~~!~~!"
+ *    }
+ * @apiSuccess {Boolean} success=true
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Short Message Too Long) {Boolean} error=true 한줄인사가 300자 이상
+ * @apiError (Error Short Message Too Long) {Number} status=400
+ * @apiError (Error Short Message Too Long) {String} message="ShortMessageTooLong"
+ */
+router.put('/info', asyncWrapper(controller.update));
 
 module.exports = router;
