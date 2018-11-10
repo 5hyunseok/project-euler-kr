@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     models.problem.hasMany(models.post);
     models.problem.hasOne(models.answer, { onDelete: 'cascade', foreignKey: 'problem_id' });
     models.problem.hasMany(models.thread);
+    models.problem.belongsToMany(models.user, { as: 'reformer', through: models.contentFix });
   };
 
   return problem;

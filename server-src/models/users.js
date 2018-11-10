@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     models.user.hasMany(models.threadStar);
     models.user.hasMany(models.threadReport);
     models.user.hasMany(models.problem, { as: 'translator', foreignKey: 'translator_id' });
+    models.user.belongsToMany(models.problem, { as: 'reformer', through: models.contentFix });
   };
 
   return user;

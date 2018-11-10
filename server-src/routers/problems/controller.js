@@ -62,11 +62,15 @@ exports.getOne = async (req, res) => {
 
   const problem = await models.problem.findById(id, {
     attributes: models.projection.problem.one,
-    include: {
+    include: [{
       model: models.user,
       as: 'translator',
       attributes: models.projection.user.thread,
-    },
+    }, {
+      model: models.user,
+      as: 'reformer',
+      attributes: models.projection.user.thread,
+    }],
   });
   const answer = await models.answer.findById(id);
 
