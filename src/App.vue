@@ -11,6 +11,7 @@
 <script>
 import TopBar from '@/components/TopBar';
 import FootBar from '@/components/FootBar';
+import { sayswho } from '@/components/constants.js';
 
 export default {
   name: 'App',
@@ -18,6 +19,16 @@ export default {
     TopBar,
     FootBar,
   },
+  created() {
+    console.log(this.sayswho());
+    if (this.sayswho().includes("IE")) {
+      console.log('IE');
+      this.$router.push({ path: '/not-support' });
+    }
+  },
+  methods: {
+    sayswho,
+  }
 };
 </script>
 
