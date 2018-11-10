@@ -89,6 +89,10 @@ exports.my = async (req, res) => {
     throw errorBuilder('NotLogin', 401, true);
   }
 
+  const user = await models.user.findById(req.decoded.id, {
+    attributes: models.projection.user.thread,
+  });
+
   const problemsList = await models.problem.findAll({
     attributes: models.projection.problem.list,
     include: [{
@@ -131,7 +135,7 @@ exports.my = async (req, res) => {
     },
   });
 
-  res.json({ problemsList, pendingProblemList, threadCount, threadStarCount });
+  res.json({ problemsList, pendingProblemList, threadCount, threadStarCount, user });
 };
 
 exports.ratingList = async (req, res) => {
@@ -164,4 +168,22 @@ where t.user_id = ${req.decoded.id};`, { type: models.sequelize.QueryTypes.SELEC
   }
 
   res.json({ ratingList, myRating: myRating ? myRating[0] : null });
+};
+
+exports.update = async (req, res) => {
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+
+  const { shortMessage } = req.body;
+
+  if (shortMessage.length > 300) {
+    throw errorBuilder('ShortMessageTooLong', 400, true);
+  }
+
+  const user = await models.user.findById(req.decoded.id);
+  user.short_message = shortMessage;
+  await user.save();
+
+  res.json({ success: true });
 };

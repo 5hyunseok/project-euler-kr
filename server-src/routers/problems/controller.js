@@ -175,7 +175,12 @@ exports.submit = async (req, res) => {
   res.json({ pending, isCorrect });
 
   if(isCorrect) {
-    problem.solver += 1;
+    problem.solver = await models.submit.count({
+      where: {
+        problem_id: id,
+        solve_flag: 1,
+      }
+    });
     problem.save();
   }
 };
