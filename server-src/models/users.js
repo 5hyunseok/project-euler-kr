@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     short_message: {
       type: DataTypes.STRING(300),
       defaultValue: 'Project Euler!'
-    }
+    },
+    closed_flag: {
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
+    },
   }, {
     underscored: true,
     indexes: [{ unique: true, fields: ['uid'] }],
