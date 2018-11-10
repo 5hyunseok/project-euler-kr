@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     mathjax: {
       type: DataTypes.TINYINT,
       defaultValue: 0,
+    },
+    translator_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: null,
     }
   }, {
     underscored: true,
@@ -32,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   problem.associate = (models) => {
     models.problem.hasMany(models.submit, { as: 'submits' });
     models.problem.hasMany(models.submit, { as: 'pending_submits' });
+    models.problem.belongsTo(models.user, { as: 'translator', foreignKey: 'translator_id' });
     models.problem.hasMany(models.post);
     models.problem.hasOne(models.answer, { onDelete: 'cascade', foreignKey: 'problem_id' });
     models.problem.hasMany(models.thread);
