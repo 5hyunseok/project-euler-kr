@@ -21,8 +21,7 @@ export default {
   },
   created() {
     console.log(this.sayswho());
-    if (this.sayswho().includes("IE")) {
-      console.log('IE');
+    if (this.sayswho().indexOf("IE") > -1) {
       this.$router.push({ path: '/not-support' });
     }
   },
