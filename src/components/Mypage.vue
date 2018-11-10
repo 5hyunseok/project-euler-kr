@@ -171,7 +171,13 @@ export default {
     },
   },
   created() {
-    this.$http.get(`${baseURI}/problems/length`)
+    this.init();
+  },
+  methods: {
+    init() {
+      this.loadComplete = false;
+      this.totalProblemList = [];
+      this.$http.get(`${baseURI}/problems/length`)
       .then((result) => {
         this.totalPageNumber = result.data.numberOfPages;
         this.totalNumber = result.data.numberOfProblem;
@@ -211,8 +217,7 @@ export default {
             this.$router.push({ path: '/archives/1' });
           });
       });
-  },
-  methods: {
+    },
     changePassword() {
       if (this.newPassword.length < 8 || this.newPassword > 32) {
         this.newMsg = '비밀번호는 8자 이상 32자 이하입니다.';
@@ -265,6 +270,7 @@ export default {
             setTimeout(() => {
               this.changeSuccess = false;
             }, 5000);
+            this.init();
           })
           .catch((error) => {
             if (error.response.data.message === 'ShortMessageTooLong') {
