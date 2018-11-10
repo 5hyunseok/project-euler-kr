@@ -18,8 +18,8 @@
           <li v-if="token"><a href="#logout" v-on:click="logout">로그아웃</a></li>
         </ul>
       </div>
-      <div id="logo" class="noprint">
-         <div>Project Euler<span>.net</span></div>
+      <div id="logo_modified">
+        <router-link :to="{ name: 'home' }"><img :src=logo></router-link>
       </div>
     </div>
     <div id="info_panel" v-if="token">
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import logo from '@/assets/style_default_logo.png';
 
 export default {
   name: 'HelloWorld',
@@ -38,6 +39,7 @@ export default {
     return {
       msg: 'Hi',
       testToken: '',
+      logo,
     };
   },
   computed: {
@@ -74,5 +76,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+#logo_modified {
+  position: absolute;
+  top: 0;
+  left: 11px;
+  width: 250px;
+  height: 45px;
+  margin-right: 20px;
+}
 </style>

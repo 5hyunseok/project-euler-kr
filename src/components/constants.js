@@ -1,4 +1,4 @@
-export const baseURI = 'http://localhost:3000/api';
+export const baseURI = '/api';
 
 export const formatDate = (date) => {
   const d = new Date(date);
@@ -32,6 +32,7 @@ export const translateCategory = (c) => {
 export const dateFormat = d => `${d.split('T')[0]} ${d.split('T')[1].split('.')[0]}`;
 
 export const languageOptions = [
+  { value: 'cpp' },
   { value: 'go' },
   { value: 'java' },
   { value: 'javascript' },
