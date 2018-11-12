@@ -72,7 +72,6 @@ export default {
       },
     })
       .then((result) => {
-        console.log(result.data);
         this.ratingList = result.data.ratingList;
         this.ratingList.forEach(element => {
           element.solve_ratio = `${element.solve_ratio}%`;

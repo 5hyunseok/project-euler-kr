@@ -19,7 +19,7 @@
   </div>
   <br>
   <li v-if="problem.translator">번역한 사람: {{ problem.translator.uid }}</li>
-  <li v-if="problem.reformer.length > 0">오타/오역을 찾은 사람: {{ reformerNames(problem.reformer).toString() }}</li>
+  <li v-if="hasReformers">오타/오역을 찾은 사람: {{ reformerNames(problem.reformer).toString() }}</li>
   <br>
   <div style="text-align:center;" class="noprint" v-if="solve">
     <span class="warning">정답입니다! - {{answer}}</span>
@@ -88,6 +88,7 @@ export default {
       msg: '',
       recaptchaClicked: false,
       response: '',
+      hasReformers: false,
     };
   },
   computed: {
@@ -108,10 +109,12 @@ export default {
         this.login = result.data.login;
         this.hasKorean = result.data.hasKorean;
         this.problem = result.data.problem;
+        if (this.problem.reformer.length > 0) {
+          this.hasReformers = true;
+        };
         this.hasAnswer = result.data.hasAnswer;
         this.solve = result.data.solve;
         this.answer = result.data.submitAnswer;
-        console.log(result.data.problem);
       });
   },
   methods: {
@@ -152,7 +155,7 @@ export default {
     },
     reformerNames(reformers) {
       return reformers.map(r => r.uid);
-    }
+    },
   },
 };
 </script>
