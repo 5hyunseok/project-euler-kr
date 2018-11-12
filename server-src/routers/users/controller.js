@@ -89,6 +89,10 @@ exports.my = async (req, res) => {
     throw errorBuilder('NotLogin', 401, true);
   }
 
+  const user = await models.user.findById(req.decoded.id, {
+    attributes: models.projection.user.my,
+  });
+
   const problemsList = await models.problem.findAll({
     attributes: models.projection.problem.list,
     include: [{
@@ -131,7 +135,57 @@ exports.my = async (req, res) => {
     },
   });
 
-  res.json({ problemsList, pendingProblemList, threadCount, threadStarCount });
+  res.json({ problemsList, pendingProblemList, threadCount, threadStarCount, user });
+};
+
+exports.getOther = async (req ,res) => {
+  const userId = parseInt(req.params.id, 10);
+
+  let problemsList = null;
+  let user = await models.user.findById(userId, {
+    attributes: models.projection.user.my,
+  });
+  if (!user) {
+    throw errorBuilder('NotFound', 404, true);
+  }
+  const closedFlag = user.closed_flag;
+
+  const threadCount = await models.thread.count({
+    where: {
+      user_id: userId,
+    }
+  });
+
+  const threadStarCount = await models.threadStar.count({
+    where: {
+      thread_writer_id: userId,
+    },
+  });
+
+  user = await models.user.findById(userId, {
+    attributes: models.projection.user.thread,
+  });
+
+  if (closedFlag === 0) {
+    problemsList = await models.problem.findAll({
+      attributes: models.projection.problem.list,
+      include: [{
+        model: models.submit,
+        attributes: ['id'],
+        where: { user_id: userId, solve_flag: 1 },
+        as: 'submits',
+        required: false
+      }, {
+        model: models.submit,
+        attributes: ['id'],
+        where: { user_id: userId, pending_flag: 1 },
+        as: 'pending_submits',
+        required: false
+      }],
+    });
+  }
+
+  res.json({ closed_flag: closedFlag, user, threadCount, threadStarCount, problemsList });
 };
 
 exports.ratingList = async (req, res) => {
@@ -165,3 +219,39 @@ where t.user_id = ${req.decoded.id};`, { type: models.sequelize.QueryTypes.SELEC
 
   res.json({ ratingList, myRating: myRating ? myRating[0] : null });
 };
+
+exports.update = async (req, res) => {
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+
+  const { shortMessage } = req.body;
+
+  if (shortMessage.length > 300) {
+    throw errorBuilder('ShortMessageTooLong', 400, true);
+  }
+
+  const user = await models.user.findById(req.decoded.id);
+  user.short_message = shortMessage;
+  await user.save();
+
+  res.json({ success: true });
+};
+
+exports.updateClosedFlag = async (req, res) => {
+  if (!req.hasToken) {
+    throw errorBuilder('NotLogin', 401, true);
+  }
+  const { closedFlag } = req.body;
+
+  if (closedFlag !== 1 && closedFlag !== 0) {
+    throw errorBuilder('TypeError', 400, true);
+  }
+
+  const user = await models.user.findById(req.decoded.id);
+  user.closed_flag = closedFlag;
+  await user.save();
+
+  res.json({ success: true });
+};
+

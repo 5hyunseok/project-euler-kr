@@ -112,10 +112,6 @@ export default {
   },
   methods: {
     submit() {
-      if (!this.isOnlyNumber(this.currentAnswer)) {
-        this.msg = '정답은 숫자만 입력하세요';
-        return;
-      }
       if (this.recaptchaClicked && this.response) {
         this.$http.post(`${baseURI}/problems/${this.problemNumber}/submit`, {
           answer: this.currentAnswer,
@@ -137,9 +133,6 @@ export default {
         this.msg = '로봇이 아닙니다를 클릭하지 않았거나 만료되었습니다.';
       }
       
-    },
-    isOnlyNumber(string) {
-      return /^[0-9]+$/.test(string);
     },
     onVerify(response) {
       this.recaptchaClicked = true;

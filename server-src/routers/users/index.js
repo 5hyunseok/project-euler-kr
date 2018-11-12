@@ -100,11 +100,40 @@ router.put('/password', asyncWrapper(controller.updatePassword));
  * @apiSuccess (Success 200 로그인) {Date} pendingProblemList.pending_submits.submit_date 제출 시간
  * @apiSuccess (Success 200 로그인) {Number} threadCount 내가 쓴 포스트 수
  * @apiSuccess (Success 200 로그인) {Number} threadStarCount 내가 받은 좋아요 수
+ * @apiSuccess (Success 200 로그인) {Object} user 내 정보
+ * @apiSuccess (Success 200 로그인) {Number} user.id 내 정보
+ * @apiSuccess (Success 200 로그인) {String} user.uid 내 정보
+ * @apiSuccess (Success 200 로그인) {String} user.short_message 내 정보
+ * @apiSuccess (Success 200 로그인) {Number} user.closed_flag 정보 공개 / 비공개 (공개: 0, 비공개: 1)
  * @apiError (Error Not Login) {Boolean} error=true
  * @apiError (Error Not Login) {Number} status=401
  * @apiError (Error Not Login) {String} message="NotLogin"
  */
 router.get('/my', asyncWrapper(controller.my));
+
+/**
+ * @api {get} /api/users/:id User Page Information
+ * @apiGroup users
+ * @apiSuccess (Success 200 로그인) {Number} closed_flag 정보 공개 / 비공개 (공개: 0, 비공개: 1)
+ * @apiSuccess (Success 200 로그인) {Object} user 유저 정보
+ * @apiSuccess (Success 200 로그인) {Number} user.id 아디
+ * @apiSuccess (Success 200 로그인) {String} user.uid  아디
+ * @apiSuccess (Success 200 로그인) {String} user.short_message 인사말
+ * @apiSuccess (Success 200 로그인) {Number} threadCount  쓴 포스트 수
+ * @apiSuccess (Success 200 로그인) {Number} threadStarCount  받은 좋아요 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problemsList
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.id
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title_kr
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.difficulty 난이도
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.pending_submits 이 배열 길이가 1이상이면 팬딩 됨
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ */
+router.get('/:id', asyncWrapper(controller.getOther));
 
 /**
  * @api {get} /api/users/rating-list Rating List
@@ -129,5 +158,42 @@ router.get('/my', asyncWrapper(controller.my));
  * @apiSuccess (Success 200) {Number} myRating.solve_ratio 정답 비율
  */
 router.get('/rating-list', asyncWrapper(controller.ratingList));
+
+/**
+ * @api {put} /api/users/info Change User Information
+ * @apiGroup users
+ * @apiParam {string} shortMessage
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "shortMessage": "하이!~~!~~!~~!"
+ *    }
+ * @apiSuccess {Boolean} success=true
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Short Message Too Long) {Boolean} error=true 한줄인사가 300자 이상
+ * @apiError (Error Short Message Too Long) {Number} status=400
+ * @apiError (Error Short Message Too Long) {String} message="ShortMessageTooLong"
+ */
+router.put('/info', asyncWrapper(controller.update));
+
+/**
+ * @api {put} /api/users/closed-flag Change User Information open / close
+ * @apiGroup users
+ * @apiParam {Number} closedFlag 1: close, 0: open
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "closedFlag": 1
+ *    }
+ * @apiSuccess {Boolean} success=true
+ * @apiError (Error Not Login) {Boolean} error=true
+ * @apiError (Error Not Login) {Number} status=401
+ * @apiError (Error Not Login) {String} message="NotLogin"
+ * @apiError (Error Type) {Boolean} error=true 이상한 값이면
+ * @apiError (Error Type) {Number} status=400
+ * @apiError (Error Type) {String} message="TypeError"
+ */
+router.put('/closed-flag', asyncWrapper(controller.updateClosedFlag));
+
 
 module.exports = router;

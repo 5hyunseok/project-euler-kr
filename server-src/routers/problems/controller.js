@@ -62,6 +62,15 @@ exports.getOne = async (req, res) => {
 
   const problem = await models.problem.findById(id, {
     attributes: models.projection.problem.one,
+    include: [{
+      model: models.user,
+      as: 'translator',
+      attributes: models.projection.user.thread,
+    }, {
+      model: models.user,
+      as: 'reformer',
+      attributes: models.projection.user.thread,
+    }],
   });
   const answer = await models.answer.findById(id);
 
@@ -175,7 +184,12 @@ exports.submit = async (req, res) => {
   res.json({ pending, isCorrect });
 
   if(isCorrect) {
-    problem.solver += 1;
+    problem.solver = await models.submit.count({
+      where: {
+        problem_id: id,
+        solve_flag: 1,
+      }
+    });
     problem.save();
   }
 };

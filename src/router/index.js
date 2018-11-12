@@ -15,6 +15,7 @@ import Translates from '@/components/Translates';
 import Rank from '@/components/Rank';
 import Post from '@/components/Post';
 import NewPost from '@/components/NewPost';
+import NotSupport from '@/components/NotSupport';
 
 Vue.use(Router);
 
@@ -105,6 +106,11 @@ export default new Router({
       name: 'new-post',
       component: NewPost,
       props: true,
+    },
+    {
+      path: '/not-support',
+      name: 'not-support',
+      component: NotSupport,
     },
     {
       path: '*',

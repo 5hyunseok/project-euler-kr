@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     short_message: {
       type: DataTypes.STRING(300),
       defaultValue: 'Project Euler!'
-    }
+    },
+    closed_flag: {
+      type: DataTypes.TINYINT,
+      defaultValue: 0,
+    },
   }, {
     underscored: true,
     indexes: [{ unique: true, fields: ['uid'] }],
@@ -29,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     models.user.hasMany(models.thread);
     models.user.hasMany(models.threadStar);
     models.user.hasMany(models.threadReport);
+    models.user.hasMany(models.problem, { as: 'translator', foreignKey: 'translator_id' });
+    models.user.belongsToMany(models.problem, { as: 'reformer', through: models.contentFix });
   };
 
   return user;
