@@ -13,11 +13,13 @@
         <span style="left:-400px;width:450px;font-size:80%;">Published on Friday, 29th August 2003, 06:00 pm; Solved by 26127;<br>Difficulty rating: 15%</span>
       </span> -->
     </h3>
-    <h4 v-if="translatorName">(번역: {{ translatorName }})</h4>
   </div>
   <div class="problem_content" role="problem">
     <span v-html="hasKorean ? problem.problem_kr : problem.problem"></span>
   </div>
+  <br>
+  <li v-if="translatorName">번역한 사람: {{ translatorName }}</li>
+  <li v-if="missFounders">오타/오역을 찾은 사람: {{ missFounders }}</li>
   <br>
   <div style="text-align:center;" class="noprint" v-if="solve">
     <span class="warning">정답입니다! - {{answer}}</span>
@@ -87,6 +89,7 @@ export default {
       recaptchaClicked: false,
       response: '',
       translatorName: '',
+      missFounders: '',
     };
   },
   computed: {
@@ -111,6 +114,9 @@ export default {
         this.solve = result.data.solve;
         this.answer = result.data.submitAnswer;
         this.translatorName = result.data.translator.uid;
+        result.data.reformer.forEach((r) => {
+          missFounders += `${r.uid} `;
+        })
       });
   },
   methods: {
