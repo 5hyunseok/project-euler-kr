@@ -18,8 +18,8 @@
     <span v-html="hasKorean ? problem.problem_kr : problem.problem"></span>
   </div>
   <br>
-  <li v-if="translatorName">번역한 사람: {{ translatorName }}</li>
-  <li v-if="missFounders">오타/오역을 찾은 사람: {{ missFounders }}</li>
+  <li v-if="problem.translator">번역한 사람: {{ problem.translator.uid }}</li>
+  <li v-if="problem.reformer.length > 0">오타/오역을 찾은 사람: {{ reformerNames(problem.reformer).toString() }}</li>
   <br>
   <div style="text-align:center;" class="noprint" v-if="solve">
     <span class="warning">정답입니다! - {{answer}}</span>
@@ -88,8 +88,6 @@ export default {
       msg: '',
       recaptchaClicked: false,
       response: '',
-      translatorName: '',
-      missFounders: '',
     };
   },
   computed: {
@@ -113,10 +111,7 @@ export default {
         this.hasAnswer = result.data.hasAnswer;
         this.solve = result.data.solve;
         this.answer = result.data.submitAnswer;
-        this.translatorName = result.data.translator.uid;
-        result.data.reformer.forEach((r) => {
-          missFounders += `${r.uid} `;
-        })
+        console.log(result.data.problem);
       });
   },
   methods: {
@@ -155,6 +150,9 @@ export default {
     resetRecaptcha() {
       this.$refs.recaptcha.reset();
     },
+    reformerNames(reformers) {
+      return reformers.filter(r => r.uid);
+    }
   },
 };
 </script>
