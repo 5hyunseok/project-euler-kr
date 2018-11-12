@@ -16,7 +16,7 @@
         <tr>
           <td colspan="2">
             <div style="text-align:center;font-size:80%;">
-              <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
+              <vue-recaptcha ref="recaptcha" sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
             </div>
           </td>
         </tr>
@@ -69,6 +69,7 @@ export default {
           .catch((error) => {
             if (error.response.status === 403) {
               this.msg = '아이디나 비밀번호가 틀립니다.';
+              this.resetRecaptcha();
               return;
             }
             this.msg = 'unexpected error';
@@ -85,6 +86,9 @@ export default {
     onExpired() {
       this.recaptchaClicked = false;
       this.response = '';
+    },
+    resetRecaptcha() {
+      this.$refs.recaptcha.reset();
     },
   },
 };

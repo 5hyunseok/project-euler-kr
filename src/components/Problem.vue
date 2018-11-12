@@ -45,7 +45,7 @@
                   <tr>
                     <td colspan="2">
                       <div style="text-align:center;font-size:80%;">
-                        <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>                        
+                        <vue-recaptcha ref="recaptcha" sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>                        
                       </div>
                     </td>
                   </tr>
@@ -127,6 +127,7 @@ export default {
               this.answer = this.currentAnswer;
             } else {
               this.msg = '틀렸습니다!';
+              this.resetRecaptcha();
             }
           });
       } else {
@@ -141,6 +142,9 @@ export default {
     onExpired() {
       this.recaptchaClicked = false;
       this.response = '';
+    },
+    resetRecaptcha() {
+      this.$refs.recaptcha.reset();
     },
   },
 };
