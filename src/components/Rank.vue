@@ -4,6 +4,7 @@
     <p>
       상위 50명 순위입니다.
     </p>
+    <h4 v-if="myRating > 0">내 랭킹: {{ myRating }} </h4>    
     <div style="clear:both;"></div>
     <br>
     <el-table
@@ -60,17 +61,26 @@ export default {
   data() {
     return {
       ratingList: [],
-      loadComplete: false,
+      loadComplete: true,
+      myRating: 0,
     };
   },
   created() {
-    this.$http.get(`${baseURI}/users/rating-list`)
+    this.$http.get(`${baseURI}/users/rating-list`, {
+      headers: {
+        'x-access-token': this.$store.getters['users/getToken'],
+      },
+    })
       .then((result) => {
+        console.log(result.data);
         this.ratingList = result.data.ratingList;
         this.ratingList.forEach(element => {
           element.solve_ratio = `${element.solve_ratio}%`;
         });
         this.loadComplete = true;
+        if (result.data.myRating !== null) {
+          this.myRating = result.data.myRating.rank;
+        }
       });
   },
 };
