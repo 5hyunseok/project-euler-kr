@@ -112,30 +112,6 @@ router.put('/password', asyncWrapper(controller.updatePassword));
 router.get('/my', asyncWrapper(controller.my));
 
 /**
- * @api {get} /api/users/:id User Page Information
- * @apiGroup users
- * @apiSuccess (Success 200 로그인) {Number} closed_flag 정보 공개 / 비공개 (공개: 0, 비공개: 1)
- * @apiSuccess (Success 200 로그인) {Object} user 유저 정보
- * @apiSuccess (Success 200 로그인) {Number} user.id 아디
- * @apiSuccess (Success 200 로그인) {String} user.uid  아디
- * @apiSuccess (Success 200 로그인) {String} user.short_message 인사말
- * @apiSuccess (Success 200 로그인) {Number} threadCount  쓴 포스트 수
- * @apiSuccess (Success 200 로그인) {Number} threadStarCount  받은 좋아요 수
- * @apiSuccess (Success 200 로그인) {Object[]} problemsList
- * @apiSuccess (Success 200 로그인) {Number} problemsList.id
- * @apiSuccess (Success 200 로그인) {String} problemsList.title
- * @apiSuccess (Success 200 로그인) {String} problemsList.title_kr
- * @apiSuccess (Success 200 로그인) {Number} problemsList.difficulty 난이도
- * @apiSuccess (Success 200 로그인) {Number} problemsList.solver 정답자 수
- * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
- * @apiSuccess (Success 200 로그인) {Object[]} problems.pending_submits 이 배열 길이가 1이상이면 팬딩 됨
- * @apiError (Error Not Found) {Boolean} error=true
- * @apiError (Error Not Found) {Number} status=404
- * @apiError (Error Not Found) {String} message="NotFound"
- */
-router.get('/:id', asyncWrapper(controller.getOther));
-
-/**
  * @api {get} /api/users/rating-list Rating List
  * @apiGroup users
  * @apiSuccess (Success 200) {Object[]} ratingList
@@ -158,6 +134,30 @@ router.get('/:id', asyncWrapper(controller.getOther));
  * @apiSuccess (Success 200) {Number} myRating.solve_ratio 정답 비율
  */
 router.get('/rating-list', asyncWrapper(controller.ratingList));
+
+/**
+ * @api {get} /api/users/:id User Page Information
+ * @apiGroup users
+ * @apiSuccess (Success 200 로그인) {Number} closed_flag 정보 공개 / 비공개 (공개: 0, 비공개: 1)
+ * @apiSuccess (Success 200 로그인) {Object} user 유저 정보
+ * @apiSuccess (Success 200 로그인) {Number} user.id 아디
+ * @apiSuccess (Success 200 로그인) {String} user.uid  아디
+ * @apiSuccess (Success 200 로그인) {String} user.short_message 인사말
+ * @apiSuccess (Success 200 로그인) {Number} threadCount  쓴 포스트 수
+ * @apiSuccess (Success 200 로그인) {Number} threadStarCount  받은 좋아요 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problemsList
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.id
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title
+ * @apiSuccess (Success 200 로그인) {String} problemsList.title_kr
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.difficulty 난이도
+ * @apiSuccess (Success 200 로그인) {Number} problemsList.solver 정답자 수
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.submits 이 배열의 길이가 1이상이면 정답 맞춘거임
+ * @apiSuccess (Success 200 로그인) {Object[]} problems.pending_submits 이 배열 길이가 1이상이면 팬딩 됨
+ * @apiError (Error Not Found) {Boolean} error=true
+ * @apiError (Error Not Found) {Number} status=404
+ * @apiError (Error Not Found) {String} message="NotFound"
+ */
+router.get('/:id', asyncWrapper(controller.getOther));
 
 /**
  * @api {put} /api/users/info Change User Information
