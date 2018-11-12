@@ -151,7 +151,7 @@ export default {
       this.$refs.recaptcha.reset();
     },
     reformerNames(reformers) {
-      return reformers.filter(r => r.uid);
+      return reformers.map(r => r.uid);
     }
   },
 };
