@@ -13,6 +13,7 @@
         <span style="left:-400px;width:450px;font-size:80%;">Published on Friday, 29th August 2003, 06:00 pm; Solved by 26127;<br>Difficulty rating: 15%</span>
       </span> -->
     </h3>
+    <h4 v-if="translatorName">(번역: {{ translatorName }})</h4>
   </div>
   <div class="problem_content" role="problem">
     <span v-html="hasKorean ? problem.problem_kr : problem.problem"></span>
@@ -85,6 +86,7 @@ export default {
       msg: '',
       recaptchaClicked: false,
       response: '',
+      translatorName: '',
     };
   },
   computed: {
@@ -108,6 +110,7 @@ export default {
         this.hasAnswer = result.data.hasAnswer;
         this.solve = result.data.solve;
         this.answer = result.data.submitAnswer;
+        this.translatorName = result.data.translator.uid;
       });
   },
   methods: {
