@@ -136,7 +136,7 @@ router.get('/my', asyncWrapper(controller.my));
 router.get('/rating-list', asyncWrapper(controller.ratingList));
 
 /**
- * @api {get} /api/users/:id User Page Information
+ * @api {get} /api/users/:uid User Page Information
  * @apiGroup users
  * @apiSuccess (Success 200 로그인) {Number} closed_flag 정보 공개 / 비공개 (공개: 0, 비공개: 1)
  * @apiSuccess (Success 200 로그인) {Object} user 유저 정보
@@ -157,7 +157,7 @@ router.get('/rating-list', asyncWrapper(controller.ratingList));
  * @apiError (Error Not Found) {Number} status=404
  * @apiError (Error Not Found) {String} message="NotFound"
  */
-router.get('/:id', asyncWrapper(controller.getOther));
+router.get('/:uid', asyncWrapper(controller.getOther));
 
 /**
  * @api {put} /api/users/info Change User Information
