@@ -4,6 +4,7 @@
     <p>
       상위 50명 순위입니다.
     </p>
+    <h4 v-if="myRating > 0">내 랭킹: {{ myRating }} </h4>    
     <div style="clear:both;"></div>
     <br>
     <el-table
@@ -20,6 +21,9 @@
         prop="uid"
         label="유저네임"
         width="200">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'userpage', params: { userid: scope.row.uid }}">{{ scope.row.uid }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="short_message"
@@ -53,24 +57,32 @@
 </template>
 
 <script>
-import { baseURI } from './constants';
+import { baseURI } from '@/components/constants.js';
 
 export default {
   name: 'Rank',
   data() {
     return {
       ratingList: [],
-      loadComplete: false,
+      loadComplete: true,
+      myRating: 0,
     };
   },
   created() {
-    this.$http.get(`${baseURI}/users/rating-list`)
+    this.$http.get(`${baseURI}/users/rating-list`, {
+      headers: {
+        'x-access-token': this.$store.getters['users/getToken'],
+      },
+    })
       .then((result) => {
         this.ratingList = result.data.ratingList;
         this.ratingList.forEach(element => {
           element.solve_ratio = `${element.solve_ratio}%`;
         });
         this.loadComplete = true;
+        if (result.data.myRating !== null) {
+          this.myRating = result.data.myRating.rank;
+        }
       });
   },
 };

@@ -16,12 +16,12 @@
         <tr>
           <td colspan="2">
             <div style="text-align:center;font-size:80%;">
-              <vue-recaptcha sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
+              <vue-recaptcha ref="recaptcha" sitekey="6LdFrFYUAAAAALBGeDX156Q3l_789dnX7Xyrj0i8" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="2"><div style="text-align:center;"><label for="remember_me">로그인 유지:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;"></div></td>
+          <td colspan="2"><div style="text-align:center;"><label for="remember_me">로그인 유지:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;" v-model="currentKeepLogin"></div></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { baseURI } from './constants';
+import { baseURI } from '../constants';
 import VueRecaptcha from 'vue-recaptcha';
 
 export default {
@@ -51,6 +51,7 @@ export default {
       msg: '',
       recaptchaClicked: false,
       response: '',
+      currentKeepLogin: false,
     };
   },
   methods: {
@@ -60,6 +61,7 @@ export default {
           uid: this.currentUsername,
           password: this.currentPassword,
           recaptchaResponse: this.response,
+          keepLoggedIn: this.currentKeepLogin,
         })
           .then((loginResponse) => {
             this.$store.commit('users/setToken', loginResponse.data.token);
@@ -69,6 +71,7 @@ export default {
           .catch((error) => {
             if (error.response.status === 403) {
               this.msg = '아이디나 비밀번호가 틀립니다.';
+              this.resetRecaptcha();
               return;
             }
             this.msg = 'unexpected error';
@@ -85,6 +88,9 @@ export default {
     onExpired() {
       this.recaptchaClicked = false;
       this.response = '';
+    },
+    resetRecaptcha() {
+      this.$refs.recaptcha.reset();
     },
   },
 };

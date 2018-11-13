@@ -10,11 +10,10 @@
 </template>
 
 <script>
-import { baseURI, dateFormat } from './constants';
+import { baseURI, dateFormat } from '@/components/constants.js';
 
 export default {
-  name: 'Archives',
-  props: ['pageNumber'],
+  name: 'News',
   data() {
     return {
       recentNews: [],

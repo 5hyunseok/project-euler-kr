@@ -1,21 +1,27 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import About from '@/components/About';
-import Archives from '@/components/Archives';
-import News from '@/components/News';
-import Recent from '@/components/RecentArchive';
-import Login from '@/components/Login';
-import Register from '@/components/Register';
-import Notfound from '@/components/Notfound';
-import Problem from '@/components/Problem';
-import Mypage from '@/components/Mypage';
-import NewThread from '@/components/NewThread';
-import Threads from '@/components/Threads';
-import Translates from '@/components/Translates';
-import Rank from '@/components/Rank';
-import Post from '@/components/Post';
-import NewPost from '@/components/NewPost';
-import NotSupport from '@/components/NotSupport';
+
+import About from '@/components/Static/About';
+import Notfound from '@/components/Static/Notfound';
+import NotSupport from '@/components/Static/NotSupport';
+
+import Archives from '@/components/Problem/Archives';
+import Recent from '@/components/Problem/RecentArchive';
+import Problem from '@/components/Problem/Problem';
+
+import Login from '@/components/User/Login';
+import Register from '@/components/User/Register';
+import Mypage from '@/components/User/Mypage';
+import Userpage from '@/components/User/Userpage';
+
+import NewThread from '@/components/Thread/NewThread';
+import Threads from '@/components/Thread/Threads';
+
+import Translates from '@/components/Board/Translates';
+import Rank from '@/components/Board/Rank';
+import Post from '@/components/Board/Post';
+import NewPost from '@/components/Board/NewPost';
+import News from '@/components/Board/News';
 
 Vue.use(Router);
 
@@ -68,6 +74,12 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: Mypage,
+    },
+    {
+      path: '/user/:userid',
+      name: 'userpage',
+      component: Userpage,
+      props: true,
     },
     {
       path: '/new-thread/:problemNumber',

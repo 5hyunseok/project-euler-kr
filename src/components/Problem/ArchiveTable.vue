@@ -25,7 +25,7 @@
                 </td>
                 <!-- <td style="width:20px;"><a href="overview=001" title="Download overview PDF"><img src="images/icon_pdf.png" alt=""></a></td> -->
                 <td style="width:20px;">
-                  <router-link :to="{ name: 'threads', params: { problemNumber: problem.id } }"><img :src=forum alt=""></router-link>
+                  <router-link :to="{ name: 'threads', params: { problemNumber: problem.id, pageNumber: 1 } }"><img :src=forum alt=""></router-link>
                 </td>
                 <!--<td>
                   <router-link :to="{ name: 'threads', params: { problemNumber: problem.id, pageNumber: Math.trunc(problem.threads.length / 25) + 1 } }">

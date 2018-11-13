@@ -6,7 +6,9 @@
         <td rowspan="2" class="forum_info">
           <p v-if="isPreview">[미리보기]</p>
           <div style="font-size:85%;">{{ formatDate(thread.created_at) }}</div>
-          <span style="font-weight:bold;">{{ thread.user.uid }}</span>
+          <span style="font-weight:bold;">
+            <router-link :to="{ name: 'userpage', params: { userid: thread.user.uid }}">{{ thread.user.uid }}</router-link>
+          </span>
         </td>
         <td>
           <div class="action_buttons" v-if="!isPreview">
@@ -39,10 +41,10 @@
 <script>
 import thumbsUp from '@/assets/icon_thumb_up.png';
 import thumbsUpVoted from '@/assets/icon_thumb_up_voted.png';
-import { formatDate, baseURI } from './constants';
+import { formatDate, baseURI } from '@/components/constants.js';
 
 export default {
-  name: 'Post',
+  name: 'Thread',
   props: ['thread', 'isPreview'],
   data() {
     return {

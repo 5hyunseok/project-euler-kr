@@ -36,7 +36,7 @@ exports.postIndex = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { uid, password, recaptchaResponse } = req.body;
+  const { uid, password, recaptchaResponse, keepLoggedIn } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
   const user = await models.user.findOne({
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
     throw errorBuilder('recaptchaError', 402, true);
   }
 
-  const token = await auth.sign(user.dataValues);
+  const token = await auth.sign(user.dataValues, keepLoggedIn);
 
   res.json({ token });
 };
@@ -139,10 +139,11 @@ exports.my = async (req, res) => {
 };
 
 exports.getOther = async (req ,res) => {
-  const userId = parseInt(req.params.id, 10);
+  const uid = req.params.uid;
 
   let problemsList = null;
-  let user = await models.user.findById(userId, {
+  let user = await models.user.findOne({
+    where: { uid },
     attributes: models.projection.user.my,
   });
   if (!user) {
@@ -152,17 +153,17 @@ exports.getOther = async (req ,res) => {
 
   const threadCount = await models.thread.count({
     where: {
-      user_id: userId,
+      user_id: user.id,
     }
   });
 
   const threadStarCount = await models.threadStar.count({
     where: {
-      thread_writer_id: userId,
+      thread_writer_id: user.id,
     },
   });
 
-  user = await models.user.findById(userId, {
+  user = await models.user.findById(user.id, {
     attributes: models.projection.user.thread,
   });
 
@@ -172,13 +173,13 @@ exports.getOther = async (req ,res) => {
       include: [{
         model: models.submit,
         attributes: ['id'],
-        where: { user_id: userId, solve_flag: 1 },
+        where: { user_id: user.id, solve_flag: 1 },
         as: 'submits',
         required: false
       }, {
         model: models.submit,
         attributes: ['id'],
-        where: { user_id: userId, pending_flag: 1 },
+        where: { user_id: user.id, pending_flag: 1 },
         as: 'pending_submits',
         required: false
       }],

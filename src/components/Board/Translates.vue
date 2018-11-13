@@ -32,11 +32,17 @@
         prop="problem_id"
         label="문제번호"
         width="100">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'problem', params: { problemNumber: scope.row.problem_id }}">{{ scope.row.problem_id }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="user.uid"
         label="글쓴이"
         width="180">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'userpage', params: { userid: scope.row.user.uid }}">{{ scope.row.user.uid }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="postReplies.length"
@@ -62,10 +68,10 @@
 </template>
 
 <script>
-import { baseURI, dateFormat, translateCategory } from './constants';
+import { baseURI, dateFormat, translateCategory } from '@/components/constants.js';
 
 export default {
-  name: 'Archives',
+  name: 'Translates',
   data() {
     return {
       login: false,
