@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-exports.sign = async user => new Promise((resolve, reject) => {
+exports.sign = async (user, keepLoggedIn) => new Promise((resolve, reject) => {
   jwt.sign(
     {
       id: user.id,
@@ -10,7 +10,7 @@ exports.sign = async user => new Promise((resolve, reject) => {
     },
     config.shaKey,
     {
-      expiresIn: '14h',
+      expiresIn: keepLoggedIn ? '14d' :'14h',
       issuer: 'euler',
       subject: 'loginInfo',
     }, (err, token) => {

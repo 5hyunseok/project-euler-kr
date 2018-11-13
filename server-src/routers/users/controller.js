@@ -36,7 +36,7 @@ exports.postIndex = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { uid, password, recaptchaResponse } = req.body;
+  const { uid, password, recaptchaResponse, keepLoggedIn } = req.body;
   const encrypted = cryptoWrapper.sha256Hex(password);
 
   const user = await models.user.findOne({
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
     throw errorBuilder('recaptchaError', 402, true);
   }
 
-  const token = await auth.sign(user.dataValues);
+  const token = await auth.sign(user.dataValues, keepLoggedIn);
 
   res.json({ token });
 };

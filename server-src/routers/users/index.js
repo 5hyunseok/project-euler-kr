@@ -39,11 +39,13 @@ router.post('/', asyncWrapper(controller.postIndex));
  * @apiParam {string} uid
  * @apiParam {string} password
  * @apiParam {string} recaptchaResponse
+ * @apiParam {Boolean} keepLoggedIn false: 로그인 유지 안함, true: 로그인 유지 ㄱㄱ
  * @apiParamExample {json} Request-Example:
  *    {
  *      "uid": "idid",
  *      "password": "password",
- *      "recaptchaResponse": "ahuitowe5hyoulwhu34etiot"
+ *      "recaptchaResponse": "ahuitowe5hyoulwhu34etiot",
+ *      "keepLoggedIn": false
  *    }
  * @apiSuccess {String} token Login JWT
  * @apiError (Error Wrong Information) {Boolean} error=true
