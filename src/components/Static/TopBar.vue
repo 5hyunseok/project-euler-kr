@@ -34,10 +34,9 @@
 import logo from '@/assets/style_default_logo.png';
 
 export default {
-  name: 'HelloWorld',
+  name: 'TopBar',
   data() {
     return {
-      msg: 'Hi',
       testToken: '',
       logo,
     };

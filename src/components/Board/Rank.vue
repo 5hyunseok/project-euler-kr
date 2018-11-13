@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { baseURI } from './constants';
+import { baseURI } from '@/components/constants.js';
 
 export default {
   name: 'Rank',

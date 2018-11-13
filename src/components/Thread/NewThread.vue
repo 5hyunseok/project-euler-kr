@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import Thread from '@/components/Thread';
-import { baseURI, formatDate, languageOptions } from './constants';
+import Thread from '@/components/Thread/Thread';
+import { baseURI, formatDate, languageOptions } from '@/components/constants.js';
 
 export default {
   name: 'NewThread',

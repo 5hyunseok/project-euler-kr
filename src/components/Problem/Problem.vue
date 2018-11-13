@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { baseURI } from './constants';
+import { baseURI } from '@/components/constants';
 import VueRecaptcha from 'vue-recaptcha';
 
 export default {

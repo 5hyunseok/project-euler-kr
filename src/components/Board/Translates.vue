@@ -62,10 +62,10 @@
 </template>
 
 <script>
-import { baseURI, dateFormat, translateCategory } from './constants';
+import { baseURI, dateFormat, translateCategory } from '@/components/constants.js';
 
 export default {
-  name: 'Archives',
+  name: 'Translates',
   data() {
     return {
       login: false,

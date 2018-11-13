@@ -26,8 +26,8 @@
 
 <script>
 import thumbsUp from '@/assets/icon_thumb_up.png';
-import Thread from '@/components/Thread';
-import { baseURI, dateFormat } from './constants';
+import Thread from '@/components/Thread/Thread';
+import { baseURI, dateFormat } from '@/components/constants.js';
 
 export default {
   name: 'Threads',

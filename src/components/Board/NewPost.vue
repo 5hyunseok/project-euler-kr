@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { baseURI, dateFormat } from './constants';
+import { baseURI, dateFormat } from '@/components/constants.js';
 import { setTimeout } from 'timers';
 
 export default {

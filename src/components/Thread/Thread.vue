@@ -39,10 +39,10 @@
 <script>
 import thumbsUp from '@/assets/icon_thumb_up.png';
 import thumbsUpVoted from '@/assets/icon_thumb_up_voted.png';
-import { formatDate, baseURI } from './constants';
+import { formatDate, baseURI } from '@/components/constants.js';
 
 export default {
-  name: 'Post',
+  name: 'Thread',
   props: ['thread', 'isPreview'],
   data() {
     return {
