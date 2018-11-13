@@ -21,6 +21,9 @@
         prop="uid"
         label="유저네임"
         width="200">
+        <template slot-scope="scope">
+          <span><router-link :to="{ name: 'userpage', params: { userid: scope.row.uid }}">{{ scope.row.uid }}</router-link></span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="short_message"

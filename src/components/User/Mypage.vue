@@ -94,44 +94,58 @@
       </table>
       </div>
     </div>
-    <div id="progress_bar_section">
-      <h3>{{ totalNumber }} 문제 중 총 {{ countOfCorrection }} 개를 풀었습니다. </h3>
-      <div id="progress_bar_box" class="info">
-        <div id="progress_bar" :style="{ 'background':`url(${gradientBar})`, 'width': `${ percentage }%` }"></div>
-        <span>Completed {{ percentage }}% of the problems</span>
-      </div>
-    </div>
-    <div id="posts_made_section">
-      <h3> 내 포스트 개수: {{ totalPostNumber }} / 받은 스타 수: {{ totalStarNumber }}</h3>
-    </div>
-    <div id="problems_solved_section">
-      <h3>내가 푼 문제들</h3>
-      <table class="grid problems_solved_table">
+    <br>
+    <div id="account_page">
+      <div class="form_box" style="width: 600px;">
+      <table style="width:100%;" class="grid">
         <tbody>
-        <tr  v-for="i in totalTableNumber" :key="i">
-        <td :class="{ problem_unsolved: !problem.solved, problem_solved: problem.solved }" v-bind:style="{ backgroundColor: problem.solved ? 'rgba(255, 136, 0,0.335)' : ''}" v-for="problem in totalProblemList[i]" :key="problem.id">
-          <!-- <span><div class="heading">Problem 3 (solved by 453619 members)</div><div style="font-size:85%;font-weight:bold;color:#333;">Difficulty rating: 5%</div>"Largest prime factor"</span> -->
-          <a :href="`problem/${problem.id}`" style="color:inherit;">
-            <div style="" class="info">{{ problem.id }}</div>
-          </a>
-        </td>
-        </tr>
+          <tr>
+            <th>프로필 공개 설정:</th>
+            <td>
+              <table style="width:100%;" class="no_border">
+                <tbody>
+                <tr>
+                <td>
+                  <input type="radio" v-model="currentClosed" id="public" value="public"><label for="public">공개</label>
+                  <input type="radio" v-model="currentClosed" id="private" value="private"><label for="private">비공개</label>
+                </td>
+                <td style="width:100px;">
+                  <div style="text-align:right;"><button v-on:click="changeClosed">변경</button></div>
+                </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><div class="small_notice">프로필 공개 여부를 설정할 수 있습니다. 비공개 설정 시 유저네임, 한 줄 메세지를 제외한 모든 정보가 보이지 않게 됩니다.
+               (단, 랭킹 페이지에는 보여질 수 있습니다.)<br><br></div></td>
+          </tr>
         </tbody>
       </table>
+      </div>
     </div>
+    <progress-section 
+      :totalNumber="totalNumber" 
+      :countOfCorrection="countOfCorrection"
+      :totalPostNumber="totalPostNumber"
+      :totalStarNumber="totalStarNumber"
+      :totalProblemList="totalProblemList"
+      :totalTableNumber="totalTableNumber"></progress-section>
   </div>
 </template>
 
 <script>
-import gradientBar from '@/assets/gradient_bar.png';
-import { baseURI } from '../constants';
+import { baseURI } from '@/components/constants';
+import ProgressSection from '@/components/User/ProgressSection';
 
 export default {
   name: 'Mypage',
-  props: ['pageNumber'],
+  components: {
+    ProgressSection,
+  },
   data() {
     return {
-      gradientBar,
       login: false,
       countOfCorrection: 0,
       totalNumber: 0,
@@ -150,6 +164,7 @@ export default {
       oneLineMsg: '',
       currentOneLineMsg: '',
       oneLineErrorMsg: '',
+      currentClosed: 'private',
     };
   },
   computed: {
@@ -158,9 +173,6 @@ export default {
     },
     username() {
       return this.$store.getters['users/getUsername'];
-    },
-    percentage() {
-      return this.totalNumber === 0 ? 0 : (this.countOfCorrection / this.totalNumber).toFixed(3);
     },
     totalTableNumber() {
       return Math.ceil(this.totalNumber / 20) + 1;
@@ -206,6 +218,11 @@ export default {
             });
             this.oneLineMsg = innerResult.data.user.short_message;
             this.currentOneLineMsg = this.oneLineMsg;
+            if (innerResult.data.user.closed_flag) {
+              this.currentClosed = 'private';
+            } else {
+              this.currentClosed = 'public';
+            }
             this.loadComplete = true;
           })
           .catch(() => {
@@ -255,28 +272,45 @@ export default {
     },
     changeOneLineMsg() {
       this.$http.put(`${baseURI}/users/info`, {
-          shortMessage: this.currentOneLineMsg,
-        }, {
-          headers: {
-            'x-access-token': this.$store.getters['users/getToken'],
-          },
+        shortMessage: this.currentOneLineMsg,
+      }, {
+        headers: {
+          'x-access-token': this.$store.getters['users/getToken'],
+        },
+      })
+        .then(() => {
+          this.changeSuccess = true;
+          setTimeout(() => {
+            this.changeSuccess = false;
+          }, 5000);
+          this.init();
         })
-          .then(() => {
-            this.changeSuccess = true;
+        .catch((error) => {
+          if (error.response.data.message === 'ShortMessageTooLong') {
+            this.oneLineErrorMsg = '300자 이내로 입력하세요.';
             setTimeout(() => {
-              this.changeSuccess = false;
+              this.oneLineErrorMsg = '';
             }, 5000);
-            this.init();
-          })
-          .catch((error) => {
-            if (error.response.data.message === 'ShortMessageTooLong') {
-              this.oneLineErrorMsg = '300자 이내로 입력하세요.';
-              setTimeout(() => {
-                this.oneLineErrorMsg = '';
-              }, 5000);
-            }
-          });
+          }
+        });
     },
+    changeClosed() {
+      this.$http.put(`${baseURI}/users/closed-flag`, {
+        closedFlag: this.currentClosed === 'private' ? 1 : 0,
+      }, {
+        headers: {
+          'x-access-token': this.$store.getters['users/getToken'],
+        },
+      })
+        .then(() => {
+          this.changeSuccess = true;
+          setTimeout(() => {
+            this.changeSuccess = false;
+          }, 5000);
+          this.init();
+        })
+        .catch(() => {});
+    }
   },
 };
 </script>

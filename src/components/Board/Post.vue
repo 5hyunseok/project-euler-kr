@@ -3,7 +3,8 @@
     <br>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>{{ this.post.user.uid }}  ({{ dateFormat(this.post.updated_at) }})</span>
+        <span>
+          <router-link :to="{ name: 'userpage', params: { userid: this.post.user.uid }}">{{ this.post.user.uid }}</router-link> ({{ dateFormat(this.post.updated_at) }})</span>
         <h2>{{ this.post.title }}</h2>
         <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == this.post.user.uid" @click="deletePost"><h4>삭제</h4></el-button>
         <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == this.post.user.uid" @click="modifyPost"><h4>수정</h4></el-button>
@@ -14,7 +15,8 @@
     </el-card>
     <br>
     <el-card class="box-card-reply" v-for="reply in replies" :key="reply.id">
-      <span>{{ reply.user.uid }}  ({{ dateFormat(reply.updated_at) }})</span>
+      <span>
+        <router-link :to="{ name: 'userpage', params: { userid: reply.user.uid }}">{{ reply.user.uid }}</router-link> ({{ dateFormat(reply.updated_at) }})</span>
       <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == reply.user.uid" @click="deleteReply(reply.id)"><h5>삭제</h5></el-button>
       <!-- <el-button style="float: right; padding: 0px 0; margin-right:5px;" type="text" v-if="username == reply.user.uid"><h5>수정</h5></el-button> -->
       <div class="text item">
