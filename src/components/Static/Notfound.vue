@@ -10,7 +10,7 @@
 import errorImage from '@/assets/error_page.png';
 
 export default {
-  name: 'About',
+  name: 'NotFound',
   data() {
     return {
       errorImage,

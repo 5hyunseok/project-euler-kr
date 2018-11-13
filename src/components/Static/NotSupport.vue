@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'About',
+  name: 'NotSupport',
   data() {
     return {
     };

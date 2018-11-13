@@ -36,15 +36,11 @@
 </template>
 
 <script>
-import { baseURI, dateFormat, translateCategory } from './constants';
-import Thread from '@/components/Thread';
+import { baseURI, dateFormat, translateCategory } from '@/components/constants.js';
 
 export default {
   name: 'Post',
   props: ['postId'],
-  components: {
-    Thread,
-  },
   data() {
     return {
       post: {},

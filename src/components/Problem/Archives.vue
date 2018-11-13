@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import ArchiveTable from '@/components/ArchiveTable';
-import { baseURI } from './constants';
+import ArchiveTable from '@/components/Problem/ArchiveTable';
+import { baseURI } from '@/components/constants.js';
 
 export default {
   name: 'Archives',

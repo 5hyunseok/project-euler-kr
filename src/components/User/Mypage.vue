@@ -123,16 +123,12 @@
 </template>
 
 <script>
-import ArchiveTable from '@/components/ArchiveTable';
 import gradientBar from '@/assets/gradient_bar.png';
-import { baseURI } from './constants';
+import { baseURI } from '../constants';
 
 export default {
-  name: 'Archives',
+  name: 'Mypage',
   props: ['pageNumber'],
-  components: {
-    ArchiveTable,
-  },
   data() {
     return {
       gradientBar,

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import TopBar from '@/components/TopBar';
-import FootBar from '@/components/FootBar';
+import TopBar from '@/components/Static/TopBar';
+import FootBar from '@/components/Static/FootBar';
 import { sayswho } from '@/components/constants.js';
 
 export default {
