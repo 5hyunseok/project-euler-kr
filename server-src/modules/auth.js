@@ -10,7 +10,7 @@ exports.sign = async (user, keepLoggedIn) => new Promise((resolve, reject) => {
     },
     config.shaKey,
     {
-      expiresIn: keepLoggedIn ? '14d' :'14h',
+      expiresIn: keepLoggedIn ? '15d' :'14h',
       issuer: 'euler',
       subject: 'loginInfo',
     }, (err, token) => {
