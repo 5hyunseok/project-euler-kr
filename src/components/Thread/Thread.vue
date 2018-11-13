@@ -6,7 +6,9 @@
         <td rowspan="2" class="forum_info">
           <p v-if="isPreview">[미리보기]</p>
           <div style="font-size:85%;">{{ formatDate(thread.created_at) }}</div>
-          <span style="font-weight:bold;">{{ thread.user.uid }}</span>
+          <span style="font-weight:bold;">
+            <router-link :to="{ name: 'userpage', params: { userid: thread.user.uid }}">{{ thread.user.uid }}</router-link>
+          </span>
         </td>
         <td>
           <div class="action_buttons" v-if="!isPreview">

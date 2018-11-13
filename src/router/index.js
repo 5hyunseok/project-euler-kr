@@ -12,6 +12,7 @@ import Problem from '@/components/Problem/Problem';
 import Login from '@/components/User/Login';
 import Register from '@/components/User/Register';
 import Mypage from '@/components/User/Mypage';
+import Userpage from '@/components/User/Userpage';
 
 import NewThread from '@/components/Thread/NewThread';
 import Threads from '@/components/Thread/Threads';
@@ -73,6 +74,12 @@ export default new Router({
       path: '/mypage',
       name: 'mypage',
       component: Mypage,
+    },
+    {
+      path: '/user/:userid',
+      name: 'userpage',
+      component: Userpage,
+      props: true,
     },
     {
       path: '/new-thread/:problemNumber',
