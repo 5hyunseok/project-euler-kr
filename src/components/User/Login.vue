@@ -21,7 +21,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2"><div style="text-align:center;"><label for="remember_me">로그인 유지:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;"></div></td>
+          <td colspan="2"><div style="text-align:center;"><label for="remember_me">로그인 유지:&nbsp;&nbsp;</label><input type="checkbox" name="remember_me" id="remember_me" style="vertical-align:middle;" v-model="currentKeepLogin"></div></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -51,6 +51,7 @@ export default {
       msg: '',
       recaptchaClicked: false,
       response: '',
+      currentKeepLogin: false,
     };
   },
   methods: {
@@ -60,6 +61,7 @@ export default {
           uid: this.currentUsername,
           password: this.currentPassword,
           recaptchaResponse: this.response,
+          keepLoggedIn: this.currentKeepLogin,
         })
           .then((loginResponse) => {
             this.$store.commit('users/setToken', loginResponse.data.token);
